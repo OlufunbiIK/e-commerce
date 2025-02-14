@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Product } from '../../product/entities/product.entity';
 import { Order } from '../../order/entities/order.entity';
+import { UserRole } from '../enum/userRole.enum';
 
 @Entity()
 export class User {
@@ -8,7 +9,10 @@ export class User {
   id: number;
 
   @Column()
-  name: string;
+  firstName: string;
+
+  @Column()
+  lastName: string;
 
   @Column({ unique: true })
   email: string;
@@ -16,14 +20,14 @@ export class User {
   @Column()
   password: string;
 
-  @Column({ default: 'customer' })
-  role: string;
+  @Column({ type:'enum',enum:UserRole, default: UserRole.CUSTOMER })
+  role: UserRole;
 
   @Column({ default: false })
   isVerified: boolean;
 
   @Column({ nullable: true })
-  googleId: string;
+  googleId?: string;
 
   @OneToMany(() => Product, (product) => product.seller)
   products: Product[];

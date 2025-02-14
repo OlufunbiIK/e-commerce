@@ -1,10 +1,19 @@
-import { IsEmail, IsString, MinLength } from 'class-validator';
+import { IsEmail, IsString, MinLength, IsEnum} from 'class-validator';
+import { AdminRole } from '../enum/adminRole.enum';
 
 export class CreateAdminDto {
+  @IsString()
+  firstName: string;
+
+  @IsString()
+  lastName: string;
+
   @IsEmail()
   email: string;
 
   @IsString()
-  @MinLength(6)
   password: string;
+
+  @IsEnum(AdminRole)
+  role: AdminRole;
 }

@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { OrderItem } from 'src/order-item/entities/order-item.entity';
+import { ALL_CATEGORIES, ProductCategory } from '../enum/productCategory.enum';
 
 @Entity()
 export class Product {
@@ -16,11 +17,17 @@ export class Product {
   @Column('decimal')
   price: number;
 
-  @Column()
-  category: string;
+  @Column({type:"enum", enum:ProductCategory, default:ALL_CATEGORIES})
+  category: ProductCategory
 
   @Column()
   stock: number;
+
+   @CreateDateColumn()
+    createdAt: Date;
+  
+    @UpdateDateColumn()
+    updatedAt: Date;
 
   @ManyToOne(() => User, (user) => user.products)
   seller: User;

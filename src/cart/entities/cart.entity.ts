@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { Product } from '../../product/entities/product.entity';
+import { CartStatus } from '../enum/cartStatus.enum';
 
 @Entity()
 export class Cart {
@@ -15,4 +16,7 @@ export class Cart {
 
   @Column()
   quantity: number;
+
+  @Column({ type: 'enum', enum: CartStatus, default: CartStatus.ACTIVE })
+  status: CartStatus;
 }

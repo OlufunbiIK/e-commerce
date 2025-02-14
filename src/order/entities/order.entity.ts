@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { OrderItem } from '../../order-item/entities/order-item.entity';
+import { OrderStatus } from '../enum/orderStatus.enum';
 
 @Entity()
 export class Order {
@@ -13,8 +14,8 @@ export class Order {
   @Column('decimal')
   totalPrice: number;
 
-  @Column({ default: 'pending' })
-  status: string;
+  @Column({ type: 'enum', enum: OrderStatus, default: OrderStatus.PENDING })
+  status: OrderStatus;
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.order)
   orderItems: OrderItem[];

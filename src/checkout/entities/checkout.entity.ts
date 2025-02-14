@@ -1,6 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+} from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { Order } from '../../order/entities/order.entity';
+import { PaymentStatus } from '../enum/paymentStatus.enum';
+import { CheckoutStatus } from '../enum/checkoutStatus.enum';
 
 @Entity()
 export class Checkout {
@@ -24,4 +32,14 @@ export class Checkout {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @Column({ type: 'enum', enum: CheckoutStatus, default: CheckoutStatus.UNSET })
+  checkoutStatus: CheckoutStatus;
+
+  @Column({
+    type: 'enum',
+    enum: PaymentStatus,
+    default: PaymentStatus.INITIATED,
+  })
+  PaymentStatus: PaymentStatus;
 }
