@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Product } from '../../product/entities/product.entity';
-import { Order } from '../../order/entities/order.entity';
+/* eslint-disable prettier/prettier */
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+// import { Product } from '../../product/entities/product.entity';
+// import { Order } from '../../order/entities/order.entity';
 import { UserRole } from '../enum/userRole.enum';
 
 @Entity()
@@ -8,10 +9,10 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'varchar', nullable: true })
   firstName: string;
 
-  @Column()
+  @Column({ type: 'varchar', nullable: true })
   lastName: string;
 
   @Column({ unique: true })
@@ -20,7 +21,7 @@ export class User {
   @Column()
   password: string;
 
-  @Column({ type:'enum',enum:UserRole, default: UserRole.CUSTOMER })
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.CUSTOMER })
   role: UserRole;
 
   @Column({ default: false })
@@ -29,9 +30,9 @@ export class User {
   @Column({ nullable: true })
   googleId?: string;
 
-  @OneToMany(() => Product, (product) => product.seller)
-  products: Product[];
+  // @OneToMany(() => Product, (product) => product.seller)
+  // products: Product[];
 
-  @OneToMany(() => Order, (order) => order.user)
-  orders: Order[];
+  // @OneToMany(() => Order, (order) => order.user)
+  // orders: Order[];
 }
