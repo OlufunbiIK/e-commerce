@@ -3,14 +3,15 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  // ManyToOne,
   OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  // ManyToOne,
 } from 'typeorm';
-// import { User } from '../../user/entities/user.entity';
+import { ProductCategory } from '../enum/productCategory.enum';
+import { User } from 'src/user/entities/user.entity';
 import { OrderItem } from 'src/order-item/entities/order-item.entity';
-import { ALL_CATEGORIES, ProductCategory } from '../enum/productCategory.enum';
 
 @Entity()
 export class Product {
@@ -20,13 +21,13 @@ export class Product {
   @Column()
   title: string;
 
-  @Column()
+  @Column({ type: 'text' })
   description: string;
 
   @Column('decimal')
   price: number;
 
-  @Column({ type: 'enum', enum: ProductCategory, default: ALL_CATEGORIES })
+  @Column({ type: 'enum', enum: ProductCategory })
   category: ProductCategory;
 
   @Column()
@@ -38,8 +39,8 @@ export class Product {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  // @ManyToOne(() => User, (user) => user.products)
-  // seller: User;
+  @ManyToOne(() => User, (user) => user.products, { onDelete: 'CASCADE' })
+  seller: User;
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
   orderItems: OrderItem[];

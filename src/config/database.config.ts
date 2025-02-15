@@ -16,7 +16,7 @@ export default () => ({
     database:
       process.env.NODE_ENV === 'production'
         ? process.env.PGDATABASE
-        : 'ecommerce',
+        : 'ecommerce-project',
     url: process.env.DATABASE_URL, //required for remote db
   },
 });

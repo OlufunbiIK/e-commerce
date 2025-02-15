@@ -2,5 +2,17 @@ POST http://localhost:3000/category
 Content-Type: application/json
 
 {
-    "name":"foodstuffs"
+    "name":"fashion"
+}
+
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "firstName": "Mimi",
+  "lastName": "Bibi",
+  "email": "Bimi@example.com",
+  "password": "secure@Password123",
+  "role": "customer",
+  "isVerified": false
 }

@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-// import { Product } from '../../product/entities/product.entity';
-// import { Order } from '../../order/entities/order.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Product } from '../../product/entities/product.entity';
+import { Order } from '../../order/entities/order.entity';
 import { UserRole } from '../enum/userRole.enum';
 
 @Entity()
@@ -15,10 +15,10 @@ export class User {
   @Column({ type: 'varchar', nullable: true })
   lastName: string;
 
-  @Column({ unique: true })
+  @Column({ type: 'varchar', unique: true })
   email: string;
 
-  @Column()
+  @Column({ nullable: false })
   password: string;
 
   @Column({ type: 'enum', enum: UserRole, default: UserRole.CUSTOMER })
@@ -30,9 +30,9 @@ export class User {
   @Column({ nullable: true })
   googleId?: string;
 
-  // @OneToMany(() => Product, (product) => product.seller)
-  // products: Product[];
+  @OneToMany(() => Product, (product) => product.seller)
+  products: Product[];
 
-  // @OneToMany(() => Order, (order) => order.user)
-  // orders: Order[];
+  @OneToMany(() => Order, (order) => order.user)
+  orders: Order[];
 }
