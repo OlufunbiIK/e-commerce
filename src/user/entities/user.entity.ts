@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Product } from '../../product/entities/product.entity';
 import { Order } from '../../order/entities/order.entity';
@@ -8,19 +9,19 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'varchar', nullable: true })
   firstName: string;
 
-  @Column()
+  @Column({ type: 'varchar', nullable: true })
   lastName: string;
 
-  @Column({ unique: true })
+  @Column({ type: 'varchar', unique: true })
   email: string;
 
-  @Column()
+  @Column({ nullable: false })
   password: string;
 
-  @Column({ type:'enum',enum:UserRole, default: UserRole.CUSTOMER })
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.CUSTOMER })
   role: UserRole;
 
   @Column({ default: false })

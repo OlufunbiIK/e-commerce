@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+/* eslint-disable prettier/prettier */
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Order } from '../../order/entities/order.entity';
 import { Product } from '../../product/entities/product.entity';
 import { OrderItemStatus } from '../enum/orderItemStatus.enum';
@@ -11,7 +12,9 @@ export class OrderItem {
   @ManyToOne(() => Order, (order) => order.orderItems)
   order: Order;
 
-  @ManyToOne(() => Product, (product) => product.orderItems)
+  @ManyToOne(() => Product, (product) => product.orderItems, {
+    onDelete: 'CASCADE',
+  })
   product: Product;
 
   @Column()

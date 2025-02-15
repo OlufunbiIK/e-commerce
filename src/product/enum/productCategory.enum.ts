@@ -8,5 +8,5 @@ export enum ProductCategory {
   BEAUTY = 'beauty',
 }
 
-// If you need an array of all categories, define it separately:
-export const ALL_CATEGORIES = Object.values(ProductCategory);
+// // If you need an array of all categories, define it separately:
+// export const ALL_CATEGORIES = Object.values(ProductCategory);
