@@ -12,7 +12,7 @@ export default () => ({
     password:
       process.env.NODE_ENV === 'production'
         ? process.env.PGPASSWORD
-        : 'olufunbi',
+        : 'elisha123',
     database:
       process.env.NODE_ENV === 'production'
         ? process.env.PGDATABASE

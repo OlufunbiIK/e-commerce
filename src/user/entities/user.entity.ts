@@ -24,7 +24,7 @@ export class User {
   @Column({ type: 'enum', enum: UserRole, default: UserRole.CUSTOMER })
   role: UserRole;
 
-  @Column({ default: false })
+  @Column({ default: true })
   isVerified: boolean;
 
   @Column({ nullable: true })
