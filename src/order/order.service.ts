@@ -1,26 +1,32 @@
-import { Injectable } from '@nestjs/common';
-import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Order } from './entities/order.entity';
+import { OrderStatus } from './enum/orderStatus.enum';
+import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class OrderService {
-  create(createOrderDto: CreateOrderDto) {
-    return 'This action adds a new order';
-  }
+  constructor(
+    @InjectRepository(Order)
+    private readonly orderRepository: Repository<Order>,
+  ) {}
 
-  findAll() {
-    return `This action returns all order`;
-  }
+  async updateOrderStatus(orderId: number, status: OrderStatus, adminUser: User): Promise<Order> {
+    if (adminUser.role !== 'admin') {
+      throw new ForbiddenException('Only admins can update order statuses.');
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
-  }
+    const order = await this.orderRepository.findOne({
+      where: { id: orderId },
+      relations: ['user'],
+    });
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
-  }
+    if (!order) {
+      throw new NotFoundException(`Order with ID ${orderId} not found.`);
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} order`;
+    order.status = status;
+    return await this.orderRepository.save(order);
   }
 }
