@@ -17,6 +17,7 @@ import { User } from './user/entities/user.entity';
 import { Product } from './product/entities/product.entity';
 import { Order } from './order/entities/order.entity';
 import { OrderItem } from './order-item/entities/order-item.entity';
+import { MailModule } from './mail/mail.module';
 import { PaginationModule } from './common/pagination/pagination.module';
 import { AuthModule } from './auth/auth.module';
 
@@ -35,16 +36,16 @@ import { AuthModule } from './auth/auth.module';
         username: configService.get('db').username,
         password: configService.get('db').password,
         database: configService.get('db').database,
-        url:
-          process.env.NODE_ENV === 'production'
-            ? configService.get('db').url
-            : undefined,
+        url: process.env.NODE_ENV === 'production'
+          ? configService.get('db').url
+          : undefined,
         // synchronize: process.env.NODE_ENV !== 'production', // Use sync (true) in dev, false in prod
         synchronize: true, // fixme - revert to line above
         autoLoadEntities: true,
         entities: [User, Product, Order, OrderItem],
       }),
       inject: [ConfigService],
+      imports: undefined
     }),
     CategoryModule,
     UserModule,
@@ -54,8 +55,11 @@ import { AuthModule } from './auth/auth.module';
     AdminModule,
     CartModule,
     CheckoutModule,
+    MailModule
+
     PaginationModule,
     AuthModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],
