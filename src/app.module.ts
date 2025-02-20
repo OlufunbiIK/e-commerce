@@ -17,6 +17,7 @@ import { User } from './user/entities/user.entity';
 import { Product } from './product/entities/product.entity';
 import { Order } from './order/entities/order.entity';
 import { OrderItem } from './order-item/entities/order-item.entity';
+import { PaginationModule } from './common/pagination/pagination.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -53,6 +54,7 @@ import { AuthModule } from './auth/auth.module';
     AdminModule,
     CartModule,
     CheckoutModule,
+    PaginationModule,
     AuthModule,
   ],
   controllers: [AppController],
