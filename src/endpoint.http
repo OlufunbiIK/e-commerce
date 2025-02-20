@@ -16,3 +16,20 @@ Content-Type: application/json
   "role": "customer",
   "isVerified": false
 }
+
+{{
+    const date = new Date()
+    exports.startDate = date.toString()
+    exports.endDate = date.toString()
+}}
+
+GET http://localhost:3000/products
+?startDate={{ startDate }}
+&endDate={{ endDate }}
+&limit=5
+&page=1
+
+
+
+GET  http://localhost:3000/posts?id=15
+
