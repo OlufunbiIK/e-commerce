@@ -5,14 +5,19 @@ Content-Type: application/json
     "name":"fashion"
 }
 
-POST http://localhost:3000/user
+POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-  "firstName": "Mimi",
-  "lastName": "Bibi",
-  "email": "Bimi@example.com",
-  "password": "secure@Password123",
-  "role": "customer",
-  "isVerified": false
+  "firstName": "Chdloe",
+  "lastName": "Bdarley",
+  "email": "chloebdaxrley@example.com",
+  "password": "secdurse@Password123"
+}
+
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+{
+    "email": "chloebdaxrley@example.com",
+  "password": "secdurse@Password123"
 }

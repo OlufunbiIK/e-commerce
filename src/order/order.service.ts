@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+/* eslint-disable prettier/prettier */
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Order } from './entities/order.entity';
@@ -12,7 +17,11 @@ export class OrderService {
     private readonly orderRepository: Repository<Order>,
   ) {}
 
-  async updateOrderStatus(orderId: number, status: OrderStatus, adminUser: User): Promise<Order> {
+  async updateOrderStatus(
+    orderId: number,
+    status: OrderStatus,
+    adminUser: User,
+  ): Promise<Order> {
     if (adminUser.role !== 'admin') {
       throw new ForbiddenException('Only admins can update order statuses.');
     }

@@ -1,4 +1,9 @@
-import { Injectable, BadRequestException, UnauthorizedException } from '@nestjs/common';
+/* eslint-disable prettier/prettier */
+import {
+  Injectable,
+  BadRequestException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
@@ -19,7 +24,9 @@ export class AuthService {
     const { firstName, lastName, email, password, role } = registerDto;
 
     // Check if user already exists
-    const existingUser = await this.userRepository.findOne({ where: { email } });
+    const existingUser = await this.userRepository.findOne({
+      where: { email },
+    });
     if (existingUser) throw new BadRequestException('User already exists');
 
     // Hash password
@@ -36,10 +43,10 @@ export class AuthService {
     });
 
     await this.userRepository.save(user);
-    return { message: 'User registered successfully' };
+    return { message: 'User registered successfully', user };
   }
 
-  // ✅ User Login
+  // // ✅ User Login
   async login(loginDto: LoginDto) {
     const { email, password } = loginDto;
 
@@ -49,14 +56,16 @@ export class AuthService {
 
     // Check password
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) throw new UnauthorizedException('Invalid credentials');
+    if (!isPasswordValid)
+      throw new UnauthorizedException('Invalid credentials');
 
     // Check verification status
-    if (!user.isVerified) throw new UnauthorizedException('Account not verified');
+    if (!user.isVerified)
+      throw new UnauthorizedException('Account not verified');
 
     // Generate JWT Token
     const payload = { sub: user.id, email: user.email, role: user.role }; // 🔥 Use `sub` (standard JWT claim)
-    
+
     const token = this.jwtService.sign(payload, { expiresIn: '1h' }); // 🔥 Explicit expiration time
 
     return { access_token: token };
