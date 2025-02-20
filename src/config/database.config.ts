@@ -10,7 +10,9 @@ export default () => ({
     username:
       process.env.NODE_ENV === 'production' ? process.env.PGUSER : 'postgres', //Database confiq
     password:
-      process.env.NODE_ENV === 'production' ? process.env.PGPASSWORD : 'funbi', //Change password to your own
+      process.env.NODE_ENV === 'production'
+        ? process.env.PGPASSWORD
+        : 'priceless',//Change password to your own
     database:
       process.env.NODE_ENV === 'production'
         ? process.env.PGDATABASE

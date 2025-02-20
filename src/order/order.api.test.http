@@ -1,0 +1,26 @@
+PUT http://localhost:3000/orders/1/status
+Content-Type: application/json
+Authorization: Bearer <admin-token>
+
+{
+  "status": "shipped"
+}
+
+
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "muhammad@gmail.com",
+  "password": "yahaya123"
+}
+
+GET http://localhost:3000/orders/{orderId}
+
+PUT http://localhost:3000/orders/{orderId}/status
+Content-Type: application/json
+
+{
+  "status": "SHIPPED"
+}
+
