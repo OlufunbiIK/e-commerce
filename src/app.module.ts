@@ -18,6 +18,8 @@ import { Product } from './product/entities/product.entity';
 import { Order } from './order/entities/order.entity';
 import { OrderItem } from './order-item/entities/order-item.entity';
 import { MailModule } from './mail/mail.module';
+import { PaginationModule } from './common/pagination/pagination.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -54,6 +56,10 @@ import { MailModule } from './mail/mail.module';
     CartModule,
     CheckoutModule,
     MailModule
+
+    PaginationModule,
+    AuthModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],

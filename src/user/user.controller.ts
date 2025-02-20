@@ -7,10 +7,17 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
+import { UserRole } from './enum/userRole.enum';
+import { GetUsersDto } from './dto/get-users-dto.dto';
 
 @Controller('user')
 export class UserController {
@@ -21,9 +28,18 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
+  // @Get()
+  // findAll() {
+  //   return this.userService.findAll();
+  // }
+
+  // 🔒 Admin Only: Get All Users
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  public getAllPosts(@Query() getProductsDto: GetUsersDto) {
+    // @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number, // @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number, // @Param() getPostParamDto: GetPostParamDto,
+    return this.userService.FindAllPosts(getProductsDto);
   }
 
   @Get(':id')

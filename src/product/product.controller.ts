@@ -1,7 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+/* eslint-disable prettier/prettier */
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { GetProductsDto } from './dto/get-products.dto';
+import { paginated } from 'src/common/pagination/interfaces/pagination.interfaces';
+import { Product } from './entities/product.entity';
 
 @Controller('product')
 export class ProductController {
@@ -13,8 +26,10 @@ export class ProductController {
   }
 
   @Get()
-  findAll() {
-    return this.productService.findAll();
+  async getAllProducts(
+    @Query() postQuery: GetProductsDto,
+  ): Promise<paginated<Product>> {
+    return await this.productService.getAllProducts(postQuery);
   }
 
   @Get(':id')

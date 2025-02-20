@@ -1,29 +1,40 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable prettier/prettier */
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
   OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
+import { User } from '../../user/entities/user.entity';
 import { OrderItem } from '../../order-item/entities/order-item.entity';
 import { OrderStatus } from '../enum/orderStatus.enum';
-import { User } from 'src/user/entities/user.entity';
 
 @Entity()
 export class Order {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.orders)
+  @ManyToOne(() => User, (user) => user.orders, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
   user: User;
 
-  @Column('decimal')
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, { cascade: true })
+  orderItems: OrderItem[];
+
+  @Column('decimal', { precision: 10, scale: 2 })
   totalPrice: number;
 
   @Column({ type: 'enum', enum: OrderStatus, default: OrderStatus.PENDING })
   status: OrderStatus;
 
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.order)
-  orderItems: OrderItem[];
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }
