@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
@@ -11,7 +12,9 @@ import {
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { GetProductsDto } from './dto/get-products-dto.dto';
+import { GetProductsDto } from './dto/get-products.dto';
+import { paginated } from 'src/common/pagination/interfaces/pagination.interfaces';
+import { Product } from './entities/product.entity';
 
 @Controller('product')
 export class ProductController {
@@ -23,9 +26,15 @@ export class ProductController {
   }
 
   @Get()
-  public getAllPosts(@Query() getProductsDto: GetProductsDto) {
-    // @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number, // @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number, // @Param() getPostParamDto: GetPostParamDto,
-    return this.productService.FindAllPosts(getProductsDto);
+  async getAllProducts(
+    @Query() postQuery: GetProductsDto,
+  ): Promise<paginated<Product>> {
+    return await this.productService.getAllProducts(postQuery);
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.productService.findOne(+id);
   }
 
   @Patch(':id')

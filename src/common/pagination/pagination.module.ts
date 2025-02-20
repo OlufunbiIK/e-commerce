@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
-import { PaginationProvider } from './providers/Pagination.service';
+import { PaginationProvider } from './provider/pagination.service';
 
 @Module({
   providers: [PaginationProvider],

@@ -1,4 +1,13 @@
-import { IsString, IsNotEmpty, IsNumber, IsPositive, Min, IsInt, isEnum, IsEnum } from 'class-validator';
+/* eslint-disable prettier/prettier */
+import {
+  IsString,
+  IsNotEmpty,
+  IsNumber,
+  IsPositive,
+  Min,
+  IsInt,
+  IsEnum,
+} from 'class-validator';
 import { ProductCategory } from '../enum/productCategory.enum';
 
 export class CreateProductDto {
@@ -14,9 +23,11 @@ export class CreateProductDto {
   @IsPositive()
   price: number;
 
-  
   @IsNotEmpty()
-  @IsEnum(ProductCategory, { message: 'Category must be electronics, fashion, home_appliances, books, sports, toys, or beauty' })
+  @IsEnum(ProductCategory, {
+    message:
+      'Category must be electronics, fashion, home_appliances, books, sports, toys, or beauty',
+  })
   category: ProductCategory;
 
   @IsInt()
