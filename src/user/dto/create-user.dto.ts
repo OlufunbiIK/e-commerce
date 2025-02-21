@@ -6,29 +6,34 @@ import {
   IsOptional,
   IsBoolean,
   IsEnum,
+  IsNotEmpty,
 } from 'class-validator';
 import { ProductCategory } from 'src/category/enum/productCategory.enum';
 import { UserRole } from '../enum/userRole.enum';
 
 export class CreateUserDto {
   @IsString()
+  @IsNotEmpty()
   firstName: string;
-
+  
   @IsString()
+  @IsNotEmpty()
   lastName: string;
-
+  
   @IsEmail()
-  email: string;
-
+  @IsOptional()
+  email?: string;
+  
   @IsString()
   @MinLength(6)
-  password: string;
-
   @IsOptional()
+  password?: string;
+
+  @IsNotEmpty()
   @IsEnum(UserRole, {
-    message: 'Category must a customer, seller, admin or superadmin',
+    message: 'User must be a customer, seller, admin or superadmin',
   })
-  role?: UserRole;
+  role: UserRole;
 
   @IsOptional()
   @IsBoolean()
