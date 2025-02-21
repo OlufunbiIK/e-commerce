@@ -5,14 +5,14 @@ export default () => ({
     host:
       process.env.NODE_ENV === 'production' ? process.env.PGHOST : 'localhost',
     port: parseInt(
-      process.env.NODE_ENV === 'production' ? process.env.PGPORT : '5433',
+      process.env.NODE_ENV === 'production' ? process.env.PGPORT : '5432',
     ),
     username:
-      process.env.NODE_ENV === 'production' ? process.env.PGUSER : 'postgres', //Database confiq
+      process.env.NODE_ENV === 'production' ? process.env.PGUSER : 'postgres', //Database config
     password:
       process.env.NODE_ENV === 'production'
         ? process.env.PGPASSWORD
-        : 'priceless',//Change password to your own
+        : '1234',//Change password to your own
     database:
       process.env.NODE_ENV === 'production'
         ? process.env.PGDATABASE
