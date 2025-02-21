@@ -15,25 +15,25 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   firstName: string;
-  
+
   @IsString()
   @IsNotEmpty()
   lastName: string;
-  
+
   @IsEmail()
   @IsOptional()
   email?: string;
-  
+
   @IsString()
   @MinLength(6)
   @IsOptional()
   password?: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsEnum(UserRole, {
     message: 'User must be a customer, seller, admin or superadmin',
   })
-  role: UserRole;
+  role?: UserRole;
 
   @IsOptional()
   @IsBoolean()
@@ -42,4 +42,21 @@ export class CreateUserDto {
   @IsOptional()
   @IsString()
   googleId?: string;
+
+  // Additional fields for sellers
+  @IsOptional()
+  @IsString()
+  storeName?: string;
+
+  @IsOptional()
+  @IsString()
+  storeDescription?: string;
+
+  @IsOptional()
+  @IsString()
+  storeAddress?: string;
+
+  @IsOptional()
+  @IsString()
+  phoneNumber?: string;
 }

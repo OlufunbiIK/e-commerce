@@ -8,7 +8,7 @@ import { PaginationProvider } from 'src/common/pagination/providers/pagination.s
 import { PaginationModule } from 'src/common/pagination/pagination.module';
 
 @Module({
-  imports: [PaginationModule, TypeOrmModule.forFeature([User])],
+  imports: [PaginationModule, TypeOrmModule.forFeature([User])],    //needs modules - products, orders, categories,
   controllers: [UserController],
   exports: [UserService, FindOneByEmailProvider, TypeOrmModule],
   providers: [UserService, PaginationProvider, FindOneByEmailProvider],

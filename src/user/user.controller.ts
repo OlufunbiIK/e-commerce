@@ -18,11 +18,14 @@ import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { UserRole } from './enum/userRole.enum';
 import { GetUsersDto } from './dto/get-users-dto.dto';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
+  // @Roles(UserRole.SUPERADMIN)    //fixme - uncomment me
+  @Public()   //fixme - remove me
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
