@@ -7,13 +7,10 @@ import { FindOneByEmailProvider } from './providers/findOneByEmail.provider';
 import { PaginationProvider } from 'src/common/pagination/providers/pagination.service';
 import { PaginationModule } from 'src/common/pagination/pagination.module';
 
-
 @Module({
   imports: [PaginationModule, TypeOrmModule.forFeature([User])],
   controllers: [UserController],
-  providers: [UserService, ],
-  exports: [UserService, FindOneByEmailProvider, TypeOrmModule],
   providers: [UserService, PaginationProvider, FindOneByEmailProvider],
-  exports: [UserService, TypeOrmModule],
+  exports: [UserService, TypeOrmModule, FindOneByEmailProvider],
 })
 export class UserModule {}

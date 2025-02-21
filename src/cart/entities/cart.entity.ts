@@ -1,7 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+/* eslint-disable prettier/prettier */
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { Product } from '../../product/entities/product.entity';
 import { CartStatus } from '../enum/cartStatus.enum';
+import { CartItem } from 'src/cart-items/cart-items-entity/cart-items.entity';
 
 @Entity()
 export class Cart {
@@ -19,4 +27,7 @@ export class Cart {
 
   @Column({ type: 'enum', enum: CartStatus, default: CartStatus.ACTIVE })
   status: CartStatus;
+
+  @OneToMany(() => CartItem, (cartItem) => cartItem.cart, { cascade: true })
+  items: CartItem[];
 }

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 export default () => ({
   port: parseInt(process.env.PORT) || 3000, // Default fallback to 3000 if not specified
   db: {
@@ -10,9 +9,7 @@ export default () => ({
     username:
       process.env.NODE_ENV === 'production' ? process.env.PGUSER : 'postgres', //Database confiq
     password:
-      process.env.NODE_ENV === 'production'
-        ? process.env.PGPASSWORD
-        : 'priceless',//Change password to your own
+      process.env.NODE_ENV === 'production' ? process.env.PGPASSWORD : 'funbi', //Change password to your own
     database:
       process.env.NODE_ENV === 'production'
         ? process.env.PGDATABASE
