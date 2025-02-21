@@ -47,4 +47,21 @@ export class OrderService {
 
     return order;
   }
+
+  // ✅ Get all orders for a specific user
+  async getUserOrders(userId: number): Promise<Order[]> {
+    return await this.orderRepository.find({
+      where: { user: { id: userId } },
+      relations: ['user', 'orderItems', 'orderItems.product'],
+      order: { id: 'DESC' }, // Sort orders by most recent
+    });
+  }
+
+  // ✅ Get all orders (Admin only)
+  async getAllOrders(): Promise<Order[]> {
+    return await this.orderRepository.find({
+      relations: ['user', 'orderItems', 'orderItems.product'],
+      order: { id: 'DESC' },
+    });
+  }
 }
