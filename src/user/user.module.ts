@@ -4,11 +4,13 @@ import { UserController } from './user.controller';
 import { User } from './entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FindOneByEmailProvider } from './providers/findOneByEmail.provider';
+import { PaginationProvider } from 'src/common/pagination/providers/pagination.service';
+import { PaginationModule } from 'src/common/pagination/pagination.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User])],
+  imports: [PaginationModule, TypeOrmModule.forFeature([User])],
   controllers: [UserController],
-  providers: [UserService, FindOneByEmailProvider],
   exports: [UserService, FindOneByEmailProvider, TypeOrmModule],
+  providers: [UserService, PaginationProvider, FindOneByEmailProvider],
 })
 export class UserModule {}

@@ -1,0 +1,12 @@
+
+POST http://localhost:3000/product
+Content-Type: application/json
+
+{
+    "title": "Acer ASPIRE 5 256GB 8GB AMD RYZEN5",
+    "description": "ACER ASPIRE 5 (A515-45-R74Z) – AMD Ryzen 5 5500U, 256GB SSD, 8GB RAM, Windows 11 Home, 15.6” FHD Display, Backlit Keyboard, AMD Radeon Graphics, Webcam, Bluetooth, Wlan",
+    "price": 650000,
+    "category": "electronics",
+    "stock": 10,
+    "sellerId": "1"
+}
