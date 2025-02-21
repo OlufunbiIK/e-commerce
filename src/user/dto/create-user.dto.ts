@@ -7,7 +7,7 @@ import {
   IsBoolean,
   IsEnum,
 } from 'class-validator';
-import { ProductCategory } from 'src/product/enum/productCategory.enum';
+import { ProductCategory } from 'src/category/enum/productCategory.enum';
 import { UserRole } from '../enum/userRole.enum';
 
 export class CreateUserDto {

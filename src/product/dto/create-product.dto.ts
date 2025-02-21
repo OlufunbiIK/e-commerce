@@ -8,7 +8,7 @@ import {
   IsInt,
   IsEnum,
 } from 'class-validator';
-import { ProductCategory } from '../enum/productCategory.enum';
+import { ProductCategory } from '../../category/enum/productCategory.enum';
 
 export class CreateProductDto {
   @IsString()

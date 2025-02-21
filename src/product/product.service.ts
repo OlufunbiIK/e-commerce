@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -9,6 +9,7 @@ import { Repository } from 'typeorm';
 import { PaginationProvider } from 'src/common/pagination/provider/pagination.service';
 import { paginated } from 'src/common/pagination/interfaces/pagination.interfaces';
 import { GetProductsDto } from './dto/get-products.dto';
+import { CategoryService } from 'src/category/category.service';
 
 @Injectable()
 export class ProductService {
@@ -16,8 +17,21 @@ export class ProductService {
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
     private readonly paginationService: PaginationProvider,
-  ) {}
-  create(createProductDto: CreateProductDto) {
+    private readonly categoryService: CategoryService,
+  ) { }
+
+  public async create(createProductDto: CreateProductDto) {
+    // 1. check if category exist, then get the category reference, else throw an error
+    const category = await this.categoryService.findOne(createProductDto.category);
+
+    // if (category) {
+    //   createProductDto.category = category;
+    // } else {
+    //   throw new NotFoundException(`category with name ${createProductDto.category} not found.`);
+    // }
+
+    // 2. check if the sellerId exist, then get the seller reference, else throw an error
+    // 3. create the product
     const newProduct = this.productRepository.create(createProductDto);
     return this.productRepository.save(newProduct);
   }

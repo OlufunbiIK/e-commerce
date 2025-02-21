@@ -7,11 +7,13 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  JoinColumn,
   // ManyToOne,
 } from 'typeorm';
-import { ProductCategory } from '../enum/productCategory.enum';
+import { ProductCategory } from '../../category/enum/productCategory.enum';
 import { User } from 'src/user/entities/user.entity';
 import { OrderItem } from 'src/order-item/entities/order-item.entity';
+import { Category } from 'src/category/entities/category.entity';
 
 @Entity()
 export class Product {
@@ -27,8 +29,8 @@ export class Product {
   @Column('decimal')
   price: number;
 
-  @Column({ type: 'enum', enum: ProductCategory })
-  category: ProductCategory;
+  // @Column({ type: 'enum', enum: ProductCategory })
+  // category: ProductCategory;
 
   @Column()
   stock: number;
@@ -39,7 +41,26 @@ export class Product {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.products, { onDelete: 'CASCADE' })
+  // relations
+  // 1. category
+  // 2. seller
+  // 2. order
+  // 4. orderItems
+  // 5. reviews
+  // 6. maybe cart ???
+  
+  @ManyToOne(
+    () => Category,
+    { eager: true },
+  )
+  @JoinColumn()
+  category: ProductCategory;
+
+  @ManyToOne(
+    () => User,
+    (user) => user.products,
+    { onDelete: 'CASCADE' }
+  )
   seller: User;
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
