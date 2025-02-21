@@ -8,7 +8,7 @@ import { UserRole } from 'src/user/enum/userRole.enum';
 
 @Controller('orders')
 export class OrderController {
-  constructor(private readonly orderService: OrderService) {}
+  constructor(private readonly orderService: OrderService) { }
 
   @Put(':id/status')
   @UseGuards(JwtAuthGuard, RolesGuard)
