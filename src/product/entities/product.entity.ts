@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
-  // ManyToOne,
+  ManyToMany,
 } from 'typeorm';
 import { ProductCategory } from '../../category/enum/productCategory.enum';
 import { User } from 'src/user/entities/user.entity';
@@ -20,35 +20,60 @@ export class Product {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({
+    type: 'varchar',
+    nullable: false,
+    length: 150,
+  })
   title: string;
-
-  @Column({ type: 'text' })
+  
+  @Column({
+    type: 'text',
+    nullable: false,
+  })
   description: string;
 
-  @Column('decimal')
+  @Column({
+    type: 'decimal',
+  })
   price: number;
-
-  // @Column({ type: 'enum', enum: ProductCategory })
-  // category: ProductCategory;
-
+  
   @Column()
   stock: number;
 
-  @CreateDateColumn()
+  @Column({
+    type: 'varchar',
+    nullable: true,
+    unique: true,
+  })
+  productUrl?: string;
+
+  @CreateDateColumn(
+    {
+      type: 'timestamptz',
+      default: () => 'CURRENT_TIMESTAMP',
+    },
+  )
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn(
+    {
+      type: 'timestamptz',
+      default: () => 'CURRENT_TIMESTAMP',
+    },
+  )
   updatedAt: Date;
 
   // relations
   // 1. category
   // 2. seller
-  // 2. order
-  // 4. orderItems
-  // 5. reviews
+  // 3. reviews
+  // 4. order
+  // 5. orderItems
   // 6. maybe cart ???
-  
+
+  // eager - category, seller, reviews, 
+
   @ManyToOne(
     () => Category,
     { eager: true },
@@ -59,10 +84,21 @@ export class Product {
   @ManyToOne(
     () => User,
     (user) => user.products,
-    { onDelete: 'CASCADE' }
+    {
+      eager: true,
+      onDelete: 'CASCADE'
+    },
   )
   seller: User;
 
+  // @ManyToMany(
+  //   () => Tag,
+  //   (tag) => tag.stories,
+  //   { eager: true },
+  // )
+  // tags?: Review[];
+
+  // fixme - don't need this here. in orderItem it should point to product id
   @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
   orderItems: OrderItem[];
 }

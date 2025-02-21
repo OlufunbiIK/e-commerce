@@ -8,9 +8,10 @@ import { Product } from './entities/product.entity';
 import { PaginationModule } from 'src/common/pagination/pagination.module';
 import { PaginationProvider } from 'src/common/pagination/providers/pagination.service';
 import { CategoryModule } from 'src/category/category.module';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
-  imports: [CategoryModule, PaginationModule, TypeOrmModule.forFeature([Product])],
+  imports: [CategoryModule, PaginationModule, UserModule, TypeOrmModule.forFeature([Product])],   //needs modules - reviews, order, orderItems, cart
   controllers: [ProductController],
   providers: [ProductService, PaginationProvider],
   exports: [TypeOrmModule, ProductService],
