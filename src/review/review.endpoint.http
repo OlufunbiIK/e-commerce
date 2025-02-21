@@ -1,0 +1,8 @@
+POST http://localhost:3000/reviews
+Content-Type:application/json
+{
+  "comment": "Great product!",
+  "rating": 5,
+  "productId": 1,
+  "userId": 2
+}

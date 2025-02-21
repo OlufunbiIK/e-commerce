@@ -1,8 +1,8 @@
-/* eslint-disable prettier/prettier */
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Product } from '../../product/entities/product.entity';
 import { Order } from '../../order/entities/order.entity';
 import { UserRole } from '../enum/userRole.enum';
+import { Review } from 'src/review/entities/review.entity';
 
 @Entity()
 export class User {
@@ -35,4 +35,7 @@ export class User {
 
   @OneToMany(() => Order, (order) => order.user)
   orders: Order[];
+
+  @OneToMany(() => Review, (review) => review.user)
+  reviews: Review[];
 }

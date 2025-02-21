@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {
   Injectable,
   NotFoundException,
@@ -18,7 +17,11 @@ export class OrderService {
     private readonly orderRepository: Repository<Order>,
   ) {}
 
-  async updateOrderStatus(orderId: number, status: OrderStatus, adminUser: User): Promise<Order> {
+  async updateOrderStatus(
+    orderId: number,
+    status: OrderStatus,
+    adminUser: User,
+  ): Promise<Order> {
     if (adminUser.role !== UserRole.ADMIN) {
       throw new ForbiddenException('Only admins can update order statuses.');
     }
@@ -47,7 +50,9 @@ export class OrderService {
     }
 
     if (user.role !== UserRole.ADMIN && order.user.id !== user.id) {
-      throw new ForbiddenException('You are not authorized to view this order.');
+      throw new ForbiddenException(
+        'You are not authorized to view this order.',
+      );
     }
 
     return order;

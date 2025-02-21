@@ -32,6 +32,7 @@ export class UserService {
     return product;
   }
 
+  // product module contributor needs this logic, please implement it
   findOne(id: number) {
     return `This action returns a #${id} user`;
   }
