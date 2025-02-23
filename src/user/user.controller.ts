@@ -28,8 +28,7 @@ export class UserController {
     private readonly findOneByEmailProvider: FindOneByEmailProvider,
   ) { }
 
-  // @Roles(UserRole.SUPERADMIN)    //fixme - uncomment me
-  @Public()   //fixme - remove me
+  @Roles(UserRole.SUPERADMIN)
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
@@ -50,17 +49,17 @@ export class UserController {
   }
 
   // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.userService.findOne(+id);
+  // findOneById(@Param('id') id: string) {
+  //   return this.userService.findOneById(+id);
   // }
 
-  // @Roles(UserRole.SUPERADMIN)    //fixme - uncomment me
-  @Public()   //fixme - remove me
+  @Roles(UserRole.SUPERADMIN)    
   @Get(':email')
   findOneByEmail(@Param('email') email: string) {
     return this.findOneByEmailProvider.findOneByEmail(email);
   }
 
+  // use email instead
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -27,23 +26,22 @@ export class ProductService {
   public async create(createProductDto: CreateProductDto) {
 
     // 1. check if category exist, then get the category reference, else throw an error
-    const category = await this.categoryService.findOne(createProductDto.category);
+    const category = await this.categoryService.findOneById(createProductDto.category);
 
     if (category) {
-      createProductDto.category = category.name;
+      createProductDto.category = category.id.toString();
     } else {
       throw new NotFoundException(`category with name ${createProductDto.category} not found.`);
     }
 
-    // todo - halting this until user module is implemented
     // 2. check if the sellerId exist, then get the seller reference, else throw an error
-    // const seller = await this.userService.findOne(createProductDto.sellerId);
+    const seller = await this.userService.findOneById(createProductDto.sellerId);
 
-    // if (seller) {
-    //   createProductDto.sellerId = seller.id;
-    // } else {
-    //   throw new NotFoundException(`seller with id ${createProductDto.sellerId} not found.`);
-    // }
+    if (seller) {
+      createProductDto.sellerId = seller.id.toString();
+    } else {
+      throw new NotFoundException(`seller with id ${createProductDto.sellerId} not found.`);
+    }
 
     // 3. slugify the title
     const slugTitle = slugify(createProductDto.title, {
@@ -55,7 +53,7 @@ export class ProductService {
 
     // 4. generate a unique productUrl
     const nanoid = customAlphabet('1234567890', 10);
-    let productUrl;
+    let productUrl: string;
     let isUnique = false;
 
     while (!isUnique) {
@@ -70,8 +68,8 @@ export class ProductService {
     // 5. create the product
     const newProduct = this.productRepository.create({
       ...createProductDto,
-      category: category.name,
-      // sellerId: user.id,
+      category: category.id,
+      // sellerId: seller.id,
       productUrl,
     });
     return this.productRepository.save(newProduct);

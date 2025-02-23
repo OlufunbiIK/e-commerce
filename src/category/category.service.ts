@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -30,7 +29,25 @@ export class CategoryService {
     return result;
   }
 
-  public async findOne(categoryName: string) {
+  public async findOneById(id: string) {
+    const categoryId = parseInt(id, 10);
+    if (isNaN(categoryId)) {
+      throw new NotFoundException(`Invalid category ID: ${id}`);
+    }
+
+    const category = await this.categoryRepository.findOne({
+      where: { id: categoryId },
+      relations: ['products', 'products.category'], 
+    });
+
+    if (!category) {
+      throw new NotFoundException(`Category with id ${id} not found`);
+    }
+
+    return category;
+  }
+
+  public async findOneByName(categoryName: string) {
 
     const category = await this.categoryRepository.findOne({
       where: { name: categoryName as ProductCategory },

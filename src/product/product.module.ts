@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Module } from '@nestjs/common';
 import { ProductService } from './product.service';
@@ -11,7 +10,7 @@ import { CategoryModule } from 'src/category/category.module';
 import { UserModule } from 'src/user/user.module';
 
 @Module({
-  imports: [CategoryModule, PaginationModule, UserModule, TypeOrmModule.forFeature([Product])],   //needs modules - reviews, order, orderItems, cart
+  imports: [CategoryModule, PaginationModule, UserModule, TypeOrmModule.forFeature([Product])],   //needs modules - reviews, order, orderItems,
   controllers: [ProductController],
   providers: [ProductService, PaginationProvider],
   exports: [TypeOrmModule, ProductService],

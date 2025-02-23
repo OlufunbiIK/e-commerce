@@ -79,7 +79,7 @@ export class Product {
     { eager: true },
   )
   @JoinColumn()
-  category: ProductCategory;
+  category: number;
 
   @ManyToOne(
     () => User,
@@ -89,7 +89,7 @@ export class Product {
       onDelete: 'CASCADE'
     },
   )
-  seller: User;
+  seller: number;
 
   // @ManyToMany(
   //   () => Tag,

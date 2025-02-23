@@ -34,7 +34,7 @@ export class CategoryController {
   @Public()
   @Get(':category')
   findOne(@Param('category') category: string) {
-    return this.categoryService.findOne(category);
+    return this.categoryService.findOneByName(category);
   }
 
   @Roles(UserRole.SUPERADMIN)
