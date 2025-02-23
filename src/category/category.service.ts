@@ -66,11 +66,35 @@ export class CategoryService {
     return { ...category, products: productsWithoutSeller };
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
-  }
+  // update(id: number, updateCategoryDto: UpdateCategoryDto) {
+  //   return `This action updates a #${id} category`;
+  // }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  public async remove(category: string) {
+    // 1. check if category exists
+    const categoryExists = this.categoryRepository.findOne({
+      where: { name: category as ProductCategory },
+    });
+
+    if (!categoryExists) {
+      throw new NotFoundException(`Category with name ${category} not found.`);
+    }
+
+    // 2. check if category has products, if yes, return error message
+    const categoryWithProducts = await this.categoryRepository.findOne({
+      where: { name: category as ProductCategory },
+      relations: ['products'],
+    });
+
+    if (categoryWithProducts.products.length > 0) {
+      throw new BadRequestException(`Category ${category} cannot be deleted as it has products.`);
+    }
+
+    // 3. if no products, delete category
+    await this.categoryRepository.delete({ name: category as ProductCategory });
+
+    // 4. if products, return error message
+    return `Category ${category} has been deleted successfully.`;
+
   }
 }
