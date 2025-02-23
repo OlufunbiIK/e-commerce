@@ -19,13 +19,16 @@ import { Roles } from '../auth/roles.decorator';
 import { UserRole } from './enum/userRole.enum';
 import { GetUsersDto } from './dto/get-users-dto.dto';
 import { Public } from 'src/common/decorators/public.decorator';
+import { FindOneByEmailProvider } from './providers/findOneByEmail.provider';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(
+    private readonly userService: UserService,
+    private readonly findOneByEmailProvider: FindOneByEmailProvider,
+  ) { }
 
-  // @Roles(UserRole.SUPERADMIN)    //fixme - uncomment me
-  @Public()   //fixme - remove me
+  @Roles(UserRole.SUPERADMIN)
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
@@ -45,11 +48,18 @@ export class UserController {
     return this.userService.FindAllPosts(getProductsDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  // @Get(':id')
+  // findOneById(@Param('id') id: string) {
+  //   return this.userService.findOneById(+id);
+  // }
+
+  @Roles(UserRole.SUPERADMIN)    
+  @Get(':email')
+  findOneByEmail(@Param('email') email: string) {
+    return this.findOneByEmailProvider.findOneByEmail(email);
   }
 
+  // use email instead
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);

@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -33,10 +33,23 @@ export class UserService {
     return product;
   }
 
-  // product module contributor needs this logic, please implement it
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
+   public async findOneById(id: string) {
+      const userId = parseInt(id, 10);
+      if (isNaN(userId)) {
+        throw new NotFoundException(`Invalid user ID: ${id}`);
+      }
+  
+      const user = await this.userRepository.findOne({
+        where: { id: userId },
+        // relations: ['products', 'products.user'],  //maybe orders
+      });
+  
+      if (!user) {
+        throw new NotFoundException(`user with id ${id} not found`);
+      }
+  
+      return user;
+    }
 
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;

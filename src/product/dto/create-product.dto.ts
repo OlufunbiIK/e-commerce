@@ -6,10 +6,8 @@ import {
   IsPositive,
   Min,
   IsInt,
-  IsEnum,
   IsOptional,
 } from 'class-validator';
-import { ProductCategory } from '../../category/enum/productCategory.enum';
 
 export class CreateProductDto {
   
@@ -26,22 +24,18 @@ export class CreateProductDto {
   @IsNotEmpty()
   price: number;
 
+  @IsString()
   @IsNotEmpty()
-  @IsEnum(ProductCategory, {
-    message:
-    'Category must be of type of ProductCategory enum',
-  })
-  category: ProductCategory;
+  category: string;
   
   @IsInt()
   @Min(1)
   @IsNotEmpty()
   stock: number;
   
-  @IsInt()
-  @IsPositive()
+  @IsString()
   @IsNotEmpty()
-  sellerId: number;
+  sellerId: string;
 
   @IsString()
   @IsOptional()
