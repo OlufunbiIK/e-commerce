@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -10,7 +9,6 @@ import {
   JoinColumn,
   ManyToMany,
 } from 'typeorm';
-import { ProductCategory } from '../../category/enum/productCategory.enum';
 import { User } from 'src/user/entities/user.entity';
 import { OrderItem } from 'src/order-item/entities/order-item.entity';
 import { Category } from 'src/category/entities/category.entity';

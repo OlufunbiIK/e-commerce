@@ -69,7 +69,7 @@ export class ProductService {
     const newProduct = this.productRepository.create({
       ...createProductDto,
       category: category.id,
-      // sellerId: seller.id,
+      seller: seller.id,
       productUrl,
     });
     return this.productRepository.save(newProduct);

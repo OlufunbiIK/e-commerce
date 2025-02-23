@@ -37,7 +37,7 @@ export class CategoryService {
 
     const category = await this.categoryRepository.findOne({
       where: { id: categoryId },
-      relations: ['products', 'products.category'], 
+      relations: ['products', 'products.category'],
     });
 
     if (!category) {
@@ -51,13 +51,21 @@ export class CategoryService {
 
     const category = await this.categoryRepository.findOne({
       where: { name: categoryName as ProductCategory },
-      relations: ['products', 'products.category'], 
+      relations: ['products', 'products.category'],
     });
 
     if (!category) {
       throw new NotFoundException(`Category with name ${categoryName} not found.`);
     }
-    return category;
+
+    // Exclude seller information from products
+    const productsWithoutSeller = category.products.map(product => {
+      const { seller, ...productWithoutSeller } = product;
+      return productWithoutSeller;
+    });
+
+    // Return the category with modified products array
+    return { ...category, products: productsWithoutSeller };
   }
 
   update(id: number, updateCategoryDto: UpdateCategoryDto) {
