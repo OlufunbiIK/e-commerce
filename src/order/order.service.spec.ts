@@ -34,7 +34,7 @@ describe('OrderService', () => {
     mockOrderRepository.findOne.mockResolvedValue(order);
     mockOrderRepository.save.mockResolvedValue({ ...order, status: OrderStatus.SHIPPED });
 
-    const updatedOrder = await service.updateOrderStatus(1, OrderStatus.SHIPPED, { role: UserRole.ADMIN });
+    const updatedOrder = await service.updateOrderStatus(1, OrderStatus.SHIPPED, { role: UserRole.CUSTOMER });
 
     expect(updatedOrder.status).toBe(OrderStatus.SHIPPED);
   });
