@@ -37,7 +37,6 @@ export class CategoryService {
 
     const category = await this.categoryRepository.findOne({
       where: { id: categoryId },
-      relations: ['products', 'products.category'],
     });
 
     if (!category) {
@@ -58,7 +57,7 @@ export class CategoryService {
       throw new NotFoundException(`Category with name ${categoryName} not found.`);
     }
 
-    // Exclude seller information from products
+    // Exclude seller information from products in category response
     const productsWithoutSeller = category.products.map(product => {
       const { seller, ...productWithoutSeller } = product;
       return productWithoutSeller;

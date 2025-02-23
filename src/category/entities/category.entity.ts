@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { ProductCategory } from '../enum/productCategory.enum';
 import { Product } from 'src/product/entities/product.entity';

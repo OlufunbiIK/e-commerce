@@ -1,5 +1,4 @@
-/* eslint-disable prettier/prettier */
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { Product } from '../../product/entities/product.entity';
 import { Order } from '../../order/entities/order.entity';
 import { UserRole } from '../enum/userRole.enum';
@@ -41,6 +40,22 @@ export class User {
 
   @Column({ type: 'varchar', nullable: true })
   phoneNumber?: string;
+
+  @CreateDateColumn(
+    {
+      type: 'timestamptz',
+      default: () => 'CURRENT_TIMESTAMP',
+    },
+  )
+  createdAt: Date;
+
+  @UpdateDateColumn(
+    {
+      type: 'timestamptz',
+      default: () => 'CURRENT_TIMESTAMP',
+    },
+  )
+  updatedAt: Date;
 
   @OneToMany(() => Product, (product) => product.seller)
   products: Product[];
