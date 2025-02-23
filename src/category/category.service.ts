@@ -64,7 +64,6 @@ export class CategoryService {
       return productWithoutSeller;
     });
 
-    // Return the category with modified products array
     return { ...category, products: productsWithoutSeller };
   }
 
