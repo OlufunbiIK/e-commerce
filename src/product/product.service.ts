@@ -142,7 +142,6 @@ export class ProductService {
 
     const {seller, ...result} = updatedProduct;
     return result
-
   }
 
   public async remove(id: number) {

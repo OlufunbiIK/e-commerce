@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -17,6 +18,7 @@ import { Product } from './entities/product.entity';
 import { Public } from 'src/common/decorators/public.decorator';
 import { Roles } from 'src/auth/roles.decorator';
 import { UserRole } from 'src/user/enum/userRole.enum';
+import { OwnershipGuard } from 'src/auth/guards/ownership.guards';
 
 @Controller('product')
 export class ProductController {
@@ -44,12 +46,14 @@ export class ProductController {
 
   @Roles(UserRole.SELLER)
   @Patch(':id')
+  @UseGuards(OwnershipGuard)
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
     return this.productService.update(+id, updateProductDto);
   }
 
   @Roles(UserRole.SELLER)
   @Delete(':id')
+  @UseGuards(OwnershipGuard)
   remove(@Param('id') id: string) {
     return this.productService.remove(+id);
   }
