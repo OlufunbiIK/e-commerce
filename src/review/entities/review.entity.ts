@@ -13,10 +13,10 @@ export class Review {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: false })
   comment: string;
 
-  @Column({ type: 'int', default: 1 })
+  @Column({ type: 'int', default: 1, nullable: false })
   rating: number;
 
   @ManyToOne(() => User, (user) => user.reviews, { onDelete: 'CASCADE' })

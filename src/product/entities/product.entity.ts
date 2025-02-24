@@ -13,6 +13,7 @@ import { User } from 'src/user/entities/user.entity';
 import { OrderItem } from 'src/order-item/entities/order-item.entity';
 import { Category } from 'src/category/entities/category.entity';
 import { Review } from 'src/review/entities/review.entity';
+import { CartItem } from 'src/cart-items/entities/cart-items.entity';
 
 @Entity()
 export class Product {
@@ -22,6 +23,7 @@ export class Product {
   @Column({
     type: 'varchar',
     nullable: false,
+    default: 'Untitled Product',
     length: 150,
   })
   title: string;
@@ -92,4 +94,7 @@ export class Product {
 
   @OneToMany(() => Review, (review) => review.product)
   reviews: Review[];
+
+  @OneToMany(() => CartItem, (cartItem) => cartItem.product, { eager: true })
+  cartItems: CartItem[];
 }

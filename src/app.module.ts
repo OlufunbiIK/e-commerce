@@ -14,6 +14,8 @@ import { MailModule } from './mail/mail.module';
 import { PaginationModule } from './common/pagination/pagination.module';
 import { AuthModule } from './auth/auth.module';
 import { ReviewModule } from './review/review.module';
+import { PaystackModule } from './paystack/paystack-module.module';
+// import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
   imports: [
@@ -52,6 +54,8 @@ import { ReviewModule } from './review/review.module';
     PaginationModule,
     AuthModule,
     ReviewModule,
+    PaystackModule,
+    // TransactionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

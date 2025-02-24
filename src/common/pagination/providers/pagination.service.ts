@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { ObjectLiteral, Repository } from 'typeorm';
 import { paginated } from '../interfaces/pagination-interface';
 import { Request } from 'express';

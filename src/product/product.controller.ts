@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
@@ -24,12 +23,12 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   // @Roles(UserRole.SELLER)     //fixme - uncomment me
-  @Public()     //fixme - remove me
+  @Public() //fixme - remove me
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
     return this.productService.create(createProductDto);
   }
-  
+
   @Public()
   @Get()
   async getAllProducts(
@@ -43,13 +42,13 @@ export class ProductController {
   findOne(@Param('id') id: string) {
     return this.productService.findOne(+id);
   }
-  
+
   @Roles(UserRole.SELLER)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
     return this.productService.update(+id, updateProductDto);
   }
-  
+
   @Roles(UserRole.SELLER)
   @Delete(':id')
   remove(@Param('id') id: string) {

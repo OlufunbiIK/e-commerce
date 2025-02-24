@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Review } from './entities/review.entity';
 import { CreateReviewDto } from './dto/create-review.dto';
-import { UpdateReviewDto } from './dto/update-review.dto';
 import { Product } from 'src/product/entities/product.entity';
 import { User } from 'src/user/entities/user.entity';
 
@@ -38,32 +37,5 @@ export class ReviewService {
 
   async findAll(): Promise<Review[]> {
     return this.reviewRepository.find({ relations: ['user', 'product'] });
-  }
-
-  async findOne(id: number): Promise<Review> {
-    const review = await this.reviewRepository.findOne({
-      where: { id },
-      relations: ['user', 'product'],
-    });
-
-    if (!review) throw new NotFoundException('Review not found');
-    return review;
-  }
-
-  async update(id: number, updateReviewDto: UpdateReviewDto): Promise<Review> {
-    const review = await this.reviewRepository.findOne({ where: { id } });
-
-    if (!review) throw new NotFoundException('Review not found');
-
-    Object.assign(review, updateReviewDto);
-    return this.reviewRepository.save(review);
-  }
-
-  async remove(id: number): Promise<void> {
-    const review = await this.reviewRepository.findOne({ where: { id } });
-
-    if (!review) throw new NotFoundException('Review not found');
-
-    await this.reviewRepository.remove(review);
   }
 }

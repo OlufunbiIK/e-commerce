@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
@@ -18,11 +17,14 @@ import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { UserRole } from './enum/userRole.enum';
 import { GetUsersDto } from './dto/get-users-dto.dto';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  // @Roles(UserRole.SUPERADMIN)    //fixme - uncomment me
+  @Public() //fixme - remove me
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
@@ -39,7 +41,7 @@ export class UserController {
   @Get()
   public getAllPosts(@Query() getProductsDto: GetUsersDto) {
     // @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number, // @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number, // @Param() getPostParamDto: GetPostParamDto,
-    return this.userService.FindAllPosts(getProductsDto);
+    return this.userService.FindAllUsers(getProductsDto);
   }
 
   @Get(':id')

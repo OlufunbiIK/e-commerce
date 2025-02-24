@@ -21,7 +21,7 @@ export class UserService {
     return await this.userRepository.save(newUser);
   }
 
-  public async FindAllPosts(postQuery: GetUsersDto): Promise<paginated<User>> {
+  public async FindAllUsers(postQuery: GetUsersDto): Promise<paginated<User>> {
     const product = await this.paginationService.paginationQuery(
       {
         limit: postQuery.limit,

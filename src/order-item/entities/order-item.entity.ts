@@ -25,4 +25,7 @@ export class OrderItem {
     default: OrderItemStatus.IN_STOCK,
   })
   status: OrderItemStatus;
+
+  @Column()
+  price: number;
 }

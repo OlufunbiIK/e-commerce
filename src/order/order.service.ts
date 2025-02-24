@@ -15,7 +15,24 @@ export class OrderService {
   constructor(
     @InjectRepository(Order)
     private readonly orderRepository: Repository<Order>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
+  async createOrder(userId: number, totalPrice: number) {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const order = this.orderRepository.create({
+      user, // Use the actual user entity
+      totalPrice,
+      status: OrderStatus.PENDING,
+    });
+
+    return this.orderRepository.save(order);
+  }
 
   async updateOrderStatus(
     orderId: number,
@@ -56,5 +73,22 @@ export class OrderService {
     }
 
     return order;
+  }
+
+  // ✅ Get all orders for a specific user
+  async getUserOrders(userId: number): Promise<Order[]> {
+    return await this.orderRepository.find({
+      where: { user: { id: userId } },
+      relations: ['user', 'orderItems', 'orderItems.product'],
+      order: { id: 'DESC' }, // Sort orders by most recent
+    });
+  }
+
+  // ✅ Get all orders (Admin only)
+  async getAllOrders(): Promise<Order[]> {
+    return await this.orderRepository.find({
+      relations: ['user', 'orderItems', 'orderItems.product'],
+      order: { id: 'DESC' },
+    });
   }
 }
