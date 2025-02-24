@@ -76,12 +76,12 @@ export class ProductService {
   }
 
   public async getAllProducts(
-    postQuery: GetProductsDto,
+    productQuery: GetProductsDto,
   ): Promise<paginated<Product>> {
     const paginatedResult = await this.paginationService.paginationQuery(
       {
-        limit: postQuery.limit,
-        page: postQuery.page,
+        limit: productQuery.limit,
+        page: productQuery.page,
       },
       this.productRepository,
     );
@@ -107,19 +107,6 @@ export class ProductService {
     };
   }
 
-  public async FindAllPosts(
-    postQuery: GetProductsDto,
-  ): Promise<paginated<Product>> {
-    const product = await this.paginationService.paginationQuery(
-      {
-        limit: postQuery.limit,
-        page: postQuery.page,
-      },
-      this.productRepository,
-    );
-    return product;
-  }
-
   public async findOne(id: number) {
     const product = await this.productRepository.findOne({
       where: { id },
@@ -143,8 +130,19 @@ export class ProductService {
     };
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  public async update(id: number, updateProductDto: UpdateProductDto) {
+    // 1. Check if the product exists
+    const product = await this.productRepository.findOne({ where: { id } });
+
+    if (!product) {
+      throw new NotFoundException(`Product with id ${id} not found`);
+    }
+
+    const updatedProduct = Object.assign(product, updateProductDto);
+
+    const {seller, ...result} = updatedProduct;
+    return result
+
   }
 
   public async remove(id: number) {
