@@ -8,7 +8,6 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { ProductCategory } from '../../category/enum/productCategory.enum';
 import { User } from 'src/user/entities/user.entity';
 import { OrderItem } from 'src/order-item/entities/order-item.entity';
 import { Category } from 'src/category/entities/category.entity';
@@ -73,13 +72,25 @@ export class Product {
 
   @ManyToOne(() => Category, { eager: true })
   @JoinColumn()
-  category: ProductCategory;
+  category: number;
+  
+  @ManyToOne(
+    () => User,
+    (user) => user.products,
+    {
+      eager: true,
+      onDelete: 'CASCADE'
+    },
+  )
+  seller: number;
 
-  @ManyToOne(() => User, (user) => user.products, {
-    eager: true,
-    onDelete: 'CASCADE',
-  })
-  seller: User;
+  // @OneToMany(
+  //   () => Review,
+  //   (review) => review.product,
+  //   { eager: true },
+  // )
+  // reviews: Review[];
+
 
   // @ManyToMany(
   //   () => Tag,

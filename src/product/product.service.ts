@@ -1,125 +1,3 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
-// /* eslint-disable @typescript-eslint/no-unused-vars */
-// import { Injectable, NotFoundException } from '@nestjs/common';
-// import { CreateProductDto } from './dto/create-product.dto';
-// import { UpdateProductDto } from './dto/update-product.dto';
-// import { InjectRepository } from '@nestjs/typeorm';
-// import { Product } from './entities/product.entity';
-// import { Repository } from 'typeorm';
-// import { PaginationProvider } from 'src/common/pagination/provider/pagination.service';
-// import { paginated } from 'src/common/pagination/interfaces/pagination.interfaces';
-// import { GetProductsDto } from './dto/get-products.dto';
-// import { CategoryService } from 'src/category/category.service';
-// import { UserService } from 'src/user/user.service';
-// import slugify from 'slugify';
-// import { customAlphabet } from 'nanoid';
-
-// @Injectable()
-// export class ProductService {
-//   constructor(
-//     @InjectRepository(Product)
-//     private readonly productRepository: Repository<Product>,
-//     private readonly paginationService: PaginationProvider,
-//     private readonly categoryService: CategoryService,
-//     private readonly userService: UserService,
-//   ) {}
-
-//   public async create(createProductDto: CreateProductDto) {
-//     // 1. check if category exist, then get the category reference, else throw an error
-//     const category = await this.categoryService.findOne(
-//       createProductDto.category,
-//     );
-
-//     if (category) {
-//       createProductDto.category = category.name;
-//     } else {
-//       throw new NotFoundException(
-//         `category with name ${createProductDto.category} not found.`,
-//       );
-//     }
-
-//     // todo - halting this until user module is implemented
-//     // 2. check if the sellerId exist, then get the seller reference, else throw an error
-//     // const seller = await this.userService.findOne(createProductDto.sellerId);
-
-//     // if (seller) {
-//     //   createProductDto.sellerId = seller.id;
-//     // } else {
-//     //   throw new NotFoundException(`seller with id ${createProductDto.sellerId} not found.`);
-//     // }
-
-//     // 3. slugify the title
-//     const slugTitle = slugify(createProductDto.title, {
-//       replacement: '-',
-//       lower: true,
-//       remove: /[*+~.()'"!:@]/g,
-//       strict: true,
-//     });
-
-//     // 4. generate a unique productUrl
-//     const nanoid = customAlphabet('1234567890', 10);
-//     let productUrl;
-//     let isUnique = false;
-
-//     while (!isUnique) {
-//       const generatedId = nanoid();
-//       productUrl = `${slugTitle}-${generatedId}`;
-//       const existingProductWithUrl = await this.productRepository.findOne({
-//         where: { productUrl },
-//       });
-//       if (!existingProductWithUrl) {
-//         isUnique = true;
-//       }
-//     }
-
-//     // 5. create the product
-//     const newProduct = this.productRepository.create({
-//       ...createProductDto,
-//       category: category.name,
-//       // sellerId: user.id,
-//       productUrl,
-//     });
-//     return this.productRepository.save(newProduct);
-//   }
-
-//   public async getAllProducts(
-//     postQuery: GetProductsDto,
-//   ): Promise<paginated<Product>> {
-//     const product = await this.paginationService.paginationQuery(
-//       {
-//         limit: postQuery.limit,
-//         page: postQuery.page,
-//       },
-//       this.productRepository,
-//     );
-//     return product;
-//   }
-//   public async FindAllPosts(
-//     postQuery: GetProductsDto,
-//   ): Promise<paginated<Product>> {
-//     const product = await this.paginationService.paginationQuery(
-//       {
-//         limit: postQuery.limit,
-//         page: postQuery.page,
-//       },
-//       this.productRepository,
-//     );
-//     return product;
-//   }
-
-//   findOne(id: number) {
-//     return `This action returns a #${id} product`;
-//   }
-
-//   update(id: number, updateProductDto: UpdateProductDto) {
-//     return `This action updates a #${id} product`;
-//   }
-
-//   remove(id: number) {
-//     return `This action removes a #${id} product`;
-//   }
-// }
-
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -153,16 +31,26 @@ export class ProductService {
     const category = await this.categoryService.findOne(
       createProductDto.category,
     );
+    // 1. check if category exist, then get the category reference, else throw an error
+    const category = await this.categoryService.findOneById(createProductDto.category);
 
-    if (!category) {
-      throw new NotFoundException(
-        `Category with name ${createProductDto.category} not found.`,
-      );
+    if (category) {
+      createProductDto.category = category.id.toString();
+    } else {
+      throw new NotFoundException(`category with name ${createProductDto.category} not found.`);
     }
 
-    createProductDto.category = category.name;
+    // 2. check if the sellerId exist, then get the seller reference, else throw an error
+    const seller = await this.userService.findOneById(createProductDto.sellerId);
 
-    const slugTitle = slugify.default(createProductDto.title, {
+    if (seller) {
+      createProductDto.sellerId = seller.id.toString();
+    } else {
+      throw new NotFoundException(`seller with id ${createProductDto.sellerId} not found.`);
+    }
+
+    // 3. slugify the title
+    const slugTitle = slugify(createProductDto.title, {
       replacement: '-',
       lower: true,
       remove: /[*+~.()'"!:@]/g,
@@ -171,8 +59,7 @@ export class ProductService {
 
     const { customAlphabet } = await import('nanoid');
     const nanoid = customAlphabet('1234567890', 10);
-
-    let productUrl;
+    let productUrl: string;
     let isUnique = false;
 
     while (!isUnique) {
@@ -189,7 +76,8 @@ export class ProductService {
 
     const newProduct = this.productRepository.create({
       ...createProductDto,
-      category: category.name,
+      category: category.id,
+      seller: seller.id,
       productUrl,
     });
 
@@ -197,38 +85,92 @@ export class ProductService {
   }
 
   public async getAllProducts(
-    postQuery: GetProductsDto,
+    productQuery: GetProductsDto,
   ): Promise<paginated<Product>> {
-    return this.paginationService.paginationQuery(
+    const paginatedResult = await this.paginationService.paginationQuery(
       {
-        limit: postQuery.limit,
-        page: postQuery.page,
+        limit: productQuery.limit,
+        page: productQuery.page,
       },
       this.productRepository,
     );
+    // Exclude sensitive data from the seller in each product
+    const productsWithoutSensitiveSellerData = paginatedResult.data.map(product => {
+      const { seller, ...productDetails } = product;
+      let sellerWithoutSensitiveInfo;
+      if (typeof seller === 'object' && seller !== null) {
+        const { password, googleId, role, ...rest } = seller as Record<string, any>;
+        sellerWithoutSensitiveInfo = rest;
+      }
+
+      return {
+        ...productDetails,
+        seller: sellerWithoutSensitiveInfo,
+      };
+    });
+
+    return {
+      ...paginatedResult,
+      data: productsWithoutSensitiveSellerData,
+    };
   }
 
-  public async FindAllPosts(
-    postQuery: GetProductsDto,
-  ): Promise<paginated<Product>> {
-    return this.paginationService.paginationQuery(
-      {
-        limit: postQuery.limit,
-        page: postQuery.page,
-      },
-      this.productRepository,
-    );
+  public async findOne(id: number) {
+    const product = await this.productRepository.findOne({
+      where: { id },
+      relations: ['category', 'seller'],    // also reviews
+    });
+
+    if (!product) {
+      throw new NotFoundException(`Product with id ${id} not found`);
+    }
+
+    const { seller, ...productDetails } = product;
+    let sellerWithoutSensitiveInfo;
+    if (typeof seller === 'object' && seller !== null) {
+      const { password, googleId, role, ...rest } = seller as Record<string, any>;
+      sellerWithoutSensitiveInfo = rest;
+    }
+
+    return {
+      ...productDetails,
+      seller: sellerWithoutSensitiveInfo,
+    };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  public async update(id: number, updateProductDto: UpdateProductDto) {
+    // 1. Check if the product exists
+    const product = await this.productRepository.findOne({ where: { id } });
+
+    if (!product) {
+      throw new NotFoundException(`Product with id ${id} not found`);
+    }
+
+    const updatedProduct = Object.assign(product, updateProductDto);
+
+    const {seller, ...result} = updatedProduct;
+    return result
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
-  }
+  public async remove(id: number) {
+    // 1. check if product exists
+    const product = await this.productRepository.findOne({
+      where: { id },
+    });
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+    if (!product) {
+      throw new NotFoundException(`Product with id ${id} not found`);
+    }
+
+    // 2. Check if the product has orders
+    // if (product.orders && product.orders.length > 0) {
+    //   throw new BadRequestException(`Product with id ${id} has orders and cannot be deleted`);
+    // }
+
+    // 3. Delete the product
+    await this.productRepository.remove(product);
+
+    // 5. Return success message
+    return { message: `Product with id ${id} has been successfully deleted` };
   }
 }
