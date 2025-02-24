@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from 'typeorm';
 import { ProductCategory } from '../enum/productCategory.enum';
 import { Product } from 'src/product/entities/product.entity';
 
@@ -15,25 +22,18 @@ export class Category {
   })
   name: ProductCategory;
 
-  @CreateDateColumn(
-    {
-      type: 'timestamptz',
-      default: () => 'CURRENT_TIMESTAMP',
-    },
-  )
+  @CreateDateColumn({
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createdAt: Date;
 
-  @UpdateDateColumn(
-    {
-      type: 'timestamptz',
-      default: () => 'CURRENT_TIMESTAMP',
-    },
-  )
+  @UpdateDateColumn({
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   updatedAt: Date;
 
-  @OneToMany(
-    () => Product,
-    product => product.category,
-  )
+  @OneToMany(() => Product, (product) => product.category)
   products: Product[];
 }

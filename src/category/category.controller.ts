@@ -16,7 +16,7 @@ import { UserRole } from 'src/user/enum/userRole.enum';
 
 @Controller('category')
 export class CategoryController {
-  constructor(private readonly categoryService: CategoryService) { }
+  constructor(private readonly categoryService: CategoryService) {}
 
   @Roles(UserRole.SUPERADMIN)
   @Post()

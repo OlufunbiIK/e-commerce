@@ -10,7 +10,7 @@ import { PaginationModule } from 'src/common/pagination/pagination.module';
 @Module({
   imports: [PaginationModule, TypeOrmModule.forFeature([User])],    //needs modules - products, orders, categories,
   controllers: [UserController],
-  exports: [UserService, FindOneByEmailProvider, TypeOrmModule],
   providers: [UserService, PaginationProvider, FindOneByEmailProvider],
+  exports: [UserService, TypeOrmModule, FindOneByEmailProvider],
 })
 export class UserModule {}

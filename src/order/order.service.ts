@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {
   Injectable,
   NotFoundException,
@@ -16,9 +15,30 @@ export class OrderService {
   constructor(
     @InjectRepository(Order)
     private readonly orderRepository: Repository<Order>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
+  async createOrder(userId: number, totalPrice: number) {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
 
-  async updateOrderStatus(orderId: number, status: OrderStatus, adminUser: User): Promise<Order> {
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const order = this.orderRepository.create({
+      user, // Use the actual user entity
+      totalPrice,
+      status: OrderStatus.PENDING,
+    });
+
+    return this.orderRepository.save(order);
+  }
+
+  async updateOrderStatus(
+    orderId: number,
+    status: OrderStatus,
+    adminUser: User,
+  ): Promise<Order> {
     if (adminUser.role !== UserRole.ADMIN) {
       throw new ForbiddenException('Only admins can update order statuses.');
     }
@@ -47,7 +67,9 @@ export class OrderService {
     }
 
     if (user.role !== UserRole.ADMIN && order.user.id !== user.id) {
-      throw new ForbiddenException('You are not authorized to view this order.');
+      throw new ForbiddenException(
+        'You are not authorized to view this order.',
+      );
     }
 
     return order;

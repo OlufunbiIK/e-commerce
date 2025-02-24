@@ -12,11 +12,11 @@ export class CreateProductDto {
   @IsString()
   @IsNotEmpty()
   title: string;
-  
+
   @IsString()
   @IsNotEmpty()
   description: string;
-  
+
   @IsNumber()
   @IsPositive()
   @IsNotEmpty()
@@ -25,12 +25,10 @@ export class CreateProductDto {
   @IsString()
   @IsNotEmpty()
   category: string;
-  
   @IsInt()
   @Min(1)
   @IsNotEmpty()
   stock: number;
-  
   @IsString()
   @IsNotEmpty()
   sellerId: string;

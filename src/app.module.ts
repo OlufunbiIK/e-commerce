@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -11,13 +10,12 @@ import { OrderItemModule } from './order-item/order-item.module';
 import { CartModule } from './cart/cart.module';
 import { CategoryModule } from './category/category.module';
 import database from './config/database.config';
-import { User } from './user/entities/user.entity';
-import { Product } from './product/entities/product.entity';
-import { Order } from './order/entities/order.entity';
-import { OrderItem } from './order-item/entities/order-item.entity';
 import { MailModule } from './mail/mail.module';
 import { PaginationModule } from './common/pagination/pagination.module';
 import { AuthModule } from './auth/auth.module';
+import { ReviewModule } from './review/review.module';
+import { PaystackModule } from './paystack/paystack-module.module';
+// import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
   imports: [
@@ -55,6 +53,9 @@ import { AuthModule } from './auth/auth.module';
     MailModule,
     PaginationModule,
     AuthModule,
+    ReviewModule,
+    PaystackModule,
+    // TransactionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

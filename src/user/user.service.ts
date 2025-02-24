@@ -49,7 +49,7 @@ export class UserService {
     // 7. save the user
     return await this.userRepository.save(newUser);
   }
-
+  
   public async findAllAdmins() {
     const admins = await this.userRepository.find({
       where: { role: UserRole.ADMIN },

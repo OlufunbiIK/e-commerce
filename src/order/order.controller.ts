@@ -1,4 +1,15 @@
-import { Controller, Put, Get, Param, Body, UseGuards, Request, NotFoundException, ForbiddenException } from '@nestjs/common';
+import {
+  Controller,
+  Put,
+  Get,
+  Param,
+  Body,
+  UseGuards,
+  Request,
+  NotFoundException,
+  ForbiddenException,
+  Post,
+} from '@nestjs/common';
 import { OrderService } from './order.service';
 import { OrderStatus } from './enum/orderStatus.enum';
 import { RolesGuard } from 'src/auth/roles.guard';
@@ -8,15 +19,20 @@ import { UserRole } from 'src/user/enum/userRole.enum';
 
 @Controller('orders')
 export class OrderController {
-  constructor(private readonly orderService: OrderService) { }
+  constructor(private readonly orderService: OrderService) {}
 
+  //POST http://localhost:3000/orders/create
+  @Post('create')
+  async createOrder(@Body() body) {
+    return this.orderService.createOrder(body.userId, body.totalPrice);
+  }
   @Put(':id/status')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN) // Ensure only admins can update order status
   async updateOrderStatus(
     @Param('id') orderId: number,
     @Body('status') status: OrderStatus,
-    @Request() req
+    @Request() req,
   ) {
     return this.orderService.updateOrderStatus(orderId, status, req.user);
   }
@@ -36,7 +52,9 @@ export class OrderController {
   @UseGuards(JwtAuthGuard)
   async getUserOrders(@Param('userId') userId: number, @Request() req) {
     if (req.user.id !== userId && req.user.role !== UserRole.ADMIN) {
-      throw new ForbiddenException('You are not authorized to view these orders.');
+      throw new ForbiddenException(
+        'You are not authorized to view these orders.',
+      );
     }
     return this.orderService.getUserOrders(userId);
   }

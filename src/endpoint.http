@@ -38,3 +38,19 @@ GET http://localhost:3000/products
 
 GET  http://localhost:3000/posts?id=15
 
+
+POST http://localhost:3000/paystack/initialize
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiY2hsb2ViZGF4cmxleUBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MDQwMzc1MCwiZXhwIjoxNzQwNDA3MzUwfQ.gLjsX0axNc0yIRl6WYvIbwDwn3ghTC-RphbEb_pQgBo
+Content-Type: application/json
+
+{
+  "email": "chloebdaxrley@example.com",
+  "amount": 7000
+}
+
+POST http://localhost:3000/paystack/verify/2belnolr9r
+Content-Type: application/json
+
+
+
+

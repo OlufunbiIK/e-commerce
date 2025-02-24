@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -10,7 +10,11 @@ import { paginated } from 'src/common/pagination/interfaces/pagination.interface
 import { GetProductsDto } from './dto/get-products.dto';
 import { CategoryService } from 'src/category/category.service';
 import { UserService } from 'src/user/user.service';
-import slugify from 'slugify';
+
+// ✅ Fix: Correct import for nanoid
+import * as slugify from 'slugify';
+const slugifyFn = slugify.default || slugify;
+
 import { customAlphabet } from 'nanoid';
 
 @Injectable()
@@ -21,10 +25,12 @@ export class ProductService {
     private readonly paginationService: PaginationProvider,
     private readonly categoryService: CategoryService,
     private readonly userService: UserService,
-  ) { }
+  ) {}
 
   public async create(createProductDto: CreateProductDto) {
-
+    const category = await this.categoryService.findOne(
+      createProductDto.category,
+    );
     // 1. check if category exist, then get the category reference, else throw an error
     const category = await this.categoryService.findOneById(createProductDto.category);
 
@@ -51,7 +57,7 @@ export class ProductService {
       strict: true,
     });
 
-    // 4. generate a unique productUrl
+    const { customAlphabet } = await import('nanoid');
     const nanoid = customAlphabet('1234567890', 10);
     let productUrl: string;
     let isUnique = false;
@@ -59,19 +65,22 @@ export class ProductService {
     while (!isUnique) {
       const generatedId = nanoid();
       productUrl = `${slugTitle}-${generatedId}`;
-      const existingProductWithUrl = await this.productRepository.findOne({ where: { productUrl } });
+      const existingProductWithUrl = await this.productRepository.findOne({
+        where: { productUrl },
+      });
+
       if (!existingProductWithUrl) {
         isUnique = true;
       }
     }
 
-    // 5. create the product
     const newProduct = this.productRepository.create({
       ...createProductDto,
       category: category.id,
       seller: seller.id,
       productUrl,
     });
+
     return this.productRepository.save(newProduct);
   }
 
@@ -85,7 +94,6 @@ export class ProductService {
       },
       this.productRepository,
     );
-
     // Exclude sensitive data from the seller in each product
     const productsWithoutSensitiveSellerData = paginatedResult.data.map(product => {
       const { seller, ...productDetails } = product;

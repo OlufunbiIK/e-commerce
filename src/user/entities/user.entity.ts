@@ -2,6 +2,8 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, Up
 import { Product } from '../../product/entities/product.entity';
 import { Order } from '../../order/entities/order.entity';
 import { UserRole } from '../enum/userRole.enum';
+import { Review } from 'src/review/entities/review.entity';
+import { Cart } from 'src/cart/entities/cart.entity';
 
 @Entity()
 export class User {
@@ -60,6 +62,14 @@ export class User {
   @OneToMany(() => Product, (product) => product.seller)
   products: Product[];
 
+  //step 1 for adding and removing items from cart
+  @OneToMany(() => Cart, (cart) => cart.user)
+  carts: Cart[];
+
+  //step 2, orders can be placed by users in the cart
   @OneToMany(() => Order, (order) => order.user)
   orders: Order[];
+
+  @OneToMany(() => Review, (review) => review.user)
+  reviews: Review[];
 }

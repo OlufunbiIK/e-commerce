@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Test, TestingModule } from '@nestjs/testing';
 import { OrderService } from './order.service';
 import { Repository } from 'typeorm';
@@ -32,9 +33,16 @@ describe('OrderService', () => {
   it('should update order status if admin', async () => {
     const order = { id: 1, status: OrderStatus.PENDING, user: { id: 1 } };
     mockOrderRepository.findOne.mockResolvedValue(order);
-    mockOrderRepository.save.mockResolvedValue({ ...order, status: OrderStatus.SHIPPED });
+    mockOrderRepository.save.mockResolvedValue({
+      ...order,
+      status: OrderStatus.SHIPPED,
+    });
 
-    const updatedOrder = await service.updateOrderStatus(1, OrderStatus.SHIPPED, { role: UserRole.CUSTOMER });
+    const updatedOrder = await service.updateOrderStatus(
+      1,
+      OrderStatus.SHIPPED,
+      { role: UserRole.ADMIN },
+    );
 
     expect(updatedOrder.status).toBe(OrderStatus.SHIPPED);
   });

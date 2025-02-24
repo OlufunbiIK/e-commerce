@@ -10,6 +10,9 @@ import {
 } from 'class-validator';
 import { ProductCategory } from 'src/category/enum/productCategory.enum';
 import { UserRole } from '../enum/userRole.enum';
+import { Cart } from 'src/cart/entities/cart.entity';
+import { OneToMany } from 'typeorm';
+import { User } from '../entities/user.entity';
 
 export class CreateUserDto {
   @IsString()
@@ -59,4 +62,7 @@ export class CreateUserDto {
   @IsOptional()
   @IsString()
   phoneNumber?: string;
+
+  @OneToMany(() => Cart, (cart) => cart.user)
+  cart: Cart;
 }

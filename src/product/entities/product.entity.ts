@@ -7,11 +7,12 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
-  ManyToMany,
 } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { OrderItem } from 'src/order-item/entities/order-item.entity';
 import { Category } from 'src/category/entities/category.entity';
+import { Review } from 'src/review/entities/review.entity';
+import { CartItem } from 'src/cart-items/entities/cart-items.entity';
 
 @Entity()
 export class Product {
@@ -21,6 +22,7 @@ export class Product {
   @Column({
     type: 'varchar',
     nullable: false,
+    default: 'Untitled Product',
     length: 150,
   })
   title: string;
@@ -46,20 +48,16 @@ export class Product {
   })
   productUrl?: string;
 
-  @CreateDateColumn(
-    {
-      type: 'timestamptz',
-      default: () => 'CURRENT_TIMESTAMP',
-    },
-  )
+  @CreateDateColumn({
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createdAt: Date;
 
-  @UpdateDateColumn(
-    {
-      type: 'timestamptz',
-      default: () => 'CURRENT_TIMESTAMP',
-    },
-  )
+  @UpdateDateColumn({
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   updatedAt: Date;
 
   // relations
@@ -70,15 +68,12 @@ export class Product {
   // 5. orderItems
   // 6. maybe cart ???
 
-  // eager - category, seller, reviews, 
+  // eager - category, seller, reviews,
 
-  @ManyToOne(
-    () => Category,
-    { eager: true },
-  )
+  @ManyToOne(() => Category, { eager: true })
   @JoinColumn()
   category: number;
-
+  
   @ManyToOne(
     () => User,
     (user) => user.products,
@@ -96,6 +91,7 @@ export class Product {
   // )
   // reviews: Review[];
 
+
   // @ManyToMany(
   //   () => Tag,
   //   (tag) => tag.stories,
@@ -106,4 +102,10 @@ export class Product {
   // fixme - don't need this here. in orderItem it should point to product id
   @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
   orderItems: OrderItem[];
+
+  @OneToMany(() => Review, (review) => review.product)
+  reviews: Review[];
+
+  @OneToMany(() => CartItem, (cartItem) => cartItem.product, { eager: true })
+  cartItems: CartItem[];
 }

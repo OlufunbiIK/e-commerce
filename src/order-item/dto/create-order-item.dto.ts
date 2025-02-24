@@ -1,4 +1,10 @@
-import { IsEnum, IsInt, IsOptional, IsPositive } from 'class-validator';
+import {
+  IsDecimal,
+  IsEnum,
+  IsInt,
+  IsOptional,
+  IsPositive,
+} from 'class-validator';
 import { OrderItemStatus } from '../enum/orderItemStatus.enum';
 
 export class CreateOrderItemDto {
@@ -19,4 +25,8 @@ export class CreateOrderItemDto {
     message: 'Status must be in_stock, out_of_stock, or backordered',
   })
   status?: OrderItemStatus;
+
+  @IsDecimal()
+  @IsPositive()
+  price: number;
 }

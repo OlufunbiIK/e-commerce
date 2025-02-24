@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Order } from '../../order/entities/order.entity';
 import { Product } from '../../product/entities/product.entity';
@@ -26,4 +25,7 @@ export class OrderItem {
     default: OrderItemStatus.IN_STOCK,
   })
   status: OrderItemStatus;
+
+  @Column()
+  price: number;
 }

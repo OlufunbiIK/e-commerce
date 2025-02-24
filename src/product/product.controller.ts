@@ -22,7 +22,7 @@ import { OwnershipGuard } from 'src/auth/guards/ownership.guards';
 
 @Controller('product')
 export class ProductController {
-  constructor(private readonly productService: ProductService) { }
+  constructor(private readonly productService: ProductService) {}
 
   @Roles(UserRole.SELLER)
   @Post()
