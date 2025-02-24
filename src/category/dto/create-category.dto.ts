@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { IsEnum, IsNotEmpty } from 'class-validator';
 import { ProductCategory } from '../enum/productCategory.enum';
 

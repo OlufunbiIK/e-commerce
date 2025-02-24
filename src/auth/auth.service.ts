@@ -44,6 +44,8 @@ export class AuthService {
 
     await this.userRepository.save(user);
     return { message: 'User registered successfully', user };
+
+    // fixme - @lishmanTech, the user object is returning sensitive information like password, we should not return the password, googleId
   }
 
   // // ✅ User Login

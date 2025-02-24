@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
@@ -32,19 +31,19 @@ export class CategoryController {
   }
 
   @Public()
-  @Get(':category')
-  findOne(@Param('category') category: string) {
-    return this.categoryService.findOneByName(category);
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.categoryService.findOneById(id);
   }
 
-  @Roles(UserRole.SUPERADMIN)
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateCategoryDto: UpdateCategoryDto,
-  ) {
-    return this.categoryService.update(+id, updateCategoryDto);
-  }
+  // @Roles(UserRole.SUPERADMIN)
+  // @Patch(':id')
+  // update(
+  //   @Param('id') id: string,
+  //   @Body() updateCategoryDto: UpdateCategoryDto,
+  // ) {
+  //   return this.categoryService.update(+id, updateCategoryDto);
+  // }
 
   @Roles(UserRole.SUPERADMIN)
   @Delete(':id')

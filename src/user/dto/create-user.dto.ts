@@ -43,7 +43,7 @@ export class CreateUserDto {
   @IsString()
   googleId?: string;
 
-  // Additional fields for sellers
+  // Additional fields for sellers - might consider creating a store module
   @IsOptional()
   @IsString()
   storeName?: string;

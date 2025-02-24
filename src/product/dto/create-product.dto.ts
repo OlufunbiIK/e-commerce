@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {
   IsString,
   IsNotEmpty,
@@ -10,7 +9,6 @@ import {
 } from 'class-validator';
 
 export class CreateProductDto {
-  
   @IsString()
   @IsNotEmpty()
   title: string;

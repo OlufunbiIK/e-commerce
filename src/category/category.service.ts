@@ -37,34 +37,71 @@ export class CategoryService {
 
     const category = await this.categoryRepository.findOne({
       where: { id: categoryId },
-      relations: ['products', 'products.category'], 
+      relations: ['products', 'products.category'],
     });
 
     if (!category) {
       throw new NotFoundException(`Category with id ${id} not found`);
     }
 
-    return category;
+    // Exclude seller information from products in category response
+    const productsWithoutSeller = category.products.map(product => {
+      const { seller, ...productWithoutSeller } = product;
+      return productWithoutSeller;
+    });
+
+    return { ...category, products: productsWithoutSeller };
   }
 
   public async findOneByName(categoryName: string) {
 
     const category = await this.categoryRepository.findOne({
       where: { name: categoryName as ProductCategory },
-      relations: ['products', 'products.category'], 
+      relations: ['products', 'products.category'],
     });
 
     if (!category) {
       throw new NotFoundException(`Category with name ${categoryName} not found.`);
     }
-    return category;
+
+    // Exclude seller information from products in category response
+    const productsWithoutSeller = category.products.map(product => {
+      const { seller, ...productWithoutSeller } = product;
+      return productWithoutSeller;
+    });
+
+    return { ...category, products: productsWithoutSeller };
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
-  }
+  // update(id: number, updateCategoryDto: UpdateCategoryDto) {
+  //   return `This action updates a #${id} category`;
+  // }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  public async remove(id: number) {
+    // 1. check if category exists
+    const categoryExists = this.categoryRepository.findOne({
+      where: { id },
+    });
+
+    if (!categoryExists) {
+      throw new NotFoundException(`Category with id ${id} not found.`);
+    }
+
+    // 2. check if category has products, if yes, return error message
+    const categoryWithProducts = await this.categoryRepository.findOne({
+      where: { id },
+      relations: ['products'],
+    });
+
+    if (categoryWithProducts.products.length > 0) {
+      throw new BadRequestException(`Category ${id} cannot be deleted as it has products.`);
+    }
+
+    // 3. if no products, delete category
+    await this.categoryRepository.delete({ id });
+
+    // 4. if products, return error message
+    return { message: `Category ${id} has been deleted successfully.` };
+
   }
 }
