@@ -66,4 +66,15 @@ export class OrderController {
   async getAllOrders() {
     return this.orderService.getAllOrders();
   }
+
+  // endpoint that allows sellers to fetch their orders
+  @Get('seller/:sellerId')
+@UseGuards(JwtAuthGuard)
+async getSellerOrders(@Param('sellerId') sellerId: number, @Request() req) {
+  if (req.user.id !== sellerId && req.user.role !== UserRole.ADMIN) {
+    throw new ForbiddenException('You are not authorized to view these orders.');
+  }
+  return this.orderService.getSellerOrders(sellerId);
+}
+
 }
