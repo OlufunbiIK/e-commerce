@@ -31,9 +31,9 @@ export class CategoryController {
   }
 
   @Public()
-  @Get(':category')
-  findOne(@Param('category') category: string) {
-    return this.categoryService.findOneByName(category);
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.categoryService.findOneById(id);
   }
 
   // @Roles(UserRole.SUPERADMIN)
@@ -46,8 +46,8 @@ export class CategoryController {
   // }
 
   @Roles(UserRole.SUPERADMIN)
-  @Delete(':category')
-  remove(@Param('category') category: string) {
-    return this.categoryService.remove(category);
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.categoryService.remove(+id);
   }
 }

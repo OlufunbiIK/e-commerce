@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
@@ -23,8 +22,7 @@ import { UserRole } from 'src/user/enum/userRole.enum';
 export class ProductController {
   constructor(private readonly productService: ProductService) { }
 
-  // @Roles(UserRole.SELLER)     //fixme - uncomment me
-  @Public()     //fixme - remove me
+  @Roles(UserRole.SELLER)
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
     return this.productService.create(createProductDto);

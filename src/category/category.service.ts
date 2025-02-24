@@ -37,13 +37,20 @@ export class CategoryService {
 
     const category = await this.categoryRepository.findOne({
       where: { id: categoryId },
+      relations: ['products', 'products.category'],
     });
 
     if (!category) {
       throw new NotFoundException(`Category with id ${id} not found`);
     }
 
-    return category;
+    // Exclude seller information from products in category response
+    const productsWithoutSeller = category.products.map(product => {
+      const { seller, ...productWithoutSeller } = product;
+      return productWithoutSeller;
+    });
+
+    return { ...category, products: productsWithoutSeller };
   }
 
   public async findOneByName(categoryName: string) {
@@ -70,31 +77,31 @@ export class CategoryService {
   //   return `This action updates a #${id} category`;
   // }
 
-  public async remove(category: string) {
+  public async remove(id: number) {
     // 1. check if category exists
     const categoryExists = this.categoryRepository.findOne({
-      where: { name: category as ProductCategory },
+      where: { id },
     });
 
     if (!categoryExists) {
-      throw new NotFoundException(`Category with name ${category} not found.`);
+      throw new NotFoundException(`Category with id ${id} not found.`);
     }
 
     // 2. check if category has products, if yes, return error message
     const categoryWithProducts = await this.categoryRepository.findOne({
-      where: { name: category as ProductCategory },
+      where: { id },
       relations: ['products'],
     });
 
     if (categoryWithProducts.products.length > 0) {
-      throw new BadRequestException(`Category ${category} cannot be deleted as it has products.`);
+      throw new BadRequestException(`Category ${id} cannot be deleted as it has products.`);
     }
 
     // 3. if no products, delete category
-    await this.categoryRepository.delete({ name: category as ProductCategory });
+    await this.categoryRepository.delete({ id });
 
     // 4. if products, return error message
-    return `Category ${category} has been deleted successfully.`;
+    return { message: `Category ${id} has been deleted successfully.` };
 
   }
 }

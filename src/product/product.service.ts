@@ -78,15 +78,35 @@ export class ProductService {
   public async getAllProducts(
     postQuery: GetProductsDto,
   ): Promise<paginated<Product>> {
-    const product = await this.paginationService.paginationQuery(
+    const paginatedResult = await this.paginationService.paginationQuery(
       {
         limit: postQuery.limit,
         page: postQuery.page,
       },
       this.productRepository,
     );
-    return product;
+
+    // Exclude sensitive data from the seller in each product
+    const productsWithoutSensitiveSellerData = paginatedResult.data.map(product => {
+      const { seller, ...productDetails } = product;
+      let sellerWithoutSensitiveInfo;
+      if (typeof seller === 'object' && seller !== null) {
+        const { password, googleId, role, ...rest } = seller as Record<string, any>;
+        sellerWithoutSensitiveInfo = rest;
+      }
+
+      return {
+        ...productDetails,
+        seller: sellerWithoutSensitiveInfo,
+      };
+    });
+
+    return {
+      ...paginatedResult,
+      data: productsWithoutSensitiveSellerData,
+    };
   }
+
   public async FindAllPosts(
     postQuery: GetProductsDto,
   ): Promise<paginated<Product>> {
@@ -100,15 +120,52 @@ export class ProductService {
     return product;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  public async findOne(id: number) {
+    const product = await this.productRepository.findOne({
+      where: { id },
+      relations: ['category', 'seller'],    // also reviews
+    });
+
+    if (!product) {
+      throw new NotFoundException(`Product with id ${id} not found`);
+    }
+
+    const { seller, ...productDetails } = product;
+    let sellerWithoutSensitiveInfo;
+    if (typeof seller === 'object' && seller !== null) {
+      const { password, googleId, role, ...rest } = seller as Record<string, any>;
+      sellerWithoutSensitiveInfo = rest;
+    }
+
+    return {
+      ...productDetails,
+      seller: sellerWithoutSensitiveInfo,
+    };
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {
     return `This action updates a #${id} product`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  public async remove(id: number) {
+    // 1. check if product exists
+    const product = await this.productRepository.findOne({
+      where: { id },
+    });
+
+    if (!product) {
+      throw new NotFoundException(`Product with id ${id} not found`);
+    }
+
+    // 2. Check if the product has orders
+    // if (product.orders && product.orders.length > 0) {
+    //   throw new BadRequestException(`Product with id ${id} has orders and cannot be deleted`);
+    // }
+
+    // 3. Delete the product
+    await this.productRepository.remove(product);
+
+    // 5. Return success message
+    return { message: `Product with id ${id} has been successfully deleted` };
   }
 }

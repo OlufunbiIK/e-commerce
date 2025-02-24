@@ -24,7 +24,7 @@ export class Product {
     length: 150,
   })
   title: string;
-  
+
   @Column({
     type: 'text',
     nullable: false,
@@ -35,7 +35,7 @@ export class Product {
     type: 'decimal',
   })
   price: number;
-  
+
   @Column()
   stock: number;
 
@@ -88,6 +88,13 @@ export class Product {
     },
   )
   seller: number;
+
+  // @OneToMany(
+  //   () => Review,
+  //   (review) => review.product,
+  //   { eager: true },
+  // )
+  // reviews: Review[];
 
   // @ManyToMany(
   //   () => Tag,
