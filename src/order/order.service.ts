@@ -69,4 +69,16 @@ export class OrderService {
       order: { id: 'DESC' },
     });
   }
+
+  // filter orders based on the seller’s products.
+  async getSellerOrders(sellerId: number): Promise<Order[]> {
+    return await this.orderRepository
+      .createQueryBuilder('order')
+      .leftJoinAndSelect('order.orderItems', 'orderItem')
+      .leftJoinAndSelect('orderItem.product', 'product')
+      .where('product.sellerId = :sellerId', { sellerId })
+      .orderBy('order.createdAt', 'DESC')
+      .getMany();
+  }
+  
 }
