@@ -47,14 +47,13 @@ GET  http://localhost:3000/posts?id=15
 
 
 POST http://localhost:3000/paystack/initialize
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiY2hsb2ViZGF4cmxleUBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MDQ4NzEyNywiZXhwIjoxNzQwNDkwNzI3fQ.0mp0MpIwqRFJ7d7vJh9ksJfyPh0XzfiLjF2hla4ZaFA
-Content-Type: application/json
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiY2hsb2ViZGF4cmxleUBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MDQ5NTg3NywiZXhwIjoxNzQwNDk5NDc3fQ.x_npkBFVDDIPZhFWrj57IMGlnDwqYIVkaTeNFDjkMt0
+Content-Type:application/json;
 {
-  "email": "chloebdaxrley@example.com",
-  "amount": 100
+    "email": "chloebdaxrley@example.com",
+    "amount":1000
 }
 
 
 GET http://localhost:3000/paystack/verify/reference?reference=atjortk5uo
-Authorization: Bearer eeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiY2hsb2ViZGF4cmxleUBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MDQ4NzEyNywiZXhwIjoxNzQwNDkwNzI3fQ.0mp0MpIwqRFJ7d7vJh9ksJfyPh0XzfiLjF2hla4ZaFA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiY2hsb2ViZGF4cmxleUBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MDQ5NTg3NywiZXhwIjoxNzQwNDk5NDc3fQ.x_npkBFVDDIPZhFWrj57IMGlnDwqYIVkaTeNFDjkMt0

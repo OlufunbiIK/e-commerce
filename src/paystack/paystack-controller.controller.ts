@@ -18,7 +18,8 @@ export class PaystackController {
   constructor(private readonly paystackService: PaystackService) {}
 
   @Post('initialize')
-  async initializePayment(@Body() body) {
+  async initializePayment(@Body() body: { email: string; amount: number }) {
+    console.log('Received Request Body:', body); // Debugging log
     return this.paystackService.initializePayment(body.email, body.amount);
   }
   @Get('verify/reference')

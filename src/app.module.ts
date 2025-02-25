@@ -15,6 +15,8 @@ import { PaginationModule } from './common/pagination/pagination.module';
 import { AuthModule } from './auth/auth.module';
 import { ReviewModule } from './review/review.module';
 import { PaystackModule } from './paystack/paystack-module.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { DataResponseInterceptor } from './common/interceptors/data-response/data-response/data-response';
 // import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
@@ -58,6 +60,12 @@ import { PaystackModule } from './paystack/paystack-module.module';
     // TransactionsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: DataResponseInterceptor,
+    },
+  ],
 })
 export class AppModule {}

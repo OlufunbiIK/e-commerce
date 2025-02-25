@@ -110,9 +110,16 @@ export class PaystackService {
     await queryRunner.startTransaction();
 
     try {
+      // Log the incoming request
+      console.log(`Initializing payment for: ${email}, Amount: ${amount}`);
+
+      // Convert amount to kobo
+      const amountInKobo = amount * 100;
+      console.log(`Converted amount: ${amountInKobo} kobo`);
+
       const response = await axios.post(
         'https://api.paystack.co/transaction/initialize',
-        { email, amount },
+        { email, amount: amountInKobo },
         {
           headers: {
             Authorization: `Bearer ${this.PAYSTACK_SECRET}`,
@@ -121,16 +128,20 @@ export class PaystackService {
         },
       );
 
+      console.log('Paystack Response:', response.data);
+
       // Save transaction in database
       const newPayment = queryRunner.manager.create(Payment, {
         reference: response.data.data.reference,
         email,
-        amount,
+        amount: amountInKobo,
         status: 'pending',
       });
       await queryRunner.manager.save(Payment, newPayment);
 
       await queryRunner.commitTransaction();
+      console.log('Transaction saved successfully');
+
       return response.data;
     } catch (error) {
       console.error('Paystack Error:', error.response?.data || error.message);

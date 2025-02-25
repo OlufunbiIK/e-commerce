@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -23,6 +25,7 @@ export class UserController {
 
   // this is for creating admins, customers and sellers are created through the auth controller - register
   @Roles(UserRole.SUPERADMIN)
+  @UseInterceptors(ClassSerializerInterceptor)
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
