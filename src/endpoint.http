@@ -5,13 +5,20 @@ Content-Type: application/json
     "name":"fashion"
 }
 
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+    "name":"fashion"
+}
+
 POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-  "firstName": "Chdloe",
-  "lastName": "Bdarley",
-  "email": "chloebdaxrley@example.com",
+  "firstName": "Ahmed",
+  "lastName": "Mahmud",
+  "email": "ahmedmahMud1@example.com",
   "password": "secdurse@Password123"
 }
 
@@ -40,17 +47,14 @@ GET  http://localhost:3000/posts?id=15
 
 
 POST http://localhost:3000/paystack/initialize
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiY2hsb2ViZGF4cmxleUBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MDQwMzc1MCwiZXhwIjoxNzQwNDA3MzUwfQ.gLjsX0axNc0yIRl6WYvIbwDwn3ghTC-RphbEb_pQgBo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiY2hsb2ViZGF4cmxleUBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MDQ4NzEyNywiZXhwIjoxNzQwNDkwNzI3fQ.0mp0MpIwqRFJ7d7vJh9ksJfyPh0XzfiLjF2hla4ZaFA
 Content-Type: application/json
 
 {
   "email": "chloebdaxrley@example.com",
-  "amount": 7000
+  "amount": 100
 }
 
-POST http://localhost:3000/paystack/verify/2belnolr9r
-Content-Type: application/json
 
-
-
-
+GET http://localhost:3000/paystack/verify/reference?reference=atjortk5uo
+Authorization: Bearer eeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiY2hsb2ViZGF4cmxleUBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MDQ4NzEyNywiZXhwIjoxNzQwNDkwNzI3fQ.0mp0MpIwqRFJ7d7vJh9ksJfyPh0XzfiLjF2hla4ZaFA
