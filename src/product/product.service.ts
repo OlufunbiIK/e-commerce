@@ -10,12 +10,11 @@ import { paginated } from 'src/common/pagination/interfaces/pagination.interface
 import { GetProductsDto } from './dto/get-products.dto';
 import { CategoryService } from 'src/category/category.service';
 import { UserService } from 'src/user/user.service';
-// ✅ Fix: Correct import for nanoid
-// import * as slugify from 'slugify';
-// const slugifyFn = slugify.default || slugify;
+
+// ✅ Correct slugify import
+import { default as slugify } from 'slugify';
 
 import { customAlphabet } from 'nanoid';
-import slugify from 'slugify';
 
 @Injectable()
 export class ProductService {
@@ -28,33 +27,22 @@ export class ProductService {
   ) {}
 
   public async create(createProductDto: CreateProductDto) {
-    // 1. check if category exist, then get the category reference, else throw an error
-    const category = await this.categoryService.findOneById(
-      createProductDto.category,
-    );
+    const category = await this.categoryService.findOneById(createProductDto.category);
 
     if (category) {
       createProductDto.category = category.id.toString();
     } else {
-      throw new NotFoundException(
-        `category with name ${createProductDto.category} not found.`,
-      );
+      throw new NotFoundException(`category with name ${createProductDto.category} not found.`);
     }
 
-    // 2. check if the sellerId exist, then get the seller reference, else throw an error
-    const seller = await this.userService.findOneById(
-      createProductDto.sellerId,
-    );
+    const seller = await this.userService.findOneById(createProductDto.sellerId);
 
     if (seller) {
       createProductDto.sellerId = seller.id.toString();
     } else {
-      throw new NotFoundException(
-        `seller with id ${createProductDto.sellerId} not found.`,
-      );
+      throw new NotFoundException(`seller with id ${createProductDto.sellerId} not found.`);
     }
 
-    // 3. slugify the title
     const slugTitle = slugify(createProductDto.title, {
       replacement: '-',
       lower: true,
@@ -100,24 +88,19 @@ export class ProductService {
       this.productRepository,
     );
     // Exclude sensitive data from the seller in each product
-    const productsWithoutSensitiveSellerData = paginatedResult.data.map(
-      (product) => {
-        const { seller, ...productDetails } = product;
-        let sellerWithoutSensitiveInfo;
-        if (typeof seller === 'object' && seller !== null) {
-          const { password, googleId, role, ...rest } = seller as Record<
-            string,
-            any
-          >;
-          sellerWithoutSensitiveInfo = rest;
-        }
+    const productsWithoutSensitiveSellerData = paginatedResult.data.map(product => {
+      const { seller, ...productDetails } = product;
+      let sellerWithoutSensitiveInfo;
+      if (typeof seller === 'object' && seller !== null) {
+        const { password, googleId, role, ...rest } = seller as Record<string, any>;
+        sellerWithoutSensitiveInfo = rest;
+      }
 
-        return {
-          ...productDetails,
-          seller: sellerWithoutSensitiveInfo,
-        };
-      },
-    );
+      return {
+        ...productDetails,
+        seller: sellerWithoutSensitiveInfo,
+      };
+    });
 
     return {
       ...paginatedResult,
@@ -128,7 +111,7 @@ export class ProductService {
   public async findOne(id: number) {
     const product = await this.productRepository.findOne({
       where: { id },
-      relations: ['category', 'seller'], // also reviews
+      relations: ['category', 'seller'],    // also reviews
     });
 
     if (!product) {
@@ -138,10 +121,7 @@ export class ProductService {
     const { seller, ...productDetails } = product;
     let sellerWithoutSensitiveInfo;
     if (typeof seller === 'object' && seller !== null) {
-      const { password, googleId, role, ...rest } = seller as Record<
-        string,
-        any
-      >;
+      const { password, googleId, role, ...rest } = seller as Record<string, any>;
       sellerWithoutSensitiveInfo = rest;
     }
 
@@ -161,8 +141,8 @@ export class ProductService {
 
     const updatedProduct = Object.assign(product, updateProductDto);
 
-    const { seller, ...result } = updatedProduct;
-    return result;
+    const {seller, ...result} = updatedProduct;
+    return result
   }
 
   public async remove(id: number) {
