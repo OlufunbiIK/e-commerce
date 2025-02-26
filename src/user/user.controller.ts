@@ -6,17 +6,12 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
-  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { UserRole } from './enum/userRole.enum';
-import { GetUsersDto } from './dto/get-users-dto.dto';
 import { FindOneByEmailProvider } from './providers/findOneByEmail.provider';
 
 @Controller('user')
@@ -24,7 +19,7 @@ export class UserController {
   constructor(
     private readonly userService: UserService,
     private readonly findOneByEmailProvider: FindOneByEmailProvider,
-  ) { }
+  ) {}
 
   // this is for creating admins, customers and sellers are created through the auth controller - register
   @Roles(UserRole.SUPERADMIN)
@@ -39,7 +34,7 @@ export class UserController {
     return this.userService.findAllAdmins();
   }
 
-  @Roles(UserRole.SUPERADMIN)   // can be omitted if sellers can be seen by customers, and add the Public decorator
+  @Roles(UserRole.SUPERADMIN) // can be omitted if sellers can be seen by customers, and add the Public decorator
   @Get('sellers')
   findAllSellers() {
     return this.userService.findAllSellers();
@@ -84,5 +79,4 @@ export class UserController {
   //   // @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number, // @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number, // @Param() getPostParamDto: GetPostParamDto,
   //   return this.userService.FindAllPosts(getProductsDto);
   // }
-
 }
