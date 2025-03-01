@@ -6,7 +6,9 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Order } from './entities/order.entity';
 import { OrderStatus } from './enum/orderStatus.enum';
 import { NotFoundException, ForbiddenException } from '@nestjs/common';
-import { UserRole } from 'src/user/enum/userRole.enum';
+import { UserRole } from '../user/enum/userRole.enum';
+import { User } from '../user/entities/user.entity';
+import { UserService } from '../user/user.service';
 
 const mockOrderRepository = {
   findOne: jest.fn(),
@@ -20,10 +22,9 @@ describe('OrderService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         OrderService,
-        {
-          provide: getRepositoryToken(Order),
-          useValue: mockOrderRepository,
-        },
+        { provide: getRepositoryToken(Order), useValue: mockOrderRepository },
+        { provide: getRepositoryToken(User), useValue: {} },
+        { provide: UserService, useValue: { findOneById: jest.fn() } }
       ],
     }).compile();
 
@@ -38,10 +39,26 @@ describe('OrderService', () => {
       status: OrderStatus.SHIPPED,
     });
 
-    const updatedOrder = await service.updateOrderStatus(
+    const mockUser: User = {
+      id: 1,
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john@example.com',
+      password: 'password',
+      role: UserRole.ADMIN,
+      isVerified: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      products: [],
+      carts: [],
+      orders: [],
+      reviews: []
+    };
+
+       const updatedOrder = await service.updateOrderStatus(
       1,
       OrderStatus.SHIPPED,
-      { role: UserRole.ADMIN },
+      mockUser, // Pass full user object instead of { role }
     );
 
     expect(updatedOrder.status).toBe(OrderStatus.SHIPPED);

@@ -47,13 +47,54 @@ GET  http://localhost:3000/posts?id=15
 
 
 POST http://localhost:3000/paystack/initialize
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiY2hsb2ViZGF4cmxleUBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MDQ5NTg3NywiZXhwIjoxNzQwNDk5NDc3fQ.x_npkBFVDDIPZhFWrj57IMGlnDwqYIVkaTeNFDjkMt0
-Content-Type:application/json;
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiY2hsb2ViZGF4cmxleUBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MDYxMzQwMywiZXhwIjoxNzQwNjE3MDAzfQ.uuGJubI4KX2gpjOgBJksPNljpkdvpwKvwr4cEfhqtXc
+Content-Type:application/json
+
 {
-    "email": "chloebdaxrley@example.com",
-    "amount":1000
+    "email": "chloebdaxrley@gmail.com",
+    "amount": 100
 }
 
 
-GET http://localhost:3000/paystack/verify/reference?reference=atjortk5uo
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiY2hsb2ViZGF4cmxleUBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MDQ5NTg3NywiZXhwIjoxNzQwNDk5NDc3fQ.x_npkBFVDDIPZhFWrj57IMGlnDwqYIVkaTeNFDjkMt0
+GET http://localhost:3000/paystack/verify/reference?reference=l0vykrlfgl
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiY2hsb2ViZGF4cmxleUBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MDYxMzQwMywiZXhwIjoxNzQwNjE3MDAzfQ.uuGJubI4KX2gpjOgBJksPNljpkdvpwKvwr4cEfhqtXc
+
+
+POST http://localhost:3000/paystack/cancel
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiY2hsb2ViZGF4cmxleUBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MDYxMzQwMywiZXhwIjoxNzQwNjE3MDAzfQ.uuGJubI4KX2gpjOgBJksPNljpkdvpwKvwr4cEfhqtXc
+
+
+{
+  "reference": "w54clhpzwj"
+}
+
+
+POST http://localhost:3000/paystack/refund
+Content-Type: application/json
+Authorization: Bearer eeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiY2hsb2ViZGF4cmxleUBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MDYxNzQyOSwiZXhwIjoxNzQwNjIxMDI5fQ.rumWo2y0FN5nXSpANBaRCmg_B692JCk8Xzk3x_kgplQ
+
+{
+  "transactionId": "250225140200421175313304"
+}
+
+
+POST http://localhost:3000/paystack/webhook
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiY2hsb2ViZGF4cmxleUBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MDYxMzQwMywiZXhwIjoxNzQwNjE3MDAzfQ.uuGJubI4KX2gpjOgBJksPNljpkdvpwKvwr4cEfhqtXc
+Paystack-Signature: WEBHOOK_SIGNATURE
+
+{
+  "event": "charge.success",
+  "data": {
+    "reference": "1234567890",
+    "status": "success",
+    "amount": 5000,
+    "customer": {
+      "email": "user@example.com"
+    }
+  }
+}
+
+GET http://localhost:3000/paystack/transactions
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiY2hsb2ViZGF4cmxleUBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MDYxMzQwMywiZXhwIjoxNzQwNjE3MDAzfQ.uuGJubI4KX2gpjOgBJksPNljpkdvpwKvwr4cEfhqtXc

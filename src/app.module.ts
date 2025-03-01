@@ -17,6 +17,7 @@ import { ReviewModule } from './review/review.module';
 import { PaystackModule } from './paystack/paystack-module.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { DataResponseInterceptor } from './common/interceptors/data-response/data-response/data-response';
+import { ReceiptModule } from './reciept/reciept.module';
 // import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
@@ -57,6 +58,7 @@ import { DataResponseInterceptor } from './common/interceptors/data-response/dat
     AuthModule,
     ReviewModule,
     PaystackModule,
+    ReceiptModule,
     // TransactionsModule,
   ],
   controllers: [AppController],

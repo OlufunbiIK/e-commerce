@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-require-imports */
 // import { Injectable } from '@nestjs/common';
 // import { ConfigService } from '@nestjs/config';
@@ -33,6 +32,7 @@
 //       throw new Error(error.response.data.message);
 //     }
 //   }
+
 //   async verifyPayment(reference: string) {
 //     const url = `https://api.paystack.co/transaction/verify/${reference}`;
 
@@ -72,15 +72,14 @@
 //     }
 //   }
 
-//   //use in react
-//   //   const verifyPayment = async (reference) => {
-//   //     const response = await fetch(`http://localhost:3000/paystack/verify?reference=${reference}`, {
-//   //       method: "POST",
-//   //     });
-//   //     const data = await response.json();
-//   //     console.log("Payment Verification:", data);
-//   //   };
-// }
+//use in react
+//   const verifyPayment = async (reference) => {
+//     const response = await fetch(`http://localhost:3000/paystack/verify?reference=${reference}`, {
+//       method: "POST",
+//     });
+//     const data = await response.json();
+//     console.log("Payment Verification:", data);
+//   };
 
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -88,7 +87,7 @@ import axios from 'axios';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { Payment } from './entities/payment.entity';
-import * as crypto from 'crypto'; // At the top of the file
+import { ReceiptService } from 'src/reciept/reciept.service';
 
 @Injectable()
 export class PaystackService {
@@ -99,6 +98,7 @@ export class PaystackService {
     private dataSource: DataSource,
     @InjectRepository(Payment)
     private paymentRepository: Repository<Payment>,
+    private readonly receiptService: ReceiptService,
   ) {
     this.PAYSTACK_SECRET = this.configService.get<string>('PAYSTACK_SECRET');
   }
@@ -154,7 +154,7 @@ export class PaystackService {
     }
   }
 
-  /** Verify a Payment */
+  /** Verify a Payment and Generate a Receipt */
   async verifyPayment(reference: string) {
     const url = `https://api.paystack.co/transaction/verify/${reference}`;
     const queryRunner = this.dataSource.createQueryRunner();
@@ -172,11 +172,22 @@ export class PaystackService {
       const payment = await this.paymentRepository.findOne({
         where: { reference },
       });
+
       if (!payment) throw new Error('Transaction not found in database');
 
-      // Update payment status based on Paystack response
+      // Update payment status
       payment.status = response.data.data.status;
       await queryRunner.manager.save(payment);
+
+      // ✅ Only create a receipt if the payment was successful
+      if (payment.status === 'success') {
+        await this.receiptService.createReceipt({
+          userId: payment.id, // Make sure `userId` is correctly assigned (if needed)
+          reference: payment.reference,
+          amount: payment.amount,
+          status: payment.status,
+        });
+      }
 
       await queryRunner.commitTransaction();
       return response.data;
@@ -237,5 +248,36 @@ export class PaystackService {
       .digest('hex');
 
     return hash === signature;
+  }
+
+  async getAllTransactions() {
+    return this.paymentRepository.find();
+  }
+
+  async cancelTransaction(reference: string) {
+    const payment = await this.paymentRepository.findOne({
+      where: { reference },
+    });
+    if (!payment) throw new Error('Transaction not found');
+    if (payment.status !== 'pending')
+      throw new Error('Transaction cannot be canceled');
+
+    payment.status = 'canceled';
+    return this.paymentRepository.save(payment);
+  }
+
+  async handleWebhook(payload: any, signature: string) {
+    if (!this.verifyWebhook(payload, signature)) {
+      throw new Error('Invalid webhook signature');
+    }
+
+    const reference = payload.data.reference;
+    const payment = await this.paymentRepository.findOne({
+      where: { reference },
+    });
+    if (!payment) throw new Error('Transaction not found');
+
+    payment.status = payload.data.status;
+    return this.paymentRepository.save(payment);
   }
 }

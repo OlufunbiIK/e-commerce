@@ -62,7 +62,4 @@ export class CreateUserDto {
   @IsOptional()
   @IsString()
   phoneNumber?: string;
-
-  @OneToMany(() => Cart, (cart) => cart.user)
-  cart: Cart;
 }
