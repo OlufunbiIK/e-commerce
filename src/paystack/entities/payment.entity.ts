@@ -8,7 +8,7 @@ import {
 @Entity()
 export class Payment {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
   @Column({ unique: true })
   reference: string;

@@ -1,6 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { DataResponseInterceptor } from './common/interceptors/data-response/data-response/data-response';
+import * as bodyParser from 'body-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,5 +15,9 @@ async function bootstrap() {
       transformOptions: { enableImplicitConversion: true }, //converts strings to numbers
     }),
   );
+  app.useGlobalInterceptors(new DataResponseInterceptor());
+
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
 }
 bootstrap();
