@@ -15,9 +15,9 @@ import {
   ApiBearerAuth,
 } from '@nestjs/swagger';
 import { PaystackService } from './paystack-service.service';
-import { Roles } from 'src/auth/roles.decorator';
 import { UserRole } from 'src/user/enum/userRole.enum';
 import * as crypto from 'crypto';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @ApiTags('Paystack') // Grouping endpoints under Paystack
 @Controller('paystack')

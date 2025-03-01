@@ -18,10 +18,10 @@ import {
 } from '@nestjs/swagger';
 import { OrderService } from './order.service';
 import { OrderStatus } from './enum/orderStatus.enum';
-import { RolesGuard } from 'src/auth/roles.guard';
-import { Roles } from 'src/auth/roles.decorator';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { UserRole } from 'src/user/enum/userRole.enum';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @ApiTags('Orders') // Groups all endpoints under "Orders" in Swagger UI
 @Controller('orders')

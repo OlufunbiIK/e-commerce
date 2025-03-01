@@ -7,10 +7,10 @@ import {
 } from '@nestjs/swagger';
 import { ReviewService } from './review.service';
 import { CreateReviewDto } from './dto/create-review.dto';
-import { Roles } from 'src/auth/roles.decorator';
 import { UserRole } from 'src/user/enum/userRole.enum';
 import { Public } from 'src/common/decorators/public.decorator';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @ApiTags('Reviews') // Groups endpoints under "Reviews" in Swagger UI
 @Controller('reviews')

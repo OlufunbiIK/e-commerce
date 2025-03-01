@@ -13,8 +13,8 @@ import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Public } from 'src/common/decorators/public.decorator';
-import { Roles } from 'src/auth/roles.decorator';
 import { UserRole } from 'src/user/enum/userRole.enum';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @ApiTags('Category') // Groups all endpoints under 'Category' in Swagger
 @Controller('category')
