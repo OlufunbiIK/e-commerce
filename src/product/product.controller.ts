@@ -9,6 +9,12 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -20,16 +26,30 @@ import { Roles } from 'src/auth/roles.decorator';
 import { UserRole } from 'src/user/enum/userRole.enum';
 import { OwnershipGuard } from 'src/auth/guards/ownership.guards';
 
+@ApiTags('Products') // Groups endpoints under "Products" in Swagger UI
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
+  @ApiOperation({ summary: 'Create a new product' })
+  @ApiResponse({
+    status: 201,
+    description: 'Product created successfully',
+    type: Product,
+  })
+  @ApiBearerAuth() // Requires authentication token
   @Roles(UserRole.SELLER)
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
     return this.productService.create(createProductDto);
   }
 
+  @ApiOperation({ summary: 'Retrieve all products with pagination' })
+  @ApiResponse({
+    status: 200,
+    description: 'List of products',
+    type: [Product],
+  })
   @Public()
   @Get()
   async getAllProducts(
@@ -38,12 +58,26 @@ export class ProductController {
     return await this.productService.getAllProducts(postQuery);
   }
 
+  @ApiOperation({ summary: 'Get a single product by ID' })
+  @ApiResponse({ status: 200, description: 'Product details', type: Product })
+  @ApiResponse({ status: 404, description: 'Product not found' })
   @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productService.findOne(+id);
   }
 
+  @ApiOperation({ summary: 'Update a product' })
+  @ApiResponse({
+    status: 200,
+    description: 'Product updated successfully',
+    type: Product,
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Unauthorized to update this product',
+  })
+  @ApiBearerAuth() // Requires authentication token
   @Roles(UserRole.SELLER)
   @Patch(':id')
   @UseGuards(OwnershipGuard)
@@ -51,6 +85,13 @@ export class ProductController {
     return this.productService.update(+id, updateProductDto);
   }
 
+  @ApiOperation({ summary: 'Delete a product' })
+  @ApiResponse({ status: 200, description: 'Product deleted successfully' })
+  @ApiResponse({
+    status: 403,
+    description: 'Unauthorized to delete this product',
+  })
+  @ApiBearerAuth() // Requires authentication token
   @Roles(UserRole.SELLER)
   @Delete(':id')
   @UseGuards(OwnershipGuard)

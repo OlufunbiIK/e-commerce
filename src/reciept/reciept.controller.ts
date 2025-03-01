@@ -1,24 +1,31 @@
 import { Controller, Get, Post, Param, Body, Res } from '@nestjs/common';
 import { Response } from 'express';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { ReceiptService } from './reciept.service';
 
+@ApiTags('Receipts') // Groups endpoints under "Receipts" in Swagger UI
 @Controller('receipt')
 export class ReceiptController {
   constructor(private readonly receiptService: ReceiptService) {}
 
   /** Get a receipt by reference */
+  @ApiOperation({ summary: 'Get a receipt by reference' })
+  @ApiResponse({ status: 200, description: 'Receipt retrieved successfully.' })
+  @ApiResponse({ status: 404, description: 'Receipt not found.' })
+  @ApiParam({
+    name: 'reference',
+    required: true,
+    description: 'Transaction reference',
+  })
   @Get(':reference')
   async getReceipt(@Param('reference') reference: string) {
     return this.receiptService.getReceipt(reference);
   }
 
   /** Send a receipt email */
-  //   POST http://localhost:3000/receipt/email
-  // {
-  //   "reference": "txn_123456",
-  //   "email": "user@example.com"
-  // }
-
+  @ApiOperation({ summary: 'Send a receipt via email' })
+  @ApiResponse({ status: 200, description: 'Receipt email sent successfully.' })
+  @ApiResponse({ status: 400, description: 'Invalid request body.' })
   @Post('email')
   async sendReceiptEmail(@Body() body: { reference: string; email: string }) {
     await this.receiptService.sendReceiptEmail(body.reference, body.email);
@@ -26,8 +33,17 @@ export class ReceiptController {
   }
 
   /** Generate and download a PDF receipt */
-  // GET http://localhost:3000/receipt/pdf/txn_123456
-
+  @ApiOperation({ summary: 'Generate and download a PDF receipt' })
+  @ApiResponse({
+    status: 200,
+    description: 'PDF generated and sent successfully.',
+  })
+  @ApiResponse({ status: 404, description: 'Receipt not found.' })
+  @ApiParam({
+    name: 'reference',
+    required: true,
+    description: 'Transaction reference',
+  })
   @Get('pdf/:reference')
   async generateReceiptPDF(
     @Param('reference') reference: string,
