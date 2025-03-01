@@ -5,14 +5,17 @@ export class CreateReviewDto {
   @IsString()
   comment: string;
 
+  @IsNotEmpty() // Ensures rating is not null
   @IsInt()
   @Min(1)
   @Max(5)
   rating: number;
 
+  @IsNotEmpty()
   @IsInt()
   productId: number;
 
+  @IsNotEmpty()
   @IsInt()
   userId: number;
 }
