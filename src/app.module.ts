@@ -18,6 +18,8 @@ import { PaystackModule } from './paystack/paystack-module.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { DataResponseInterceptor } from './common/interceptors/data-response/data-response/data-response';
 import { ReceiptModule } from './reciept/reciept.module';
+import { CacheInterceptor } from '@nestjs/cache-manager';
+import { CustomCacheModule } from './cache.config';
 // import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
@@ -59,7 +61,7 @@ import { ReceiptModule } from './reciept/reciept.module';
     ReviewModule,
     PaystackModule,
     ReceiptModule,
-    // TransactionsModule,
+    CustomCacheModule,
   ],
   controllers: [AppController],
   providers: [
@@ -67,6 +69,10 @@ import { ReceiptModule } from './reciept/reciept.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: DataResponseInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CacheInterceptor,
     },
   ],
 })

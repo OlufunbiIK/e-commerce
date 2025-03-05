@@ -79,9 +79,9 @@ REACT_APP_PAYSTACK_PUBLIC_KEY=your_public_key
 - **[Aliyu Shamsudeen]**
 - **[Feyishola Oguntebi]**
 - **[Godwin Ekoh]**
-- **[Elisha Dangama]**
-- **[MD Tech]**
-- **[Honorable]**
+- **[Elisha Suleiman D]**
+- **[Muhammad Auwal Yahaya]**
+- **[Abdullahi Yahaya]**
 
 ## 📜 License
 
@@ -89,4 +89,4 @@ This project is licensed under the MIT License.
 
 ## 📬 Contact
 
-For inquiries, reach out to us at [your-email@example.com] or open an issue on GitHub.
+For inquiries, reach out to us at [olufunbiibrahim@gmail.com] or open an issue on GitHub.
