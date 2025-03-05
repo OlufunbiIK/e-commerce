@@ -9,6 +9,7 @@
     "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",
+    "rootDir": "./src",
     "baseUrl": ".",
     "incremental": true,
     "skipLibCheck": true,
@@ -21,9 +22,12 @@
       "src/*": ["src/*"]
     }
   },
+  "include": ["src"],
   "exclude": [
     "dist",
     "node_modules",
+    "jest-setup-file.ts",
+    "test",
     "**/*.spec.ts",
     "**/*.test.ts"
   ]

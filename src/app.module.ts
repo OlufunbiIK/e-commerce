@@ -19,7 +19,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { DataResponseInterceptor } from './common/interceptors/data-response/data-response/data-response';
 import { ReceiptModule } from './reciept/reciept.module';
 import { CacheInterceptor } from '@nestjs/cache-manager';
-import { CustomCacheModule } from './cache.config';
+import { CustomCacheModule } from './config/cache.config';
 // import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({

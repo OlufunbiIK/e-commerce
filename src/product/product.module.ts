@@ -8,7 +8,7 @@ import { PaginationModule } from 'src/common/pagination/pagination.module';
 import { PaginationProvider } from 'src/common/pagination/providers/pagination.service';
 import { CategoryModule } from 'src/category/category.module';
 import { UserModule } from 'src/user/user.module';
-import { CustomCacheModule } from 'src/cache.config';
+import { CustomCacheModule } from 'src/config/cache.config';
 
 @Module({
   imports: [
