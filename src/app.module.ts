@@ -42,7 +42,7 @@ import { CustomCacheModule } from './config/cache.config';
             ? configService.get('db').url
             : undefined,
         // synchronize: process.env.NODE_ENV !== 'production', // Use sync (true) in dev, false in prod
-        synchronize: true, // fixme - revert to line above
+        synchronize: false, // fixme - revert to line above
         autoLoadEntities: true,
         // entities: [User, Product, Order, OrderItem],
       }),

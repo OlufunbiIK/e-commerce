@@ -96,7 +96,7 @@ export class ProductService {
     // Try to get the cached data
     const cachedData =
       await this.cacheManager.get<paginated<Product>>(cacheKey);
-    console.log('Cache content:', cachedData); // Log cache content
+    console.log('Cache content:', cachedData);
 
     if (cachedData) {
       console.log('Returning products from cache');
