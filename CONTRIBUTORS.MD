@@ -11,11 +11,11 @@ Welcome to ecommerce API project! We appreciate your contributions. Please follo
    ```
 3. **Navigate to the Project Directory**:
    ```sh
-   cd repository-name
+   cd e-commerce
    ```
 4. **Set Upstream Remote**: Link your local repository to the original repository:
    ```sh
-   git remote add upstream https://github.com/original-owner/repository-name.git
+   git remote add upstream https://github.com/OlufunbiIK/e-commerce.git
    ```
 
 ## Creating a New Branch
@@ -80,24 +80,24 @@ If you find a bug or want to suggest a feature, please open an issue by clicking
 
 - **Olufunbi Ibrahim**
 - **Ahmed Mahmud**
-- **Elisha Dangama**
-- **Godwin Ekoh**
-- **MDTech**
-- **Shamsudeen Aliyu**
+- **Elisa Suleiman D**
+- **Godwin Dominion Ekoh**
+- **Muhammad Auwal Yahaya**
+- **Shamsudeen aliyu**
 - **Feyishola Taiwo**
-- **Honorable**
+- **Abdullahi Yahaya**
 
 ### Task Assignments
 
-- **Olufunbi** - Project Setup & Environment Configuration
-- **Shamo** - Database Schema & Models
-- **Mahmud** - Testing & Bug Fixes
-- **Elisha** - User Authentication & Role Management
-- **MDTech** - Order Management & Tracking
-- **Honorable** Email System (for Verification & Notifications)
+- **Olufunbi Ibrahm** - Project Setup & Environment Configuration,
+- **Shamsudeen aliyu** - Database Schema & Models
+- **Mahmud Ahmed** - Testing & Bug Fixes
+- **Elisa Suleiman D** - User Authentication & Role Management
+- **Muhammad Auwal Yahaya** - Order Management & Tracking
+- **Abdullahi Yahaya** Email System (for Verification & Notifications)
 
-- **Feyi** - Cart & Checkout Functionality
-- **Godwin** - Documentations & Final Review
+- **Feyishola Taiwo** - Cart & Checkout Functionality
+- **Godwin Dominion Ekoh** - Documentations & Final Review
 
 ## Thank You for Contributing!
 

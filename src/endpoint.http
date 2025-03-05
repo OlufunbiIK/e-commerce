@@ -1,32 +1,66 @@
 POST http://localhost:3000/category
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJlbWFpbCI6IndheWltYXN0ZXBoZW5zQGV4YW1wbGUuY29tIiwicm9sZSI6InN1cGVyYWRtaW4iLCJpYXQiOjE3NDExNzIyMTgsImV4cCI6MTc0MTE3NTgxOH0.-1_KWgHnGIVkHm_Rio0rk_AHfjhGRYr3wrUlib7LNg0
 
 {
-    "name":"fashion"
+  "name": "fashion"
 }
 
-POST http://localhost:3000/user
+
+GET http://localhost:3000/product
+POST http://localhost:3000/product
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEwLCJlbWFpbCI6ImdvZHdpbnN0ZXBoZW5zQGV4YW1wbGUuY29tIiwicm9sZSI6InNlbGxlciIsImlhdCI6MTc0MTE3MDYyOSwiZXhwIjoxNzQxMTc0MjI5fQ.iDWwyEB2Rp2D9VTYdebQXhjTH5l4v1o0IivVruirMg0
+{
+  "title": "Smartphone X10",
+  "description": "A high-end smartphone with 128GB storage and 12GB RAM.",
+  "price": 299.99,
+  "category": 1,
+  "stock": 50,
+  "sellerId": "1",
+  "productUrl": "https://example.com/product-image.jpg"
+}
+
+
+
+POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-    "name":"fashion"
+  "firstName": "Godwin",
+  "lastName": "Stephens",
+  "email": "godwinstephens@example.com",
+  "password": "secdursse@Pdassword123",
+  "role":"seller"
 }
 
 POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-  "firstName": "Ahmed",
-  "lastName": "Mahmud",
-  "email": "ahmedmahMud1@example.com",
-  "password": "secdurse@Password123"
+  "firstName": "Wayima",
+  "lastName": "Stephens",
+  "email": "wayimastephens@example.com",
+  "password": "sedcdursse@Pdassword123",
+  "role":"superadmin"
 }
 
+//a seller
 POST http://localhost:3000/auth/login
 Content-Type: application/json
 {
-    "email": "chloebdaxrley@example.com",
-  "password": "secdurse@Password123"
+  "email": "godwinstephens@example.com",
+  "password": "secdursse@Pdassword123"
+}
+
+
+
+//a superadmin
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+{
+"email": "wayimastephens@example.com",
+  "password": "sedcdursse@Pdassword123"
 }
 
 {{
@@ -47,42 +81,39 @@ GET  http://localhost:3000/posts?id=15
 
 
 POST http://localhost:3000/paystack/initialize
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiY2hsb2ViZGF4cmxleUBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MDYxMzQwMywiZXhwIjoxNzQwNjE3MDAzfQ.uuGJubI4KX2gpjOgBJksPNljpkdvpwKvwr4cEfhqtXc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImVtYWlsIjoic2hhbXN1ZGVlbmFsaXl1dUBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0MDg3NTU0NCwiZXhwIjoxNzQwODc5MTQ0fQ.-Q2KeA10yjY2tUwWfMOf1AZUUNGZgTzXgwFSm_gkwxQ
 Content-Type:application/json
-
 {
-    "email": "chloebdaxrley@gmail.com",
+    "email": "shamsudeenaliyuu@example.com",
     "amount": 100
 }
 
 
-GET http://localhost:3000/paystack/verify/reference?reference=l0vykrlfgl
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiY2hsb2ViZGF4cmxleUBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MDYxMzQwMywiZXhwIjoxNzQwNjE3MDAzfQ.uuGJubI4KX2gpjOgBJksPNljpkdvpwKvwr4cEfhqtXc
+GET http://localhost:3000/paystack/verify/reference?reference=7c5b2q58y5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImVtYWlsIjoic2hhbXN1ZGVlbmFsaXl1dUBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0MDg3NTU0NCwiZXhwIjoxNzQwODc5MTQ0fQ.-Q2KeA10yjY2tUwWfMOf1AZUUNGZgTzXgwFSm_gkwxQ
 
-
+# The cancelTransaction method checks that the payment’s status is exactly 'pending'
 POST http://localhost:3000/paystack/cancel
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiY2hsb2ViZGF4cmxleUBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MDYxMzQwMywiZXhwIjoxNzQwNjE3MDAzfQ.uuGJubI4KX2gpjOgBJksPNljpkdvpwKvwr4cEfhqtXc
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImVtYWlsIjoic2hhbXN1ZGVlbmFsaXl1dUBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0MDg3NTU0NCwiZXhwIjoxNzQwODc5MTQ0fQ.-Q2KeA10yjY2tUwWfMOf1AZUUNGZgTzXgwFSm_gkwxQ
 
 {
-  "reference": "w54clhpzwj"
+  "reference": "7c5b2q58y5"
 }
 
-
+// Paystack’s API only allows refunds on transactions that were successful
 POST http://localhost:3000/paystack/refund
 Content-Type: application/json
-Authorization: Bearer eeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiY2hsb2ViZGF4cmxleUBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MDYxNzQyOSwiZXhwIjoxNzQwNjIxMDI5fQ.rumWo2y0FN5nXSpANBaRCmg_B692JCk8Xzk3x_kgplQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImVtYWlsIjoic2hhbXN1ZGVlbmFsaXl1dUBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0MDg3NTU0NCwiZXhwIjoxNzQwODc5MTQ0fQ.-Q2KeA10yjY2tUwWfMOf1AZUUNGZgTzXgwFSm_gkwxQ
 
 {
-  "transactionId": "250225140200421175313304"
+  "transactionId": "f6df0mlewa"
 }
 
 
 POST http://localhost:3000/paystack/webhook
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiY2hsb2ViZGF4cmxleUBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MDYxMzQwMywiZXhwIjoxNzQwNjE3MDAzfQ.uuGJubI4KX2gpjOgBJksPNljpkdvpwKvwr4cEfhqtXc
-Paystack-Signature: WEBHOOK_SIGNATURE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImVtYWlsIjoic2hhbXN1ZGVlbmFsaXl1dUBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0MDg3NTU0NCwiZXhwIjoxNzQwODc5MTQ0fQ.-Q2KeA10yjY2tUwWfMOf1AZUUNGZgTzXgwFSm_gkwxQ
 
 {
   "event": "charge.success",
@@ -97,4 +128,26 @@ Paystack-Signature: WEBHOOK_SIGNATURE
 }
 
 GET http://localhost:3000/paystack/transactions
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiY2hsb2ViZGF4cmxleUBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MDYxMzQwMywiZXhwIjoxNzQwNjE3MDAzfQ.uuGJubI4KX2gpjOgBJksPNljpkdvpwKvwr4cEfhqtXc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImVtYWlsIjoic2hhbXN1ZGVlbmFsaXl1dUBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0MDg3NTU0NCwiZXhwIjoxNzQwODc5MTQ0fQ.-Q2KeA10yjY2tUwWfMOf1AZUUNGZgTzXgwFSm_gkwxQ
+
+POST http://localhost:3000/receipt/email
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImVtYWlsIjoic2hhbXN1ZGVlbmFsaXl1dUBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0MDg3NTU0NCwiZXhwIjoxNzQwODc5MTQ0fQ.-Q2KeA10yjY2tUwWfMOf1AZUUNGZgTzXgwFSm_gkwxQ
+
+{
+  "reference": "nsbxrlcjk7",
+  "email": "olufunbiibrahim@gmail.com"
+}
+
+GET http://localhost:3000/receipt/reference=nsbxrlcjk7
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImVtYWlsIjoic2hhbXN1ZGVlbmFsaXl1dUBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0MDg3NTU0NCwiZXhwIjoxNzQwODc5MTQ0fQ.-Q2KeA10yjY2tUwWfMOf1AZUUNGZgTzXgwFSm_gkwxQ
+
+{
+  "reference": "nsbxrlcjk7",
+  "email": "olufunbiibrahim@gmail.com"
+}
+
+GET http://localhost:3000/receipt/pdf/nsbxrlcjk7
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImVtYWlsIjoic2hhbXN1ZGVlbmFsaXl1dUBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0MDg3NTU0NCwiZXhwIjoxNzQwODc5MTQ0fQ.-Q2KeA10yjY2tUwWfMOf1AZUUNGZgTzXgwFSm_gkwxQ

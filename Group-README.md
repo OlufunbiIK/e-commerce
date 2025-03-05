@@ -6,16 +6,15 @@ This is a full-featured eCommerce platform developed as a group project. It incl
 
 ## 🛠️ Technologies Used
 
-- **Frontend:** React, Tailwind CSS
-- **Backend:** NestJS, Node.js, Express
+- **Backend:** NestJS, Node.js, Postgre
 - **Database:** PostgreSQL
 - **Authentication:** JWT (JSON Web Token)
-- **Payment Integration:** Paystack / Stripe
-- **Hosting:** Render / Vercel / Firebase
+- **Payment Integration:** Paystack
+- **Hosting:**
 
 ## 📌 Features
 
-- User authentication (signup, login, logout)
+- User authentication (signup, login)
 - Product listing and search
 - Shopping cart management
 - Order checkout and payment processing
@@ -37,16 +36,15 @@ This is a full-featured eCommerce platform developed as a group project. It incl
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/your-repo/ecommerce-project.git
+git clone https://github.com/OlufunbiIK/e-commerce
 cd ecommerce-project
 ```
 
 ### 2️⃣ Backend Setup
 
 ```bash
-cd backend
 npm install
-npm run start
+npm run start:dev
 ```
 
 ### 3️⃣ Frontend Setup
@@ -61,7 +59,7 @@ npm run dev
 
 Create a `.env` file in the backend and frontend folders with the following variables:
 
-```env
+```env.development
 # Backend .env
 DATABASE_URL=your_database_url
 JWT_SECRET=your_jwt_secret
@@ -76,10 +74,14 @@ REACT_APP_PAYSTACK_PUBLIC_KEY=your_public_key
 
 ## 👥 Team Members
 
-- **[Your Name]** - Backend Developer
-- **[Teammate 1]** - Frontend Developer
-- **[Teammate 2]** - UI/UX Designer
-- **[Teammate 3]** - Project Manager
+- **[Olufunbi Ibrahim]**
+- **[Ahmed Mahmoud]**
+- **[Aliyu Shamsudeen]**
+- **[Feyishola Oguntebi]**
+- **[Godwin Ekoh]**
+- **[Elisha Suleiman D]**
+- **[Muhammad Auwal Yahaya]**
+- **[Abdullahi Yahaya]**
 
 ## 📜 License
 
@@ -87,4 +89,4 @@ This project is licensed under the MIT License.
 
 ## 📬 Contact
 
-For inquiries, reach out to us at [your-email@example.com] or open an issue on GitHub.
+For inquiries, reach out to us at [olufunbiibrahim@gmail.com] or open an issue on GitHub.

@@ -22,9 +22,9 @@ import { GetProductsDto } from './dto/get-products.dto';
 import { paginated } from 'src/common/pagination/interfaces/pagination.interfaces';
 import { Product } from './entities/product.entity';
 import { Public } from 'src/common/decorators/public.decorator';
-import { Roles } from 'src/auth/roles.decorator';
 import { UserRole } from 'src/user/enum/userRole.enum';
 import { OwnershipGuard } from 'src/auth/guards/ownership.guards';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @ApiTags('Products') // Groups endpoints under "Products" in Swagger UI
 @Controller('product')

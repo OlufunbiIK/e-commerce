@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {
   Injectable,
   BadRequestException,
@@ -17,7 +16,7 @@ export class AuthService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     private jwtService: JwtService,
-  ) { }
+  ) {}
 
   // ✅ User Registration
   async register(registerDto: CreateUserDto) {

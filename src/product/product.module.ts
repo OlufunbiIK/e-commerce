@@ -8,11 +8,18 @@ import { PaginationModule } from 'src/common/pagination/pagination.module';
 import { PaginationProvider } from 'src/common/pagination/providers/pagination.service';
 import { CategoryModule } from 'src/category/category.module';
 import { UserModule } from 'src/user/user.module';
+import { CustomCacheModule } from 'src/cache.config';
 
 @Module({
-  imports: [CategoryModule, PaginationModule, UserModule, TypeOrmModule.forFeature([Product])],   //needs modules - reviews, order, orderItems,
+  imports: [
+    CategoryModule,
+    CustomCacheModule,
+    PaginationModule,
+    UserModule,
+    TypeOrmModule.forFeature([Product]),
+  ], //needs modules - reviews, order, orderItems,
   controllers: [ProductController],
   providers: [ProductService, PaginationProvider],
   exports: [TypeOrmModule, ProductService],
 })
-export class ProductModule { }
+export class ProductModule {}
