@@ -102,5 +102,8 @@
     "setupFiles": [
       "<rootDir>/jest-setup-file.ts"
     ]
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
