@@ -26,12 +26,10 @@ async function bootstrap() {
         transformOptions: { enableImplicitConversion: true },
     }));
     app.useGlobalInterceptors(new data_response_1.DataResponseInterceptor());
-    if (process.env.NODE_ENV !== 'production') {
-        const port = process.env.PORT || 3000;
-        await app.listen(port);
-        console.log(`🚀 Server running on http://localhost:${port}`);
-        console.log(`📚 Swagger docs available at http://localhost:${port}/api/docs`);
-    }
+    const port = process.env.PORT || 3000;
+    await app.listen(port);
+    console.log(`🚀 Server running on port ${port}`);
+    console.log(`📚 Swagger docs available at http://localhost:${port}/api/docs`);
     return app;
 }
 bootstrap();

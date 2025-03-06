@@ -1,12 +1,12 @@
 declare const _default: () => {
     port: number;
     db: {
-        host: any;
+        host: string;
         port: number;
-        username: any;
-        password: any;
-        database: any;
-        url: any;
+        username: string;
+        password: string;
+        database: string;
+        url: string;
     };
 };
 export default _default;

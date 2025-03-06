@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductService = void 0;
 const common_1 = require("@nestjs/common");
@@ -22,7 +21,6 @@ const pagination_service_1 = require("../common/pagination/provider/pagination.s
 const category_service_1 = require("../category/category.service");
 const user_service_1 = require("../user/user.service");
 const cache_manager_1 = require("@nestjs/cache-manager");
-const cache_manager_2 = require("cache-manager");
 const slugify_1 = require("slugify");
 let ProductService = class ProductService {
     constructor(productRepository, paginationService, categoryService, userService, cacheManager) {
@@ -152,8 +150,9 @@ exports.ProductService = ProductService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(product_entity_1.Product)),
     __param(4, (0, common_1.Inject)(cache_manager_1.CACHE_MANAGER)),
-    __metadata("design:paramtypes", [typeof (_a = typeof typeorm_2.Repository !== "undefined" && typeorm_2.Repository) === "function" ? _a : Object, pagination_service_1.PaginationProvider,
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        pagination_service_1.PaginationProvider,
         category_service_1.CategoryService,
-        user_service_1.UserService, typeof (_b = typeof cache_manager_2.Cache !== "undefined" && cache_manager_2.Cache) === "function" ? _b : Object])
+        user_service_1.UserService, Object])
 ], ProductService);
 //# sourceMappingURL=product.service.js.map

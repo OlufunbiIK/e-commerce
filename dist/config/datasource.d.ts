@@ -1,2 +1,3 @@
 import 'reflect-metadata';
-export declare const AppDataSource: any;
+import { DataSource } from 'typeorm';
+export declare const AppDataSource: DataSource;

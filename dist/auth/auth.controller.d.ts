@@ -6,9 +6,9 @@ export declare class AuthController {
     constructor(authService: AuthService);
     register(registerDto: CreateUserDto): Promise<{
         message: string;
-        user: any;
+        user: import("../user/entities/user.entity").User;
     }>;
     login(loginDto: LoginDto): Promise<{
-        access_token: any;
+        access_token: string;
     }>;
 }

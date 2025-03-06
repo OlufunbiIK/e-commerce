@@ -15,10 +15,38 @@ export declare class ProductService {
     private readonly userService;
     private cacheManager;
     constructor(productRepository: Repository<Product>, paginationService: PaginationProvider, categoryService: CategoryService, userService: UserService, cacheManager: Cache);
-    create(createProductDto: CreateProductDto): Promise<any>;
+    create(createProductDto: CreateProductDto): Promise<Product>;
     getAllProducts(productQuery: GetProductsDto): Promise<paginated<Product>>;
-    findOne(id: number): Promise<any>;
-    update(id: number, updateProductDto: UpdateProductDto): Promise<any>;
+    findOne(id: number): Promise<{
+        seller: any;
+        id: number;
+        title: string;
+        description: string;
+        price: number;
+        stock: number;
+        productUrl?: string;
+        createdAt: Date;
+        updatedAt: Date;
+        category: number;
+        orderItems: import("../order-item/entities/order-item.entity").OrderItem[];
+        reviews: import("../review/entities/review.entity").Review[];
+        cartItems: import("../cart-items/entities/cart-items.entity").CartItem[];
+    }>;
+    update(id: number, updateProductDto: UpdateProductDto): Promise<{
+        id: number;
+        title: string;
+        description: string;
+        price: number;
+        stock: number;
+        productUrl?: string;
+        createdAt: Date;
+        updatedAt: Date;
+        category: never;
+        orderItems: import("../order-item/entities/order-item.entity").OrderItem[];
+        reviews: import("../review/entities/review.entity").Review[];
+        cartItems: import("../cart-items/entities/cart-items.entity").CartItem[];
+        sellerId?: string;
+    }>;
     remove(id: number): Promise<{
         message: string;
     }>;
