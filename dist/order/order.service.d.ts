@@ -6,7 +6,7 @@ export declare class OrderService {
     private readonly orderRepository;
     private readonly userRepository;
     constructor(orderRepository: Repository<Order>, userRepository: Repository<User>);
-    createOrder(userId: number, totalPrice: number): Promise<any>;
+    createOrder(userId: number, totalPrice: number): Promise<Order>;
     updateOrderStatus(orderId: number, status: OrderStatus, adminUser: User): Promise<Order>;
     getOrderById(orderId: number, user: User): Promise<Order>;
     getUserOrders(userId: number): Promise<Order[]>;

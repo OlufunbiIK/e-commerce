@@ -13,7 +13,7 @@ export declare class PaystackService {
     verifyPayment(reference: string): Promise<any>;
     refundPayment(transactionId: string): Promise<any>;
     verifyWebhook(req: any, signature: string): boolean;
-    getAllTransactions(): Promise<any>;
-    cancelTransaction(reference: string): Promise<any>;
-    handleWebhook(payload: any, signature: string): Promise<any>;
+    getAllTransactions(): Promise<Payment[]>;
+    cancelTransaction(reference: string): Promise<Payment>;
+    handleWebhook(payload: any, signature: string): Promise<Payment>;
 }

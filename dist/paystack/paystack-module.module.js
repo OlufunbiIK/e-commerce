@@ -8,7 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PaystackModule = void 0;
 const common_1 = require("@nestjs/common");
@@ -34,6 +33,6 @@ exports.PaystackModule = PaystackModule = __decorate([
         providers: [paystack_service_service_1.PaystackService],
         exports: [paystack_service_service_1.PaystackService],
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof typeorm_2.DataSource !== "undefined" && typeorm_2.DataSource) === "function" ? _a : Object])
+    __metadata("design:paramtypes", [typeorm_2.DataSource])
 ], PaystackModule);
 //# sourceMappingURL=paystack-module.module.js.map

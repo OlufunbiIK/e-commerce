@@ -3,7 +3,7 @@ import { ReceiptService } from './reciept.service';
 export declare class ReceiptController {
     private readonly receiptService;
     constructor(receiptService: ReceiptService);
-    getReceipt(reference: string): Promise<any>;
+    getReceipt(reference: string): Promise<import("./entities/reciept.entity").Receipt>;
     sendReceiptEmail(body: {
         reference: string;
         email: string;

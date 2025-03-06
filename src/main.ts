@@ -36,14 +36,12 @@ async function bootstrap() {
   app.useGlobalInterceptors(new DataResponseInterceptor());
 
   // For local development
-  if (process.env.NODE_ENV !== 'production') {
-    const port = process.env.PORT || 3000;
-    await app.listen(port);
-    console.log(`🚀 Server running on http://localhost:${port}`);
-    console.log(
-      `📚 Swagger docs available at http://localhost:${port}/api/docs`,
-    );
-  }
+  const port = process.env.PORT || 3000;
+  await app.listen(port);
+  console.log(`🚀 Server running on port ${port}`);
+  console.log(`📚 Swagger docs available at http://localhost:${port}/api/docs`);
+  
+  
 
   // For Vercel serverless deployment
   return app;
