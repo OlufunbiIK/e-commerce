@@ -26,10 +26,13 @@ async function bootstrap() {
   );
   app.useGlobalInterceptors(new DataResponseInterceptor());
 
-  await app.listen(process.env.PORT ?? 3000);
+  // **This starts the server**
+  const port = process.env.PORT || 3000;
+  await app.listen(port);
 
   // Log the Swagger URL in the terminal
-  console.log(`Swagger Server is running on: http://localhost:3000/api/docs`);
+  console.log(`🚀 Server running on http://localhost:${port}`);
+  console.log(`📚 Swagger docs available at http://localhost:${port}/api/docs`);
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 }
