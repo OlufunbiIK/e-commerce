@@ -38,8 +38,7 @@ export class ProductController {
     type: Product,
   })
   @ApiBearerAuth() // Requires authentication token
-  // @Roles(UserRole.SELLER)
-  @Public()
+  @Roles(UserRole.SELLER)
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
     return this.productService.create(createProductDto);

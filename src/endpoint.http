@@ -8,9 +8,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJlbWFpb
 
 
 GET http://localhost:3000/product
-POST http://localhost:3000/product
+POST http://localhost:3000/products
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEwLCJlbWFpbCI6ImdvZHdpbnN0ZXBoZW5zQGV4YW1wbGUuY29tIiwicm9sZSI6InNlbGxlciIsImlhdCI6MTc0MTE3MDYyOSwiZXhwIjoxNzQxMTc0MjI5fQ.iDWwyEB2Rp2D9VTYdebQXhjTH5l4v1o0IivVruirMg0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsImVtYWlsIjoiZWxpc2hhbWFobXVkQGV4YW1wbGUuY29tIiwicm9sZSI6InNlbGxlciIsImlhdCI6MTc0MTY5NzMxNCwiZXhwIjoxNzQxNzAwOTE0fQ.K9yKsw2WkFAuvkf_FjvKrianFIDZ23-S-uv9USZA8mg
 {
   "title": "Smartphone X10",
   "description": "A high-end smartphone with 128GB storage and 12GB RAM.",

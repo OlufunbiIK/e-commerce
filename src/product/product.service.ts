@@ -15,7 +15,7 @@ import { Cache } from 'cache-manager';
 
 // ✅ Correct slugify import
 import { default as slugify } from 'slugify';
-import { customAlphabet } from 'nanoid';
+// import { customAlphabet } from 'nanoid';
 
 @Injectable()
 export class ProductService {
