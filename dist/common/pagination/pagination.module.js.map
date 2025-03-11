@@ -1,0 +1,1 @@
+{"version":3,"file":"pagination.module.js","sourceRoot":"","sources":["../../../src/common/pagination/pagination.module.ts"],"names":[],"mappings":";;;;;;;;;AAAA,2CAAwC;AACxC,sEAAmE;AAM5D,IAAM,gBAAgB,GAAtB,MAAM,gBAAgB;CAAG,CAAA;AAAnB,4CAAgB;2BAAhB,gBAAgB;IAJ5B,IAAA,eAAM,EAAC;QACN,SAAS,EAAE,CAAC,uCAAkB,CAAC;QAC/B,OAAO,EAAE,CAAC,uCAAkB,CAAC;KAC9B,CAAC;GACW,gBAAgB,CAAG"}
