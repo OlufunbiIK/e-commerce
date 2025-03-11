@@ -27,7 +27,7 @@ import { OwnershipGuard } from 'src/auth/guards/ownership.guards';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @ApiTags('Products') // Groups endpoints under "Products" in Swagger UI
-@Controller('product')
+@Controller('products')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
@@ -38,7 +38,8 @@ export class ProductController {
     type: Product,
   })
   @ApiBearerAuth() // Requires authentication token
-  @Roles(UserRole.SELLER)
+  // @Roles(UserRole.SELLER)
+  @Public()
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
     return this.productService.create(createProductDto);

@@ -60,7 +60,7 @@ __decorate([
 ], CartController.prototype, "addToCart", null);
 exports.CartController = CartController = __decorate([
     (0, swagger_1.ApiTags)('Cart'),
-    (0, common_1.Controller)('cart'),
+    (0, common_1.Controller)('carts'),
     __metadata("design:paramtypes", [cart_service_1.CartService])
 ], CartController);
 //# sourceMappingURL=cart.controller.js.map

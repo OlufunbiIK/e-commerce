@@ -14,7 +14,7 @@ import { UpdateOrderItemDto } from './dto/update-order-item.dto';
 import { OrderItem } from './entities/order-item.entity';
 
 @ApiTags('Order Items') // Grouping in Swagger
-@Controller('order-item')
+@Controller('order-items')
 export class OrderItemController {
   constructor(private readonly orderItemService: OrderItemService) {}
 

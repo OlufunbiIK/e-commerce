@@ -98,7 +98,7 @@ __decorate([
 ], ReceiptController.prototype, "generateReceiptPDF", null);
 exports.ReceiptController = ReceiptController = __decorate([
     (0, swagger_1.ApiTags)('Receipts'),
-    (0, common_1.Controller)('receipt'),
+    (0, common_1.Controller)('receipts'),
     __metadata("design:paramtypes", [reciept_service_1.ReceiptService])
 ], ReceiptController);
 //# sourceMappingURL=reciept.controller.js.map

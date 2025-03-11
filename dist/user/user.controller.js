@@ -157,7 +157,7 @@ __decorate([
 exports.UserController = UserController = __decorate([
     (0, swagger_1.ApiTags)('Users'),
     (0, swagger_1.ApiBearerAuth)(),
-    (0, common_1.Controller)('user'),
+    (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [user_service_1.UserService,
         findOneByEmail_provider_1.FindOneByEmailProvider])
 ], UserController);

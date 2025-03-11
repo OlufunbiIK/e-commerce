@@ -25,7 +25,7 @@ import {
 
 @ApiTags('Users') // Grouping in Swagger UI
 @ApiBearerAuth() // Requires JWT authentication (if applicable)
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(
     private readonly userService: UserService,
