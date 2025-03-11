@@ -11,13 +11,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReceiptService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const nodemailer_1 = require("nodemailer");
-const pdfkit_1 = require("pdfkit");
+const nodemailer_1 = __importDefault(require("nodemailer"));
+const pdfkit_1 = __importDefault(require("pdfkit"));
 const reciept_entity_1 = require("./entities/reciept.entity");
 let ReceiptService = class ReceiptService {
     constructor(receiptRepo) {
