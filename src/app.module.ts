@@ -26,7 +26,7 @@ import { CustomCacheModule } from './config/cache.config';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env.development'],
+      envFilePath: ['.env.development', '.env.production'],
       load: [database],
     }), //5.
     TypeOrmModule.forRootAsync({
@@ -37,15 +37,17 @@ import { CustomCacheModule } from './config/cache.config';
         username: configService.get('db').username,
         password: configService.get('db').password,
         database: configService.get('db').database,
-        url:
-          process.env.NODE_ENV === 'production'
-            ? configService.get('db').url
-            : undefined,
+        url: configService.get('db').url,
+        // process.env.NODE_ENV === 'production'
+        //   ? configService.get('db').url
+        //   : undefined,
         // synchronize: process.env.NODE_ENV !== 'production', // Use sync (true) in dev, false in prod
-        synchronize: false, // fixme - revert to line above
+        synchronize: true, // fixme - revert to line above
         autoLoadEntities: true,
+
         // entities: [User, Product, Order, OrderItem],
       }),
+
       inject: [ConfigService],
       imports: undefined,
     }),

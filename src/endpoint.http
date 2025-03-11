@@ -27,10 +27,10 @@ POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-  "firstName": "Godwin",
-  "lastName": "Stephens",
-  "email": "godwinstephens@example.com",
-  "password": "secdursse@Pdassword123",
+  "firstName": "Godhwddin",
+  "lastName": "Stehpdhens",
+  "email": "godwinshdtephens@example.com",
+  "password": "secdudrsse@Pdassword123",
   "role":"seller"
 }
 
