@@ -45,6 +45,12 @@ Content-Type: application/json
   "role":"superadmin"
 }
 
+//superadmin
+{
+  "email": "wayimastephens@example.com",
+  "password": "sedcdursse@Pdassword123"
+}
+
 //a seller
 POST http://localhost:3000/auth/login
 Content-Type: application/json
@@ -53,6 +59,11 @@ Content-Type: application/json
   "password": "secdursse@Pdassword123"
 }
 
+//a customer
+{
+  "email": "aliyushamo@example.com",
+  "password": "ddddddd@Pdassword123"
+}
 
 
 //a superadmin
@@ -88,11 +99,11 @@ Content-Type:application/json
     "amount": 100
 }
 
-
+//gives details about the transaction
 GET http://localhost:3000/paystack/verify/reference?reference=7c5b2q58y5
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImVtYWlsIjoic2hhbXN1ZGVlbmFsaXl1dUBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0MDg3NTU0NCwiZXhwIjoxNzQwODc5MTQ0fQ.-Q2KeA10yjY2tUwWfMOf1AZUUNGZgTzXgwFSm_gkwxQ
 
-# The cancelTransaction method checks that the payment’s status is exactly 'pending'
+# The cancelTransaction method checks that the payment’s status is exactly 'pending' then cancels it
 POST http://localhost:3000/paystack/cancel
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImVtYWlsIjoic2hhbXN1ZGVlbmFsaXl1dUBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0MDg3NTU0NCwiZXhwIjoxNzQwODc5MTQ0fQ.-Q2KeA10yjY2tUwWfMOf1AZUUNGZgTzXgwFSm_gkwxQ
@@ -127,9 +138,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImVtYWlsI
   }
 }
 
+// can get all transaction
 GET http://localhost:3000/paystack/transactions
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImVtYWlsIjoic2hhbXN1ZGVlbmFsaXl1dUBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0MDg3NTU0NCwiZXhwIjoxNzQwODc5MTQ0fQ.-Q2KeA10yjY2tUwWfMOf1AZUUNGZgTzXgwFSm_gkwxQ
 
+//to get a receipt for payment
 POST http://localhost:3000/receipt/email
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImVtYWlsIjoic2hhbXN1ZGVlbmFsaXl1dUBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0MDg3NTU0NCwiZXhwIjoxNzQwODc5MTQ0fQ.-Q2KeA10yjY2tUwWfMOf1AZUUNGZgTzXgwFSm_gkwxQ
@@ -150,4 +163,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImVtYWlsI
 
 GET http://localhost:3000/receipt/pdf/nsbxrlcjk7
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjksImVtYWlsIjoic2hhbXN1ZGVlbmFsaXl1dUBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0MDg3NTU0NCwiZXhwIjoxNzQwODc5MTQ0fQ.-Q2KeA10yjY2tUwWfMOf1AZUUNGZgTzXgwFSm_gkwxQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJlbWFpbCI6ImFsaXl1c2hhbW9AZXhhbXBsZS5jb20iLCJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3NDE3MDM3NDIsImV4cCI6MTc0MTcwNzM0Mn0.gkqPJCgQEh3a8JUWiITPfnFLl7eo6vJ0LqdqrFA97MM

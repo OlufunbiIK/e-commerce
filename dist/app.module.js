@@ -28,7 +28,6 @@ const auth_module_1 = require("./auth/auth.module");
 const review_module_1 = require("./review/review.module");
 const paystack_module_module_1 = require("./paystack/paystack-module.module");
 const core_1 = require("@nestjs/core");
-const data_response_1 = require("./common/interceptors/data-response/data-response/data-response");
 const reciept_module_1 = require("./reciept/reciept.module");
 const cache_manager_1 = require("@nestjs/cache-manager");
 const cache_config_1 = require("./config/cache.config");
@@ -75,10 +74,6 @@ exports.AppModule = AppModule = __decorate([
         controllers: [app_controller_1.AppController],
         providers: [
             app_service_1.AppService,
-            {
-                provide: core_1.APP_INTERCEPTOR,
-                useClass: data_response_1.DataResponseInterceptor,
-            },
             {
                 provide: core_1.APP_INTERCEPTOR,
                 useClass: cache_manager_1.CacheInterceptor,

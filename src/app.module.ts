@@ -16,7 +16,6 @@ import { AuthModule } from './auth/auth.module';
 import { ReviewModule } from './review/review.module';
 import { PaystackModule } from './paystack/paystack-module.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { DataResponseInterceptor } from './common/interceptors/data-response/data-response/data-response';
 import { ReceiptModule } from './reciept/reciept.module';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 import { CustomCacheModule } from './config/cache.config';
@@ -68,10 +67,10 @@ import { CustomCacheModule } from './config/cache.config';
   controllers: [AppController],
   providers: [
     AppService,
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: DataResponseInterceptor,
-    },
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: DataResponseInterceptor,
+    // },
     {
       provide: APP_INTERCEPTOR,
       useClass: CacheInterceptor,

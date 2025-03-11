@@ -102,5 +102,4 @@ export class OrderService {
       .orderBy('order.createdAt', 'DESC')
       .getMany();
   }
-  
 }

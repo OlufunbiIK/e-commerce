@@ -6,8 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  UseInterceptors,
-  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -33,7 +31,6 @@ export class UserController {
   ) {}
 
   @Roles(UserRole.SUPERADMIN)
-  @UseInterceptors(ClassSerializerInterceptor)
   @Post()
   @ApiOperation({ summary: 'Create a new user (Admin only)' })
   @ApiResponse({ status: 201, description: 'User successfully created' })

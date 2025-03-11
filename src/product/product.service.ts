@@ -12,6 +12,7 @@ import { CategoryService } from 'src/category/category.service';
 import { UserService } from 'src/user/user.service';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
+import { v4 as uuidv4 } from 'uuid';
 
 // ✅ Correct slugify import
 import { default as slugify } from 'slugify';
@@ -60,13 +61,15 @@ export class ProductService {
       strict: true,
     });
 
-    const { customAlphabet } = await import('nanoid');
-    const nanoid = customAlphabet('1234567890', 10);
+    // Replace nanoid with uuid
+
     let productUrl: string;
     let isUnique = false;
 
     while (!isUnique) {
-      const generatedId = nanoid();
+      // Generate a numeric-like string from UUID
+      // This takes the first 10 characters of a UUID (removing hyphens) which will typically be hexadecimal
+      const generatedId = uuidv4().replace(/-/g, '').substring(0, 10);
       productUrl = `${slugTitle}-${generatedId}`;
       const existingProductWithUrl = await this.productRepository.findOne({
         where: { productUrl },
