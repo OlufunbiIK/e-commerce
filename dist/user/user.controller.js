@@ -54,7 +54,6 @@ let UserController = class UserController {
 exports.UserController = UserController;
 __decorate([
     (0, roles_decorator_1.Roles)(userRole_enum_1.UserRole.SUPERADMIN),
-    (0, common_1.UseInterceptors)(common_1.ClassSerializerInterceptor),
     (0, common_1.Post)(),
     (0, swagger_1.ApiOperation)({ summary: 'Create a new user (Admin only)' }),
     (0, swagger_1.ApiResponse)({ status: 201, description: 'User successfully created' }),

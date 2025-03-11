@@ -47,6 +47,7 @@ export class Order {
 
   @ApiProperty({
     description: 'Current status of the order',
+
     enum: OrderStatus,
     example: OrderStatus.PENDING,
   })
