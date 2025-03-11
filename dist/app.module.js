@@ -37,7 +37,7 @@ exports.AppModule = AppModule = __decorate([
         imports: [
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
-                envFilePath: ['.env.development'],
+                envFilePath: ['.env.development', '.env.production'],
                 load: [database_config_1.default],
             }),
             typeorm_1.TypeOrmModule.forRootAsync({
@@ -48,10 +48,8 @@ exports.AppModule = AppModule = __decorate([
                     username: configService.get('db').username,
                     password: configService.get('db').password,
                     database: configService.get('db').database,
-                    url: process.env.NODE_ENV === 'production'
-                        ? configService.get('db').url
-                        : undefined,
-                    synchronize: false,
+                    url: configService.get('db').url,
+                    synchronize: true,
                     autoLoadEntities: true,
                 }),
                 inject: [config_1.ConfigService],
