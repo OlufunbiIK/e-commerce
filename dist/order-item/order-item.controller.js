@@ -109,7 +109,7 @@ __decorate([
 ], OrderItemController.prototype, "remove", null);
 exports.OrderItemController = OrderItemController = __decorate([
     (0, swagger_1.ApiTags)('Order Items'),
-    (0, common_1.Controller)('order-item'),
+    (0, common_1.Controller)('order-items'),
     __metadata("design:paramtypes", [order_item_service_1.OrderItemService])
 ], OrderItemController);
 //# sourceMappingURL=order-item.controller.js.map

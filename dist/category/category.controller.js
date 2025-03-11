@@ -99,7 +99,7 @@ __decorate([
 ], CategoryController.prototype, "remove", null);
 exports.CategoryController = CategoryController = __decorate([
     (0, swagger_1.ApiTags)('Category'),
-    (0, common_1.Controller)('category'),
+    (0, common_1.Controller)('categories'),
     __metadata("design:paramtypes", [category_service_1.CategoryService])
 ], CategoryController);
 //# sourceMappingURL=category.controller.js.map

@@ -53,7 +53,7 @@ __decorate([
         type: product_entity_1.Product,
     }),
     (0, swagger_1.ApiBearerAuth)(),
-    (0, roles_decorator_1.Roles)(userRole_enum_1.UserRole.SELLER),
+    (0, public_decorator_1.Public)(),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -124,7 +124,7 @@ __decorate([
 ], ProductController.prototype, "remove", null);
 exports.ProductController = ProductController = __decorate([
     (0, swagger_1.ApiTags)('Products'),
-    (0, common_1.Controller)('product'),
+    (0, common_1.Controller)('products'),
     __metadata("design:paramtypes", [product_service_1.ProductService])
 ], ProductController);
 //# sourceMappingURL=product.controller.js.map

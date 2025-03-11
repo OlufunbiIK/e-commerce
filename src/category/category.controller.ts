@@ -17,7 +17,7 @@ import { UserRole } from 'src/user/enum/userRole.enum';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @ApiTags('Category') // Groups all endpoints under 'Category' in Swagger
-@Controller('category')
+@Controller('categories')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
