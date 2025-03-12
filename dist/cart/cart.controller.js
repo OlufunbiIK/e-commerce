@@ -13,10 +13,10 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CartController = void 0;
+const add_to_cart_dto_1 = require("./dto/add-to-cart.dto");
 const common_1 = require("@nestjs/common");
 const cart_service_1 = require("./cart.service");
 const swagger_1 = require("@nestjs/swagger");
-const add_to_cart_dto_1 = require("./dto/add-to-cart.dto");
 let CartController = class CartController {
     constructor(cartService) {
         this.cartService = cartService;
@@ -43,9 +43,13 @@ let CartController = class CartController {
     async getCartItemsByUser(userId) {
         return this.cartService.getCartItemsByUser(userId);
     }
+    removeFromCart(body) {
+        return this.cartService.removeFromCart(body.userId, body.productId);
+    }
 };
 exports.CartController = CartController;
 __decorate([
+    (0, common_1.Post)('add'),
     (0, swagger_1.ApiOperation)({
         summary: 'Add an item to the cart',
         description: 'Adds a product to the user’s cart with the specified quantity.',
@@ -72,13 +76,21 @@ __decorate([
             },
         },
     }),
-    (0, common_1.Post)('add'),
+    (0, swagger_1.ApiResponse)({
+        status: 201,
+        description: 'Item successfully added to cart',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 400,
+        description: 'Invalid input data',
+    }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [add_to_cart_dto_1.AddToCartDto]),
     __metadata("design:returntype", Promise)
 ], CartController.prototype, "addToCart", null);
 __decorate([
+    (0, common_1.Get)(':userId'),
     (0, swagger_1.ApiOperation)({
         summary: 'Get the user’s cart',
         description: 'Retrieves the user’s cart based on the user ID.',
@@ -89,29 +101,90 @@ __decorate([
         example: 1,
         description: 'ID of the user whose cart is being fetched',
     }),
-    (0, common_1.Get)(':userId'),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Cart retrieved successfully',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 404,
+        description: 'Cart not found',
+    }),
     __param(0, (0, common_1.Param)('userId')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], CartController.prototype, "getCart", null);
 __decorate([
+    (0, common_1.Get)('cart-items'),
     (0, swagger_1.ApiOperation)({
         summary: 'Get all cart items',
         description: 'Retrieves all cart items from the database.',
     }),
-    (0, common_1.Get)('cart-items'),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'List of all cart items retrieved successfully',
+    }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], CartController.prototype, "getAllCartItems", null);
 __decorate([
     (0, common_1.Get)('items/:userId'),
+    (0, swagger_1.ApiOperation)({
+        summary: 'Get cart items for a user',
+        description: 'Retrieves all cart items for a specific user by user ID.',
+    }),
+    (0, swagger_1.ApiParam)({
+        name: 'userId',
+        type: 'number',
+        example: 1,
+        description: 'ID of the user whose cart items are being fetched',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Cart items retrieved successfully',
+    }),
     __param(0, (0, common_1.Param)('userId')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], CartController.prototype, "getCartItemsByUser", null);
+__decorate([
+    (0, common_1.Delete)('remove'),
+    (0, swagger_1.ApiOperation)({
+        summary: 'Remove an item from the cart',
+        description: 'Removes a specific product from the user’s cart.',
+    }),
+    (0, swagger_1.ApiBody)({
+        schema: {
+            type: 'object',
+            properties: {
+                userId: {
+                    type: 'number',
+                    example: 1,
+                    description: 'ID of the user',
+                },
+                productId: {
+                    type: 'number',
+                    example: 101,
+                    description: 'ID of the product to remove',
+                },
+            },
+        },
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Item removed from cart successfully',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 404,
+        description: 'Item not found in cart',
+    }),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], CartController.prototype, "removeFromCart", null);
 exports.CartController = CartController = __decorate([
     (0, swagger_1.ApiTags)('Cart'),
     (0, common_1.Controller)('carts'),

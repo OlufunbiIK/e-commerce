@@ -30,5 +30,9 @@ export declare class AuthService {
     }>;
     login(loginDto: LoginDto): Promise<{
         access_token: string;
+        refreshToken: string;
+    }>;
+    refreshToken(refreshToken: string): Promise<{
+        access_token: string;
     }>;
 }

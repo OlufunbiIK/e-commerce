@@ -15,6 +15,7 @@ export class CartService {
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
   ) {}
+
   async getCart(userId: number): Promise<Cart> {
     let cart = await this.cartRepository.findOne({
       where: { user: { id: userId } },
@@ -71,20 +72,19 @@ export class CartService {
     } catch (error) {
       throw new Error('Error retrieving cart items');
     }
-
+  } // <-- Added missing closing brace here
 
   async removeFromCart(userId: number, productId: number) {
     const cart = await this.getCart(userId);
     if (!cart) throw new NotFoundException('Cart not found');
-  
+
     const cartItem = await this.cartItemRepository.findOne({
       where: { cart: { id: cart.id }, product: { id: productId } },
     });
-  
+
     if (!cartItem) throw new NotFoundException('Item not found in cart');
-  
+
     await this.cartItemRepository.remove(cartItem);
     return { message: 'Item removed from cart successfully' };
-
   }
 }

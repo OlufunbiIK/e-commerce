@@ -74,6 +74,18 @@ let CartService = class CartService {
             throw new Error('Error retrieving cart items');
         }
     }
+    async removeFromCart(userId, productId) {
+        const cart = await this.getCart(userId);
+        if (!cart)
+            throw new common_1.NotFoundException('Cart not found');
+        const cartItem = await this.cartItemRepository.findOne({
+            where: { cart: { id: cart.id }, product: { id: productId } },
+        });
+        if (!cartItem)
+            throw new common_1.NotFoundException('Item not found in cart');
+        await this.cartItemRepository.remove(cartItem);
+        return { message: 'Item removed from cart successfully' };
+    }
 };
 exports.CartService = CartService;
 exports.CartService = CartService = __decorate([

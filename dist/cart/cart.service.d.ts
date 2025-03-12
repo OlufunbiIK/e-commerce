@@ -11,4 +11,7 @@ export declare class CartService {
     addToCart(userId: number, productId: number, quantity: number): Promise<Cart>;
     getAllCartItems(): Promise<CartItem[]>;
     getCartItemsByUser(userId: number): Promise<CartItem[]>;
+    removeFromCart(userId: number, productId: number): Promise<{
+        message: string;
+    }>;
 }

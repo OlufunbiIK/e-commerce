@@ -29,6 +29,9 @@ let AuthController = class AuthController {
     async login(loginDto) {
         return this.authService.login(loginDto);
     }
+    async refreshToken(refreshToken) {
+        return this.authService.refreshToken(refreshToken);
+    }
 };
 exports.AuthController = AuthController;
 __decorate([
@@ -61,6 +64,21 @@ __decorate([
     __metadata("design:paramtypes", [login_dto_1.LoginDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({
+        summary: 'Refresh Access Token',
+        description: 'Provides a new access token using a valid refresh token.',
+    }),
+    (0, swagger_1.ApiBody)({ schema: { properties: { refreshToken: { type: 'string' } } } }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'New access token generated' }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: 'Invalid or expired refresh token' }),
+    (0, public_decorator_1.Public)(),
+    (0, common_1.Post)('refresh-token'),
+    __param(0, (0, common_1.Body)('refreshToken')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "refreshToken", null);
 exports.AuthController = AuthController = __decorate([
     (0, swagger_1.ApiTags)('Authentication'),
     (0, common_1.Controller)('auth'),
