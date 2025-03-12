@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { IsOptional, IsPositive } from 'class-validator';
 
 // import { Type } from "class-transformer";

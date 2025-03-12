@@ -9,4 +9,6 @@ export declare class CartService {
     constructor(cartRepository: Repository<Cart>, cartItemRepository: Repository<CartItem>, productRepository: Repository<Product>);
     getCart(userId: number): Promise<Cart>;
     addToCart(userId: number, productId: number, quantity: number): Promise<Cart>;
+    getAllCartItems(): Promise<CartItem[]>;
+    getCartItemsByUser(userId: number): Promise<CartItem[]>;
 }

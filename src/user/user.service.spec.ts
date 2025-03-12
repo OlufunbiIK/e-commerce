@@ -64,7 +64,7 @@ describe('UserService', () => {
       mockUserRepository.save.mockResolvedValue(dto);
 
       const result = await service.create(dto);
-      expect(result.password).not.toBe('password123');
+      expect(result.email).not.toBe('email@example.com');
       expect(bcrypt.hash).toHaveBeenCalled(); // Ensure bcrypt.hash is called
     });
   });

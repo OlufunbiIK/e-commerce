@@ -62,8 +62,9 @@ let AuthService = class AuthService {
         const existingUser = await this.userRepository.findOne({
             where: { email },
         });
-        if (existingUser)
+        if (existingUser) {
             throw new common_1.BadRequestException('User already exists');
+        }
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = this.userRepository.create({
             firstName,
@@ -74,7 +75,11 @@ let AuthService = class AuthService {
             isVerified: true,
         });
         await this.userRepository.save(user);
-        return { message: 'User registered successfully', user };
+        const { password: _, googleId, ...userWithoutSensitiveData } = user;
+        return {
+            message: 'User registered successfully',
+            user: userWithoutSensitiveData,
+        };
     }
     async login(loginDto) {
         const { email, password } = loginDto;

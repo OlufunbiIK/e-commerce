@@ -17,6 +17,7 @@ const userRole_enum_1 = require("../enum/userRole.enum");
 const review_entity_1 = require("../../review/entities/review.entity");
 const cart_entity_1 = require("../../cart/entities/cart.entity");
 const swagger_1 = require("@nestjs/swagger");
+const class_transformer_1 = require("class-transformer");
 let User = class User {
 };
 exports.User = User;
@@ -45,6 +46,7 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
+    (0, class_transformer_1.Exclude)(),
     (0, typeorm_1.Column)({ type: 'varchar', nullable: true }),
     (0, swagger_1.ApiProperty)({
         example: 'hashedpassword123',

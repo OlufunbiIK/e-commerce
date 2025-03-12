@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Injectable,
   BadRequestException,
@@ -17,7 +18,6 @@ export class AuthService {
     @InjectRepository(User) private userRepository: Repository<User>,
     private jwtService: JwtService,
   ) {}
-
   // ✅ User Registration
   async register(registerDto: CreateUserDto) {
     const { firstName, lastName, email, password, role } = registerDto;
@@ -26,7 +26,10 @@ export class AuthService {
     const existingUser = await this.userRepository.findOne({
       where: { email },
     });
-    if (existingUser) throw new BadRequestException('User already exists');
+
+    if (existingUser) {
+      throw new BadRequestException('User already exists');
+    }
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -38,13 +41,18 @@ export class AuthService {
       email,
       password: hashedPassword,
       role,
-      isVerified: true, // Default: false until email verification is implemented but for the sake of testing it is true for now
+      isVerified: true, // Defaulting to true for testing purposes
     });
 
     await this.userRepository.save(user);
-    return { message: 'User registered successfully', user };
 
-    // fixme - @lishmanTech, the user object is returning sensitive information like password, we should not return the password, googleId
+    // Destructure to exclude sensitive fields
+    const { password: _, googleId, ...userWithoutSensitiveData } = user;
+
+    return {
+      message: 'User registered successfully',
+      user: userWithoutSensitiveData,
+    };
   }
 
   // // ✅ User Login

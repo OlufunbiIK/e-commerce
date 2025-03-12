@@ -35,7 +35,16 @@ let OrderService = class OrderService {
             totalPrice,
             status: orderStatus_enum_1.OrderStatus.PENDING,
         });
-        return this.orderRepository.save(order);
+        const savedOrder = await this.orderRepository.save(order);
+        const { firstName, lastName, email } = user;
+        return {
+            id: savedOrder.id,
+            user: { firstName, lastName, email },
+            totalPrice: savedOrder.totalPrice,
+            status: savedOrder.status,
+            createdAt: savedOrder.createdAt,
+            updatedAt: savedOrder.updatedAt,
+        };
     }
     async updateOrderStatus(orderId, status, adminUser) {
         if (adminUser.role !== userRole_enum_1.UserRole.ADMIN) {

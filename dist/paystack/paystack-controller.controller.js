@@ -132,6 +132,7 @@ __decorate([
         status: 200,
         description: 'Transactions fetched successfully',
     }),
+    (0, roles_decorator_1.Roles)(userRole_enum_1.UserRole.ADMIN),
     (0, common_1.Get)('transactions'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),

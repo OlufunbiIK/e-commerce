@@ -46,7 +46,7 @@ __decorate([
         description: 'Quantity of the product in the cart',
         example: 2,
     }),
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: 'integer' }),
     __metadata("design:type", Number)
 ], CartItem.prototype, "quantity", void 0);
 __decorate([
@@ -54,7 +54,7 @@ __decorate([
         description: 'Price of the product at the time of adding to the cart',
         example: 19.99,
     }),
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: 'float' }),
     __metadata("design:type", Number)
 ], CartItem.prototype, "price", void 0);
 exports.CartItem = CartItem = __decorate([

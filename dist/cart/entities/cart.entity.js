@@ -39,7 +39,7 @@ __decorate([
         description: 'Total quantity of products in the cart',
         example: 3,
     }),
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: 'integer' }),
     __metadata("design:type", Number)
 ], Cart.prototype, "quantity", void 0);
 __decorate([
@@ -52,13 +52,13 @@ __decorate([
     __metadata("design:type", String)
 ], Cart.prototype, "status", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({
-        description: 'List of cart items',
-        type: () => [cart_items_entity_1.CartItem],
-    }),
     (0, typeorm_1.OneToMany)(() => cart_items_entity_1.CartItem, (cartItem) => cartItem.cart, {
         cascade: true,
         eager: true,
+    }),
+    (0, swagger_1.ApiProperty)({
+        description: 'List of cart items',
+        type: () => [cart_items_entity_1.CartItem],
     }),
     __metadata("design:type", Array)
 ], Cart.prototype, "cartItems", void 0);
@@ -67,7 +67,7 @@ __decorate([
         description: 'Total price of items in the cart',
         example: 150.5,
     }),
-    (0, typeorm_1.Column)({ default: 0 }),
+    (0, typeorm_1.Column)({ default: 0, type: 'float' }),
     __metadata("design:type", Number)
 ], Cart.prototype, "totalPrice", void 0);
 exports.Cart = Cart = __decorate([

@@ -68,17 +68,24 @@ let UserService = class UserService {
             throw new common_1.NotFoundException('Admin already exists');
         }
         createUserDto.role = userRole_enum_1.UserRole.ADMIN;
-        const hashedPassword = await bcrypt.hash('1234password', 10);
-        createUserDto.password = hashedPassword;
+        if (createUserDto.password) {
+            const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+            createUserDto.password = hashedPassword;
+        }
+        else {
+            throw new common_1.BadRequestException('Password is required');
+        }
         createUserDto.isVerified = false;
         const newUser = this.userRepository.create(createUserDto);
-        return await this.userRepository.save(newUser);
+        const savedUser = await this.userRepository.save(newUser);
+        const { password, ...userWithoutPassword } = savedUser;
+        return userWithoutPassword;
     }
     async findAllAdmins() {
         const admins = await this.userRepository.find({
             where: { role: userRole_enum_1.UserRole.ADMIN },
         });
-        const adminsWithoutSensitiveData = admins.map(admin => {
+        const adminsWithoutSensitiveData = admins.map((admin) => {
             const { password, googleId, storeName, storeDescription, storeAddress, ...adminWithoutSensitiveData } = admin;
             return adminWithoutSensitiveData;
         });
@@ -99,7 +106,7 @@ let UserService = class UserService {
             where: { role: userRole_enum_1.UserRole.SELLER },
             relations: ['products', 'products.seller'],
         });
-        const sellersWithoutSensitiveData = sellers.map(admin => {
+        const sellersWithoutSensitiveData = sellers.map((admin) => {
             const { password, googleId, ...sellerWithoutSensitiveData } = admin;
             return sellerWithoutSensitiveData;
         });

@@ -26,10 +26,19 @@ let CartService = class CartService {
         this.productRepository = productRepository;
     }
     async getCart(userId) {
-        return await this.cartRepository.findOne({
+        let cart = await this.cartRepository.findOne({
             where: { user: { id: userId } },
-            relations: ['items', 'items.product'],
+            relations: ['cartItems', 'cartItems.product'],
         });
+        if (!cart) {
+            cart = this.cartRepository.create({
+                user: { id: userId },
+                quantity: 0,
+                totalPrice: 0,
+            });
+            await this.cartRepository.save(cart);
+        }
+        return cart;
     }
     async addToCart(userId, productId, quantity) {
         const cart = await this.getCart(userId);
@@ -46,6 +55,24 @@ let CartService = class CartService {
         });
         await this.cartItemRepository.save(cartItem);
         return cart;
+    }
+    async getAllCartItems() {
+        try {
+            return await this.cartItemRepository.find();
+        }
+        catch (error) {
+            throw new Error('Error retrieving cart items');
+        }
+    }
+    async getCartItemsByUser(userId) {
+        try {
+            return await this.cartItemRepository.find({
+                where: { cart: { user: { id: userId } } },
+            });
+        }
+        catch (error) {
+            throw new Error('Error retrieving cart items');
+        }
     }
 };
 exports.CartService = CartService;

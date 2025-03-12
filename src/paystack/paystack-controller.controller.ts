@@ -65,6 +65,7 @@ export class PaystackController {
     status: 200,
     description: 'Transactions fetched successfully',
   })
+  @Roles(UserRole.ADMIN)
   @Get('transactions')
   async getAllTransactions() {
     return this.paystackService.getAllTransactions();
