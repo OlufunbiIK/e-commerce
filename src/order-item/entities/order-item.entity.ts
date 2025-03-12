@@ -49,10 +49,14 @@ export class OrderItem {
   })
   status: OrderItemStatus;
 
-  @ApiProperty({
-    example: 1500.5,
-    description: 'Price per unit of the product in the order',
+  @Column({
+    type: 'decimal', // ✅ Ensures it's stored as a decimal
+    precision: 10, // ✅ Total digits (e.g., 1234567890.99)
+    scale: 2, // ✅ Decimal places (e.g., 1500.75)
+    transformer: {
+      to: (value: number) => value.toFixed(2), // ✅ Ensure correct format before saving
+      from: (value: string) => parseFloat(value), // ✅ Convert string to number
+    },
   })
-  @Column()
   price: number;
 }

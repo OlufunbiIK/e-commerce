@@ -60,7 +60,7 @@ __decorate([
         example: 1500.5,
         description: 'Price per unit of the product ordered',
     }),
-    (0, class_validator_1.IsDecimal)(),
+    (0, class_validator_1.IsDecimal)({ force_decimal: true, decimal_digits: '1,2' }),
     (0, class_validator_1.IsPositive)(),
     __metadata("design:type", Number)
 ], CreateOrderItemDto.prototype, "price", void 0);

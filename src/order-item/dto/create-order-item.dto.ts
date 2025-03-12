@@ -48,7 +48,7 @@ export class CreateOrderItemDto {
     example: 1500.5,
     description: 'Price per unit of the product ordered',
   })
-  @IsDecimal()
-  @IsPositive()
+  @IsDecimal({ force_decimal: true, decimal_digits: '1,2' }) // ✅ Ensures it's a decimal
+  @IsPositive() // ✅ Ensures it's greater than zero
   price: number;
 }
