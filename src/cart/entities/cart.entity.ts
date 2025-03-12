@@ -30,7 +30,7 @@ export class Cart {
     description: 'Total quantity of products in the cart',
     example: 3,
   })
-  @Column()
+  @Column({ type: 'integer' })
   quantity: number;
 
   @ApiProperty({
@@ -41,13 +41,13 @@ export class Cart {
   @Column({ type: 'enum', enum: CartStatus, default: CartStatus.ACTIVE })
   status: CartStatus;
 
-  @ApiProperty({
-    description: 'List of cart items',
-    type: () => [CartItem],
-  })
   @OneToMany(() => CartItem, (cartItem) => cartItem.cart, {
     cascade: true,
     eager: true,
+  })
+  @ApiProperty({
+    description: 'List of cart items',
+    type: () => [CartItem],
   })
   cartItems: CartItem[];
 
@@ -55,6 +55,6 @@ export class Cart {
     description: 'Total price of items in the cart',
     example: 150.5,
   })
-  @Column({ default: 0 })
+  @Column({ default: 0, type: 'float' })
   totalPrice: number;
 }

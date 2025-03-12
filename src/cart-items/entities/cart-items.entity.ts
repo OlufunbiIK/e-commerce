@@ -30,13 +30,13 @@ export class CartItem {
     description: 'Quantity of the product in the cart',
     example: 2,
   })
-  @Column()
+  @Column({ type: 'integer' })
   quantity: number;
 
   @ApiProperty({
     description: 'Price of the product at the time of adding to the cart',
     example: 19.99,
   })
-  @Column()
+  @Column({ type: 'float' })
   price: number;
 }

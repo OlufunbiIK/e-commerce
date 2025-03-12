@@ -26,12 +26,24 @@ export class OrderService {
     }
 
     const order = this.orderRepository.create({
-      user, // Use the actual user entity
+      user,
       totalPrice,
       status: OrderStatus.PENDING,
     });
 
-    return this.orderRepository.save(order);
+    const savedOrder = await this.orderRepository.save(order);
+
+    // Return only selected user details
+    const { firstName, lastName, email } = user;
+
+    return {
+      id: savedOrder.id,
+      user: { firstName, lastName, email },
+      totalPrice: savedOrder.totalPrice,
+      status: savedOrder.status,
+      createdAt: savedOrder.createdAt,
+      updatedAt: savedOrder.updatedAt,
+    };
   }
 
   async updateOrderStatus(

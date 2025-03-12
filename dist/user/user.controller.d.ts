@@ -7,7 +7,25 @@ export declare class UserController {
     private readonly userService;
     private readonly findOneByEmailProvider;
     constructor(userService: UserService, findOneByEmailProvider: FindOneByEmailProvider);
-    create(createUserDto: CreateUserDto): Promise<import("./entities/user.entity").User>;
+    create(createUserDto: CreateUserDto): Promise<{
+        id: number;
+        firstName: string;
+        lastName: string;
+        email: string;
+        role: UserRole;
+        isVerified: boolean;
+        googleId?: string;
+        storeName?: string;
+        storeDescription?: string;
+        storeAddress?: string;
+        phoneNumber?: string;
+        createdAt: Date;
+        updatedAt: Date;
+        products: import("../product/entities/product.entity").Product[];
+        carts: import("../cart/entities/cart.entity").Cart[];
+        orders: import("../order/entities/order.entity").Order[];
+        reviews: import("../review/entities/review.entity").Review[];
+    }>;
     findAllAdmins(): Promise<{
         admins: {
             id: number;

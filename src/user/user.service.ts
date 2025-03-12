@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -19,9 +23,8 @@ export class UserService {
     private readonly userRepository: Repository<User>,
     private readonly paginationService: PaginationProvider,
     private readonly findOneByEmailProvider: FindOneByEmailProvider,
-  ) { }
+  ) {}
   public async create(createUserDto: CreateUserDto) {
-
     // 1. check for existing admin
     const existingAdmin = await this.userRepository.findOne({
       where: { email: createUserDto.email, role: UserRole.ADMIN },
@@ -33,11 +36,15 @@ export class UserService {
     // 2. set role as admin
     createUserDto.role = UserRole.ADMIN;
 
-    // 3. set default password
-    const hashedPassword = await bcrypt.hash('1234password', 10);
-    createUserDto.password = hashedPassword;    // encrypt password
+    // 3. Check if password is provided and hash it if present
+    if (createUserDto.password) {
+      const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+      createUserDto.password = hashedPassword; // Encrypt the provided password
+    } else {
+      throw new BadRequestException('Password is required');
+    }
 
-    // 4 set isVerified as false
+    // 4. set isVerified as false
     createUserDto.isVerified = false;
 
     // 5. create the user
@@ -47,17 +54,30 @@ export class UserService {
     // await this.emailService.sendAdminVerificationEmail(newUser);
 
     // 7. save the user
-    return await this.userRepository.save(newUser);
+    const savedUser = await this.userRepository.save(newUser);
+
+    // 8. remove password from the response using the spread operator
+    const { password, ...userWithoutPassword } = savedUser;
+
+    // 9. return the user data without password
+    return userWithoutPassword;
   }
-  
+
   public async findAllAdmins() {
     const admins = await this.userRepository.find({
       where: { role: UserRole.ADMIN },
     });
 
     // Exclude sensitive information
-    const adminsWithoutSensitiveData = admins.map(admin => {
-      const { password, googleId, storeName, storeDescription, storeAddress, ...adminWithoutSensitiveData } = admin;
+    const adminsWithoutSensitiveData = admins.map((admin) => {
+      const {
+        password,
+        googleId,
+        storeName,
+        storeDescription,
+        storeAddress,
+        ...adminWithoutSensitiveData
+      } = admin;
       return adminWithoutSensitiveData;
     });
 
@@ -73,7 +93,14 @@ export class UserService {
       throw new NotFoundException(`Admin with email ${email} not found`);
     }
     // exclude sensitive information
-    const { password, googleId, storeName, storeDescription, storeAddress, ...result } = admin;
+    const {
+      password,
+      googleId,
+      storeName,
+      storeDescription,
+      storeAddress,
+      ...result
+    } = admin;
     return result;
   }
 
@@ -84,7 +111,7 @@ export class UserService {
     });
 
     // Exclude sensitive information
-    const sellersWithoutSensitiveData = sellers.map(admin => {
+    const sellersWithoutSensitiveData = sellers.map((admin) => {
       const { password, googleId, ...sellerWithoutSensitiveData } = admin;
       return sellerWithoutSensitiveData;
     });

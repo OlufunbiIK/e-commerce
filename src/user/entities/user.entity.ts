@@ -12,6 +12,7 @@ import { UserRole } from '../enum/userRole.enum';
 import { Review } from 'src/review/entities/review.entity';
 import { Cart } from 'src/cart/entities/cart.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class User {
@@ -35,6 +36,7 @@ export class User {
   })
   email: string;
 
+  @Exclude()
   @Column({ type: 'varchar', nullable: true })
   @ApiProperty({
     example: 'hashedpassword123',
