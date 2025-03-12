@@ -29,29 +29,25 @@ import { CustomCacheModule } from './config/cache.config';
       load: [database],
     }), //5.
     TypeOrmModule.forRootAsync({
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get('db').host,
-        port: configService.get('db').port,
-        username: configService.get('db').username,
-        password: configService.get('db').password,
-        database: configService.get('db').database,
-        url: configService.get('db').url,
-        ssl: {
-          rejectUnauthorized: true,
-        },
-        // process.env.NODE_ENV === 'production'
-        //   ? configService.get('db').url
-        //   : undefined,
-        // synchronize: process.env.NODE_ENV !== 'production', // Use sync (true) in dev, false in prod
-        synchronize: true, // fixme - revert to line above
-        autoLoadEntities: true,
+      useFactory: (configService: ConfigService) => {
+        // Get database URL from config
+        const dbUrl = configService.get('db').url;
 
-        // entities: [User, Product, Order, OrderItem],
-      }),
-
+        return {
+          type: 'postgres',
+          url: dbUrl, // Use URL as primary connection method
+          ssl: true, // Enable SSL
+          extra: {
+            // Add extra SSL options
+            ssl: {
+              rejectUnauthorized: true,
+            },
+          },
+          synchronize: true,
+          autoLoadEntities: true,
+        };
+      },
       inject: [ConfigService],
-      imports: undefined,
     }),
     CategoryModule,
     UserModule,
