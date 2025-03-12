@@ -32,6 +32,21 @@ export declare class ProductService {
         reviews: import("../review/entities/review.entity").Review[];
         cartItems: import("../cart-items/entities/cart-items.entity").CartItem[];
     }>;
+    getProductByProductUrl(productUrl: string): Promise<{
+        seller: any;
+        id: number;
+        title: string;
+        description: string;
+        price: number;
+        stock: number;
+        productUrl?: string;
+        createdAt: Date;
+        updatedAt: Date;
+        category: number;
+        orderItems: import("../order-item/entities/order-item.entity").OrderItem[];
+        reviews: import("../review/entities/review.entity").Review[];
+        cartItems: import("../cart-items/entities/cart-items.entity").CartItem[];
+    }>;
     update(id: number, updateProductDto: UpdateProductDto): Promise<{
         id: number;
         title: string;

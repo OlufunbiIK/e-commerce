@@ -85,6 +85,14 @@ export class ProductController {
     return this.productService.update(+id, updateProductDto);
   }
 
+  @Get('by-url/:productUrl')
+  @ApiOperation({ summary: 'Find a product by its URL' })
+  @ApiResponse({ status: 200, description: 'Product found', type: Product })
+  @ApiResponse({ status: 404, description: 'Product not found' })
+  async findByProductUrl(@Param('productUrl') productUrl: string) {
+    return this.productService.getProductByProductUrl(productUrl);
+  }
+
   @ApiOperation({ summary: 'Delete a product' })
   @ApiResponse({ status: 200, description: 'Product deleted successfully' })
   @ApiResponse({

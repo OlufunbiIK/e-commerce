@@ -109,6 +109,7 @@ export class Product {
     description: 'Cart items associated with the product',
     type: [CartItem],
   })
-  @OneToMany(() => CartItem, (cartItem) => cartItem.product, { eager: true })
+  @OneToMany(() => CartItem, (cartItem) => cartItem.product)
   cartItems: CartItem[];
+  //an image that is an object and an enum with pry,sec images and a
 }

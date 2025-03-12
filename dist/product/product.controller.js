@@ -40,6 +40,9 @@ let ProductController = class ProductController {
     update(id, updateProductDto) {
         return this.productService.update(+id, updateProductDto);
     }
+    async findByProductUrl(productUrl) {
+        return this.productService.getProductByProductUrl(productUrl);
+    }
     remove(id) {
         return this.productService.remove(+id);
     }
@@ -106,6 +109,16 @@ __decorate([
     __metadata("design:paramtypes", [String, update_product_dto_1.UpdateProductDto]),
     __metadata("design:returntype", void 0)
 ], ProductController.prototype, "update", null);
+__decorate([
+    (0, common_1.Get)('by-url/:productUrl'),
+    (0, swagger_1.ApiOperation)({ summary: 'Find a product by its URL' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Product found', type: product_entity_1.Product }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: 'Product not found' }),
+    __param(0, (0, common_1.Param)('productUrl')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ProductController.prototype, "findByProductUrl", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Delete a product' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Product deleted successfully' }),

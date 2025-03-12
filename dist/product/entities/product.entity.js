@@ -125,7 +125,7 @@ __decorate([
         description: 'Cart items associated with the product',
         type: [cart_items_entity_1.CartItem],
     }),
-    (0, typeorm_1.OneToMany)(() => cart_items_entity_1.CartItem, (cartItem) => cartItem.product, { eager: true }),
+    (0, typeorm_1.OneToMany)(() => cart_items_entity_1.CartItem, (cartItem) => cartItem.product),
     __metadata("design:type", Array)
 ], Product.prototype, "cartItems", void 0);
 exports.Product = Product = __decorate([
