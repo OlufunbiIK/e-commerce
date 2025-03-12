@@ -175,6 +175,33 @@ export class ProductService {
     };
   }
 
+  public async getProductByProductUrl(productUrl: string) {
+    const product = await this.productRepository.findOne({
+      where: { productUrl },
+      relations: ['category', 'seller'], // Also include 'reviews' if needed
+    });
+
+    if (!product) {
+      throw new NotFoundException(`Product with URL "${productUrl}" not found`);
+    }
+
+    const { seller, ...productDetails } = product;
+    let sellerWithoutSensitiveInfo = null;
+
+    if (typeof seller === 'object' && seller !== null) {
+      const { password, googleId, role, ...rest } = seller as Record<
+        string,
+        any
+      >;
+      sellerWithoutSensitiveInfo = rest;
+    }
+
+    return {
+      ...productDetails,
+      seller: sellerWithoutSensitiveInfo,
+    };
+  }
+
   public async update(id: number, updateProductDto: UpdateProductDto) {
     // 1. Check if the product exists
     const product = await this.productRepository.findOne({ where: { id } });

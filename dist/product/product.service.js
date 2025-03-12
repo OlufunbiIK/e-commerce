@@ -127,6 +127,25 @@ let ProductService = class ProductService {
             seller: sellerWithoutSensitiveInfo,
         };
     }
+    async getProductByProductUrl(productUrl) {
+        const product = await this.productRepository.findOne({
+            where: { productUrl },
+            relations: ['category', 'seller'],
+        });
+        if (!product) {
+            throw new common_1.NotFoundException(`Product with URL "${productUrl}" not found`);
+        }
+        const { seller, ...productDetails } = product;
+        let sellerWithoutSensitiveInfo = null;
+        if (typeof seller === 'object' && seller !== null) {
+            const { password, googleId, role, ...rest } = seller;
+            sellerWithoutSensitiveInfo = rest;
+        }
+        return {
+            ...productDetails,
+            seller: sellerWithoutSensitiveInfo,
+        };
+    }
     async update(id, updateProductDto) {
         const product = await this.productRepository.findOne({ where: { id } });
         if (!product) {
