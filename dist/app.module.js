@@ -43,22 +43,22 @@ exports.AppModule = AppModule = __decorate([
                 load: [database_config_1.default],
             }),
             typeorm_1.TypeOrmModule.forRootAsync({
-                useFactory: (configService) => ({
-                    type: 'postgres',
-                    host: configService.get('db').host,
-                    port: configService.get('db').port,
-                    username: configService.get('db').username,
-                    password: configService.get('db').password,
-                    database: configService.get('db').database,
-                    url: configService.get('db').url,
-                    ssl: {
-                        rejectUnauthorized: true,
-                    },
-                    synchronize: true,
-                    autoLoadEntities: true,
-                }),
+                useFactory: (configService) => {
+                    const dbUrl = configService.get('db').url;
+                    return {
+                        type: 'postgres',
+                        url: dbUrl,
+                        ssl: true,
+                        extra: {
+                            ssl: {
+                                rejectUnauthorized: true,
+                            },
+                        },
+                        synchronize: true,
+                        autoLoadEntities: true,
+                    };
+                },
                 inject: [config_1.ConfigService],
-                imports: undefined,
             }),
             category_module_1.CategoryModule,
             user_module_1.UserModule,
