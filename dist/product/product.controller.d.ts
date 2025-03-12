@@ -39,7 +39,7 @@ export declare class ProductController {
         cartItems: import("../cart-items/entities/cart-items.entity").CartItem[];
         sellerId?: string;
     }>;
-    findByProductUrl(productUrl: string): Promise<{
+    findByProductUrl(encodedUrl: string): Promise<{
         seller: any;
         id: number;
         title: string;
