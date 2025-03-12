@@ -77,6 +77,36 @@ export class AuthService {
 
     const token = this.jwtService.sign(payload, { expiresIn: '1h' }); // 🔥 Explicit expiration time
 
-    return { access_token: token };
+    const refreshToken = this.jwtService.sign(payload, {
+      secret: process.env.JWT_REFRESH_SECRET || 'refresh-secret-key',
+      expiresIn: '7d', // Refresh token valid for 7 days
+    });
+
+    return { access_token: token, refreshToken };
   }
+
+  async refreshToken(refreshToken: string) {
+    try {
+      // Verify the refresh token
+      const payload = this.jwtService.verify(refreshToken, {
+        secret: process.env.JWT_REFRESH_SECRET || 'refresh-secret-key',
+      });
+  
+      // Find user based on token payload
+      const user = await this.userRepository.findOne({ where: { id: payload.sub } });
+      if (!user) throw new UnauthorizedException('Invalid refresh token');
+  
+      // Generate new access token
+      const newAccessToken = this.jwtService.sign(
+        { sub: user.id, email: user.email, role: user.role },
+        { expiresIn: '1h' }
+      );
+  
+      return { access_token: newAccessToken };
+    } catch (error) {
+      throw new UnauthorizedException('Invalid or expired refresh token');
+    }
+  }
+  
+  
 }
