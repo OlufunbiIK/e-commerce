@@ -77,7 +77,7 @@ export class ProductController {
     status: 403,
     description: 'Unauthorized to update this product',
   })
-  @ApiBearerAuth() // Requires authentication token
+  @ApiBearerAuth()
   @Roles(UserRole.SELLER)
   @Patch(':id')
   @UseGuards(OwnershipGuard)
@@ -86,10 +86,12 @@ export class ProductController {
   }
 
   @Get('by-url/:productUrl')
+  @Public()
   @ApiOperation({ summary: 'Find a product by its URL' })
   @ApiResponse({ status: 200, description: 'Product found', type: Product })
   @ApiResponse({ status: 404, description: 'Product not found' })
-  async findByProductUrl(@Param('productUrl') productUrl: string) {
+  async findByProductUrl(@Param('productUrl') encodedUrl: string) {
+    const productUrl = decodeURIComponent(encodedUrl); // Decode the URL
     return this.productService.getProductByProductUrl(productUrl);
   }
 
