@@ -67,11 +67,15 @@ __decorate([
     __metadata("design:type", String)
 ], OrderItem.prototype, "status", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({
-        example: 1500.5,
-        description: 'Price per unit of the product in the order',
+    (0, typeorm_1.Column)({
+        type: 'decimal',
+        precision: 10,
+        scale: 2,
+        transformer: {
+            to: (value) => value.toFixed(2),
+            from: (value) => parseFloat(value),
+        },
     }),
-    (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
 ], OrderItem.prototype, "price", void 0);
 exports.OrderItem = OrderItem = __decorate([

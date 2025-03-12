@@ -37,6 +37,9 @@ import { CustomCacheModule } from './config/cache.config';
         password: configService.get('db').password,
         database: configService.get('db').database,
         url: configService.get('db').url,
+        ssl: {
+          rejectUnauthorized: true,
+        },
         // process.env.NODE_ENV === 'production'
         //   ? configService.get('db').url
         //   : undefined,

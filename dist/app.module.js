@@ -51,6 +51,9 @@ exports.AppModule = AppModule = __decorate([
                     password: configService.get('db').password,
                     database: configService.get('db').database,
                     url: configService.get('db').url,
+                    ssl: {
+                        rejectUnauthorized: true,
+                    },
                     synchronize: true,
                     autoLoadEntities: true,
                 }),
