@@ -23,6 +23,12 @@ let CartController = class CartController {
     addToCart(body) {
         return this.cartService.addToCart(body.userId, body.productId, body.quantity);
     }
+    getCart(userId) {
+        return this.cartService.getCart(userId);
+    }
+    removeFromCart(body) {
+        return this.cartService.removeFromCart(body.userId, body.productId);
+    }
 };
 exports.CartController = CartController;
 __decorate([
@@ -58,6 +64,51 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], CartController.prototype, "addToCart", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({
+        summary: 'Get user cart',
+        description: 'Retrieves the cart for a specific user.',
+    }),
+    (0, swagger_1.ApiParam)({
+        name: 'userId',
+        type: 'number',
+        example: 1,
+        description: 'ID of the user whose cart is being retrieved',
+    }),
+    (0, common_1.Get)(':userId'),
+    __param(0, (0, common_1.Param)('userId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", void 0)
+], CartController.prototype, "getCart", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({
+        summary: 'Remove an item from the cart',
+        description: 'Removes a specific product from the user’s cart.',
+    }),
+    (0, swagger_1.ApiBody)({
+        schema: {
+            type: 'object',
+            properties: {
+                userId: {
+                    type: 'number',
+                    example: 1,
+                    description: 'ID of the user',
+                },
+                productId: {
+                    type: 'number',
+                    example: 101,
+                    description: 'ID of the product to remove',
+                },
+            },
+        },
+    }),
+    (0, common_1.Delete)('remove'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], CartController.prototype, "removeFromCart", null);
 exports.CartController = CartController = __decorate([
     (0, swagger_1.ApiTags)('Cart'),
     (0, common_1.Controller)('carts'),

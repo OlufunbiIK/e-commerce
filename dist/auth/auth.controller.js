@@ -19,6 +19,7 @@ const create_user_dto_1 = require("../user/dto/create-user.dto");
 const login_dto_1 = require("../user/dto/login.dto");
 const public_decorator_1 = require("../common/decorators/public.decorator");
 const swagger_1 = require("@nestjs/swagger");
+const passport_1 = require("@nestjs/passport");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -28,6 +29,21 @@ let AuthController = class AuthController {
     }
     async login(loginDto) {
         return this.authService.login(loginDto);
+    }
+    async refreshToken(refreshToken) {
+        return this.authService.refreshToken(refreshToken);
+    }
+    async googleAuth() {
+    }
+    async googleAuthRedirect(req, res) {
+        try {
+            const authResult = await this.authService.googleLogin(req.user);
+            const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:4200';
+            return res.redirect(`${frontendUrl}/auth/google-callback?token=${authResult.access_token}&refreshToken=${authResult.refreshToken}`);
+        }
+        catch (error) {
+            return res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:4200'}/auth/error?message=${encodeURIComponent(error.message)}`);
+        }
     }
 };
 exports.AuthController = AuthController;
@@ -61,6 +77,39 @@ __decorate([
     __metadata("design:paramtypes", [login_dto_1.LoginDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({
+        summary: 'Refresh Access Token',
+        description: 'Provides a new access token using a valid refresh token.',
+    }),
+    (0, swagger_1.ApiBody)({ schema: { properties: { refreshToken: { type: 'string' } } } }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'New access token generated' }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: 'Invalid or expired refresh token' }),
+    (0, public_decorator_1.Public)(),
+    (0, common_1.Post)('refresh-token'),
+    __param(0, (0, common_1.Body)('refreshToken')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "refreshToken", null);
+__decorate([
+    (0, public_decorator_1.Public)(),
+    (0, common_1.Get)('google'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('google')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "googleAuth", null);
+__decorate([
+    (0, public_decorator_1.Public)(),
+    (0, common_1.Get)('google/callback'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('google')),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "googleAuthRedirect", null);
 exports.AuthController = AuthController = __decorate([
     (0, swagger_1.ApiTags)('Authentication'),
     (0, common_1.Controller)('auth'),

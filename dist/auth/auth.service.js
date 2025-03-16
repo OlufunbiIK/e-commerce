@@ -52,6 +52,7 @@ const typeorm_2 = require("typeorm");
 const bcrypt = __importStar(require("bcryptjs"));
 const jwt_1 = require("@nestjs/jwt");
 const user_entity_1 = require("../user/entities/user.entity");
+const userRole_enum_1 = require("../user/enum/userRole.enum");
 let AuthService = class AuthService {
     constructor(userRepository, jwtService) {
         this.userRepository = userRepository;
@@ -88,7 +89,66 @@ let AuthService = class AuthService {
             throw new common_1.UnauthorizedException('Account not verified');
         const payload = { sub: user.id, email: user.email, role: user.role };
         const token = this.jwtService.sign(payload, { expiresIn: '1h' });
-        return { access_token: token };
+        const refreshToken = this.jwtService.sign(payload, {
+            secret: process.env.JWT_REFRESH_SECRET || 'refresh-secret-key',
+            expiresIn: '7d',
+        });
+        return { access_token: token, refreshToken };
+    }
+    async refreshToken(refreshToken) {
+        try {
+            const payload = this.jwtService.verify(refreshToken, {
+                secret: process.env.JWT_REFRESH_SECRET || 'refresh-secret-key',
+            });
+            const user = await this.userRepository.findOne({ where: { id: payload.sub } });
+            if (!user)
+                throw new common_1.UnauthorizedException('Invalid refresh token');
+            const newAccessToken = this.jwtService.sign({ sub: user.id, email: user.email, role: user.role }, { expiresIn: '1h' });
+            return { access_token: newAccessToken };
+        }
+        catch (error) {
+            throw new common_1.UnauthorizedException('Invalid or expired refresh token');
+        }
+    }
+    async googleLogin(profile) {
+        if (!profile || !profile.email) {
+            throw new common_1.UnauthorizedException('Invalid Google profile');
+        }
+        let user = await this.userRepository.findOne({ where: { email: profile.email } });
+        if (user) {
+            if (!user.googleId && profile.sub) {
+                user.googleId = profile.sub;
+                await this.userRepository.save(user);
+            }
+        }
+        else {
+            user = this.userRepository.create({
+                firstName: profile.given_name || '',
+                lastName: profile.family_name || '',
+                email: profile.email,
+                googleId: profile.sub,
+                isVerified: true,
+                role: userRole_enum_1.UserRole.CUSTOMER
+            });
+            await this.userRepository.save(user);
+        }
+        const payload = { sub: user.id, email: user.email, role: user.role };
+        const token = this.jwtService.sign(payload, { expiresIn: '1h' });
+        const refreshToken = this.jwtService.sign(payload, {
+            secret: process.env.JWT_REFRESH_SECRET || 'refresh-secret-key',
+            expiresIn: '7d',
+        });
+        return {
+            access_token: token,
+            refreshToken,
+            user: {
+                id: user.id,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                role: user.role
+            }
+        };
     }
 };
 exports.AuthService = AuthService;

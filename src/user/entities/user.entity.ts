@@ -41,7 +41,7 @@ export class User {
     description: 'User password (hashed)',
     required: true,
   })
-  password: string;
+  password?: string;
 
   @Column({ type: 'enum', enum: UserRole, default: UserRole.CUSTOMER })
   @ApiProperty({

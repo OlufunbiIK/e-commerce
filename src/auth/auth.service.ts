@@ -10,6 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/user/entities/user.entity';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { LoginDto } from 'src/user/dto/login.dto';
+import { UserRole } from '../user/enum/userRole.enum';
 
 @Injectable()
 export class AuthService {
@@ -99,6 +100,53 @@ export class AuthService {
       throw new UnauthorizedException('Invalid or expired refresh token');
     }
   }
+
+  async googleLogin(profile: any) {
+    if (!profile || !profile.email) {
+      throw new UnauthorizedException('Invalid Google profile');
+    }
   
+    let user = await this.userRepository.findOne({ where: { email: profile.email } });
+  
+    if (user) {
+      // Update Google ID if it's not already set
+      if (!user.googleId && profile.sub) {
+        user.googleId = profile.sub;
+        await this.userRepository.save(user);
+      }
+    } else {
+      // Create new user with Google profile
+      user = this.userRepository.create({
+        firstName: profile.given_name || '',
+        lastName: profile.family_name || '',
+        email: profile.email,
+        googleId: profile.sub,
+        isVerified: true,
+        role: UserRole.CUSTOMER  
+      });
+      await this.userRepository.save(user);
+    }
+  
+    // Generate JWT token
+    const payload = { sub: user.id, email: user.email, role: user.role };
+    
+    const token = this.jwtService.sign(payload, { expiresIn: '1h' });
+    const refreshToken = this.jwtService.sign(payload, {
+      secret: process.env.JWT_REFRESH_SECRET || 'refresh-secret-key',
+      expiresIn: '7d',
+    });
+  
+    return { 
+      access_token: token, 
+      refreshToken,
+      user: {
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.role
+      }
+    };
+  }
   
 }
